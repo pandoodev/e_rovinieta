@@ -19,7 +19,8 @@ return(
 <Scene key="header"  component={DashboardHeader} title="HI"  />
 </Scene>
 
-<Scene key="main" hideNavBar  >
+
+<Scene key="main" hideNavBar >
 
 <Scene key="menu"  component={Basic} title="HI"  />
 <Scene key="buy"   component={BuyRov} title="HI" />

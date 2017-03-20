@@ -5,19 +5,20 @@ import {Actions} from 'react-native-router-flux';
 
 class MyCars extends  Component {
 	
-	state = { carCategory:''};
-	
+	state = { carinfoClientLogin:this.props,category:''};
 
 	
 	
-	
 	render(){
+
+
+		console.log(this.props);
 		return (
 		<View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
 		onPress={ () => {
-			Actions.buy({category:'A',
+			Actions.buy({infoClientLogin:this.props,category:'A',
 			categoryID:"1"})
 			}}
 		style={styles.buttonStyle}>
@@ -30,7 +31,7 @@ class MyCars extends  Component {
 		
 		<TouchableOpacity
 				onPress={ () => {
-			Actions.buy({category:'E',
+			Actions.buy({infoClientLogin:this.props,category:'E',
 			categoryID:"5"})
 			}}
 		
@@ -47,7 +48,7 @@ class MyCars extends  Component {
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
 				onPress={ () => {
-			Actions.buy({category:'B',
+			Actions.buy({infoClientLogin:this.props,category:'B',
 			categoryID:"2"})
 			}}
 		style={styles.buttonStyle}>
@@ -60,7 +61,7 @@ class MyCars extends  Component {
 		
 		<TouchableOpacity
 				onPress={ () => {
-			Actions.buy({category:'F',
+			Actions.buy({infoClientLogin:this.props,category:'F',
 			categoryID:"6"})
 			}}
 		style={styles.buttonStyle}>
@@ -76,7 +77,7 @@ class MyCars extends  Component {
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
 					onPress={ () => {
-			Actions.buy({category:'C',
+			Actions.buy({infoClientLogin:this.props,category:'C',
 			categoryID:"3"})
 			}}
 		style={styles.buttonStyle}>
@@ -89,7 +90,7 @@ class MyCars extends  Component {
 		
 		<TouchableOpacity
 				onPress={ () => {
-			Actions.buy({category:'G',
+			Actions.buy({infoClientLogin:this.props,category:'G',
 			categoryID:"7"})
 			}}
 		style={styles.buttonStyle}>
@@ -105,7 +106,7 @@ class MyCars extends  Component {
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
 				onPress={ () => {
-			Actions.buy({category:'D',
+			Actions.buy({infoClientLogin:this.props,category:'D',
 			categoryID:"4"})
 			}}
 		style={styles.buttonStyle}>
@@ -118,7 +119,7 @@ class MyCars extends  Component {
 		
 		<TouchableOpacity
 				onPress={ () => {
-			Actions.buy({category:'H',
+			Actions.buy({infoClientLogin:this.props,category:'H',
 			categoryID:"8"})
 			}}
 		style={styles.buttonStyle}>

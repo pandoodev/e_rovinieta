@@ -3,6 +3,11 @@ const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 import { Keyboard } from 'react-native';
 import DashboardHeader from './src/components/DashboardHeader';
+import Account from './src/components/Account';
+import  Cars from './src/components/Cars';
+import  Profile from './src/components/Profile';
+
+
 
 
 
@@ -83,6 +88,50 @@ module.exports = class Basic extends Component {
     });
   }
 
+  displayMainScreen(selectedItem){
+
+    	switch(selectedItem){
+			case 'dashboard':
+			return(
+       <View>
+       <Header headerText="Rovinieta"/>
+       <DashboardHeader />
+       </View>
+       );
+			case 'profiles':
+			return( 
+           <View>
+       <Header headerText="Profilurile Mele"/>
+       <Profile />
+       </View>
+       
+       );
+			case 'cars':
+			return( 
+       
+      <View>
+       <Header headerText="Masinile mele"/>
+       <Cars />
+       </View>
+      
+      );
+      case 'account':
+			return( 
+       <View>
+       <Header headerText="Setari Cont"/>
+       <Account />
+       </View>
+      );
+      default:
+      return(
+         <View>
+       <Header headerText="Rovinieta"/>
+       <DashboardHeader infoClientLogin={this.props.responseData.user}/>
+       </View>
+      );
+		}
+  }
+
   render() {
 
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
@@ -92,10 +141,9 @@ module.exports = class Basic extends Component {
         menu={menu}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        <View style={styles.container}>
-          
-        <Header headerText={this.state.selectedItem}/>
-        <DashboardHeader infoClientLogin={this.props.responseData.user}/>
+        <View style={styles.container}>       
+        
+          {this.displayMainScreen(this.state.selectedItem)}
         </View>
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Image

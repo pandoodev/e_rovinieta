@@ -8,9 +8,6 @@ import {Actions} from 'react-native-router-flux';
 import Header from './common/Header';
 
 
-
-
-
 class LoginForm extends Component {
 
 
@@ -69,6 +66,37 @@ class LoginForm extends Component {
 			this.setState({error: response.data.error_msg, loading:false});
 
 		}
+
+		initiateRovignette(argToken, argProfileID, argCategoryID, argPriceID, argStartDate, argVehicleNo, argChasisNo, argVehicleCountry){
+		console.log("--initiateRovignette--");
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'countries',
+				device: 'android',
+				token: argToken,
+				profileID: argProfileID,
+				categoryID: argCategoryID,
+				priceID: argPriceID,
+				startDate: argStartDate,
+				vehicleNo: argVehicleNo,
+				chasisNo: argChasisNo,
+				vehicleCountry: argVehicleCountry
+			}), {
+				headers: { 
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function(response) {
+				if (response.data.success)
+				{
+					console.log("SUCCESS!!");
+					
+				}
+				if(response.data.success===0)
+				{
+					console.log(response.data);
+				}
+			});
+	}
 
 		onLoginSuccess(response){
 
