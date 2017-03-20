@@ -14,7 +14,10 @@ class MyCars extends  Component {
 		<View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
-		onPress={ () => {Actions.buy({category:'A'})}}
+		onPress={ () => {
+			Actions.buy({category:'A',})
+			
+		}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
@@ -24,7 +27,7 @@ class MyCars extends  Component {
 		</TouchableOpacity>
 		
 		<TouchableOpacity
-		
+		onPress={ () => {Actions.buy({category:'E'})}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image

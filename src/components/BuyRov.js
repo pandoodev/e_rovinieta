@@ -20,6 +20,10 @@ class BuyRov extends  Component {
         
         return date;
     }
+    onButtonPress()
+    {
+        console.log('sadasdas');
+    }
     
     renderButton() {
         if(this.state.loading)
@@ -28,8 +32,8 @@ class BuyRov extends  Component {
         }
         
         return (
-        //	<Button onPress = {this.onButtonPress.bind(this)}> 
-        <Button> 
+       	<Button onPress = {this.onButtonPress.bind(this)}> 
+      
         Adauga in cos
         </Button>
         );
@@ -91,9 +95,8 @@ class BuyRov extends  Component {
         style={styles.pickerStyle}
         selectedValue={this.state.country}
         onValueChange={(loc) => this.setState({country: loc})}>
-        <Picker.Item label="Romania" value="Romania" />
-        <Picker.Item label="Franta" value="Franta" />
-        <Picker.Item label="Bulgaria" value="Bulgaria" />
+        <Picker.Item label="Romania" value="1" />
+        <Picker.Item label="Austria" value="17" />        
         </Picker>
         
         </CardSection>
@@ -103,7 +106,8 @@ class BuyRov extends  Component {
         style={styles.pickerStyle}
         selectedValue={this.state.counrDaysntry}
         onValueChange={(days) => this.setState({nrDays: days})}>
-        <Picker.Item label="50" value="50" />
+        <Picker.Item label="7 zile 3 EUR" value="95" />
+        <Picker.Item label="30 zile - 7 EUR" value="96" />
         
         </Picker>
         </CardSection>
