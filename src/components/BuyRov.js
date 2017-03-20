@@ -10,37 +10,79 @@ import querystring from 'query-string';
 
 
 class BuyRov extends  Component {
-	state = { userType:'', profileID:'' , vehicleNo: '', chasisNo: '', startDate: '1', loading:false, country:1, nrDays:95, error:'' };
+	state = { userType:'', profileID:'' , vehicleNo: '', chasisNo: '', startDate: '1', loading:true, country:1, nrDays:95, error:'', countries: [] };
 	constructor(props){
 		super(props)
 		this.state = {date: this.getCurerntDate()}
 	}
+	getCountries(){
+			var self = this;
+			console.log("--getCountries--");
+			axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'countries',
+				device: 'android'
+			}), {
+				headers: { 
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function(response) {
+				if (response.data.success)
+				{
+					var  arrCountries = [];
+					response.data.countries.forEach(function(countrieInfo) {
+						/*console.log( countrieInfo['id'] );
+						console.log( countrieInfo['code'] );
+						console.log( countrieInfo['name'] );*/
+						arrCountries.push(countrieInfo['name']);
+					}, this);
+					//self.state.country = "salut";
+					self.state.countries = arrCountries;
+					console.log("a trecut");
+					self.setState({error:'', loading:false});
+				}
+				if(response.data.success===0)
+				{
+					console.log("unsuccess");
+				}
+			});
+			
+		}
 	getCurerntDate(){
 		let currentDate=new Date();
 		let date=dateFormat(currentDate, "dd-mm-yyyy").toString();
 		
 		return date;
 	}
-	
-	onbuttonClickMined()
-	{
-		console.log("onbuttonClickMined");
-	}
-	
+
 	componentWillMount(){
 		this.setState({startDate: this.getCurerntDate(), country:"1", nrDays:"95", error:"" });
+		this.getCountries();
 		
-		
-		console.log("componentWillMount");
-		console.log(this.props);
+		//console.log("componentWillMount");
+		//console.log(this.props);
 		
 		this.getProfileID();
 		
 		
-		console.log("componentWillMount");
+	//	console.log("componentWillMount");
 		
 	}
-	
+	renderCountries(){
+			if(this.state.loading  || this.state.loading == undefined)
+			{
+				return <Spinner size='small' />;
+			}
+			return (<View><Text style={styles.textStyle} > Tara: </Text>
+							<Picker
+							style={styles.pickerStyle}
+							selectedValue={this.state.country}
+							onValueChange={(loc) => this.setState({country: loc})}>
+										{this.state.countries.map(function(o, i){
+												
+												return <Picker.Item value={i} label={o} key={i}  />
+										})}</Picker></View>);
+		}
 	renderButton() {
 		if(this.state.loading)
 		{
@@ -74,24 +116,25 @@ class BuyRov extends  Component {
 				
 				self.setState({profileID:response.data.profiles[0]['id']});
 				
-				console.log(response.data.profiles[0]['id']);
-				console.log(response.data.profiles[0]['type']);
-				console.log(response.data.profiles[0]['firstName']);
-				console.log(response.data.profiles[0]['lastName']);
-				console.log(response.data.profiles[0]['personalID']);
+				// console.log(response.data.profiles[0]['id']);
+				// console.log(response.data.profiles[0]['type']);
+				// console.log(response.data.profiles[0]['firstName']);
+				// console.log(response.data.profiles[0]['lastName']);
+				// console.log(response.data.profiles[0]['personalID']);
 			}
 			if(response.data.success===0)
 			{
 				response.data.error_msg;
-				console.log("unsuccess");
+			//	console.log("unsuccess");
 			}
 		});
 	}
 	
-	buyRovignette(object){
+	buyRovignette(){
 		
-		
-		
+		if(this.validateInputs()==1)
+		{
+		console.log("test");
 		this.initiateRovignette(this.props.infoClientLogin.infoClientLogin.token,
 		this.state.profileID,
 		this.props.categoryID,
@@ -100,22 +143,39 @@ class BuyRov extends  Component {
 		this.state.vehicleNo, 
 		this.state.chasisNo,
 		this.state.country);
+		}
+		else{
+			this.setState({error: this.validateInputs()});
+		}
+	}
 		
+	
+	validateInputs(){
+		
+		if(this.state.vehicleNo===undefined)
+		{
+			return "Numarul de inmatriculare nu este valid !";
+		}
+		if(this.state.chasisNo===undefined)
+		{
+			return "Numarul sasiului nu este valid !";
+		}
+		return 1;
+
 	}
 	
 	initiateRovignette(argToken, argProfileID, argCategoryID, argPriceID, 
 	argStartDate, argVehicleNo, argChasisNo, argVehicleCountry){
 		var self= this;
-		console.log("--initiateRovignette--");
 		
-		console.log(argToken+"argToken");
-		console.log(argProfileID+"argProfileID");
-		console.log(argCategoryID+"argCategoryID");
-		console.log(argPriceID+"argPriceID");
-		console.log(argStartDate+"argStartDate");
-		console.log(argVehicleNo+"argVehicleNo");
-		console.log(argChasisNo+"argChasisNo");
-		console.log(argVehicleCountry+"argVehicleCountry");
+		// console.log(argToken+"argToken");
+		// console.log(argProfileID+"argProfileID");
+		// console.log(argCategoryID+"argCategoryID");
+		// console.log(argPriceID+"argPriceID");
+		// console.log(argStartDate+"argStartDate");
+		// console.log(argVehicleNo+"argVehicleNo");
+		// console.log(argChasisNo+"argChasisNo");
+		// console.log(argVehicleCountry+"argVehicleCountry");
 		
 		
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -138,11 +198,11 @@ class BuyRov extends  Component {
 			
 			
 			
-			console.log(response.data);
+			//console.log(response.data);
 			
 			if (response.data.success)
 			{
-				console.log("SUCCESS!!");
+				//console.log("SUCCESS!!");
 				
 			}
 			if(response.data.success===0)
@@ -151,12 +211,17 @@ class BuyRov extends  Component {
 				if(response.data.error_msg===undefined){
 					self.setState({error:response.data.errors[0]});
 				}
-				console.log(response.data);
+			//	console.log(response.data);
 			}
 		});
 	}
 	
 	render(){
+		if(this.state.loading==false)
+			{
+				//console.log(this.state.countries);
+			}
+			console.log("rendering");
 		return (
 		
 		<View>
@@ -206,14 +271,7 @@ class BuyRov extends  Component {
 		</CardSection>
 		
 		<CardSection>
-		<Text style={styles.textStyle} > Tara: </Text>
-		<Picker
-		style={styles.pickerStyle}
-		selectedValue={this.state.country}
-		onValueChange={(loc) => this.setState({country: loc})}>
-		<Picker.Item label="ROMANIA" value="1" />
-		<Picker.Item label="Austria" value="17" />	
-		</Picker>
+		{this.renderCountries()}
 		
 		</CardSection>
 		<CardSection>
@@ -297,6 +355,8 @@ const styles = {
 		justifyContent: 'center',
 		color: 'red',
 		alignItems: 'center',
+		marginLeft: 30,
+		marginRight: 30,
 	}
 };
 
