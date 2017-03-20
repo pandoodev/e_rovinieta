@@ -2,6 +2,8 @@ const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 import { Keyboard } from 'react-native';
+import DashboardHeader from './src/components/DashboardHeader';
+
 
 
 const {
@@ -93,7 +95,7 @@ module.exports = class Basic extends Component {
         <View style={styles.container}>
           
         <Header headerText={this.state.selectedItem}/>
-       
+        <DashboardHeader />
         </View>
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Image
