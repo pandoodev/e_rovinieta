@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 
 class MyCars extends  Component {
 	
-	state = { selected:'', cart:false, history:false };
+	state = { carCategory:''};
 	
 	
 	
@@ -13,6 +14,7 @@ class MyCars extends  Component {
 		<View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
+		onPress={ () => {Actions.buy({category:'A'})}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image

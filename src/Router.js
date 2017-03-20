@@ -1,6 +1,7 @@
 import React from 'react';
 import {Scene, Router} from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
+import BuyRov from './components/BuyRov';
 import DashboardHeader from './components/DashboardHeader';
 import Basic from '../Basic';
 
@@ -21,6 +22,7 @@ return(
 <Scene key="main" hideNavBar initial>
 
 <Scene key="menu"  component={Basic} title="HI"  />
+<Scene key="buy"   component={BuyRov} title="HI" />
 
 </Scene>
 </Router>

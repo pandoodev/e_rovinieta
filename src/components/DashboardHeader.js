@@ -7,25 +7,20 @@ import History from './History';
 
 class  DashboardHeader extends Component {
 
-	state = { selected:'categories', cart:false, history:false };
+	state = { selected:'categories',  };
 
 
 
 	displayModule(){
-
 		switch(this.state.selected){
 			case 'categories':
 			return(  <MyCars />);
-			break;
 			case 'cart':
 			return(  <Cart />);
-			break;
 			case 'history':
 			return(  <History />);
-			break;
 		}
 	}
-
 
 
 
@@ -38,7 +33,7 @@ class  DashboardHeader extends Component {
 			<View style={styles.containerStyle}>
 			<View style={styles.headerStyle}>
 			<TouchableOpacity 
-			onPress={ () => { this.setState({selected: 'categories'})}}
+			onPress={ () => { this.setState({selected: 'categories', })}}
 
 			style={styles.buttonStyle}>
 			<View>

@@ -51,7 +51,7 @@ class LoginForm extends Component {
 			});
 
 		}
-
+		
 		renderButton() {
 			if(this.state.loading)
 			{
@@ -82,6 +82,7 @@ class LoginForm extends Component {
 			Actions.main();
 
 		}
+		
 		render() {
 			return (
 				<View>
