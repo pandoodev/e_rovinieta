@@ -10,7 +10,7 @@ return(
 
 <Router >
 
-<Scene key="auth" hideNavBar >
+<Scene key="auth" hideNavBar initial>
 <Scene key="login" component={LoginForm} title="Please Login" />
 </Scene>
 
@@ -19,7 +19,7 @@ return(
 <Scene key="header"  component={DashboardHeader} title="HI"  />
 </Scene>
 
-<Scene key="main" hideNavBar initial>
+<Scene key="main" hideNavBar >
 
 <Scene key="menu"  component={Basic} title="HI"  />
 <Scene key="buy"   component={BuyRov} title="HI" />

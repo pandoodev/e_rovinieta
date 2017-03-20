@@ -12,9 +12,12 @@ class  DashboardHeader extends Component {
 
 
 	displayModule(){
+		console.log("Dashboard header:");
+		console.log(this.props.infoClientLogin);
+		console.log("Dashboard header:");
 		switch(this.state.selected){
 			case 'categories':
-			return(  <MyCars />);
+			return(  <MyCars infoClientLogin={this.props.infoClientLogin}/>);
 			case 'cart':
 			return(  <Cart />);
 			case 'history':

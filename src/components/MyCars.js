@@ -14,7 +14,10 @@ class MyCars extends  Component {
 		<View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
-		onPress={ () => {Actions.buy({category:'A'})}}
+		onPress={ () => {
+			Actions.buy({category:'A',
+			categoryID:"1"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
@@ -24,6 +27,10 @@ class MyCars extends  Component {
 		</TouchableOpacity>
 		
 		<TouchableOpacity
+				onPress={ () => {
+			Actions.buy({category:'E',
+			categoryID:"5"})
+			}}
 		
 		style={styles.buttonStyle}>
 		<View>
@@ -37,6 +44,10 @@ class MyCars extends  Component {
 		</View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
+				onPress={ () => {
+			Actions.buy({category:'B',
+			categoryID:"2"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
@@ -46,6 +57,10 @@ class MyCars extends  Component {
 		</TouchableOpacity>
 		
 		<TouchableOpacity
+				onPress={ () => {
+			Actions.buy({category:'F',
+			categoryID:"6"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
@@ -58,6 +73,10 @@ class MyCars extends  Component {
 		</View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
+					onPress={ () => {
+			Actions.buy({category:'C',
+			categoryID:"3"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
@@ -67,6 +86,10 @@ class MyCars extends  Component {
 		</TouchableOpacity>
 		
 		<TouchableOpacity
+				onPress={ () => {
+			Actions.buy({category:'G',
+			categoryID:"7"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
@@ -79,15 +102,23 @@ class MyCars extends  Component {
 		</View>
 		<View style={styles.containerStyle}>
 		<TouchableOpacity 
+				onPress={ () => {
+			Actions.buy({category:'D',
+			categoryID:"4"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image
 		source={require('../../assets/d.png')} style={styles.imgStyle} />
 		</View>
-		<Text style={styles.textStyle} > Categoria G </Text>
+		<Text style={styles.textStyle} > Categoria D </Text>
 		</TouchableOpacity>
 		
 		<TouchableOpacity
+				onPress={ () => {
+			Actions.buy({category:'H',
+			categoryID:"8"})
+			}}
 		style={styles.buttonStyle}>
 		<View>
 		<Image

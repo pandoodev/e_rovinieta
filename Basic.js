@@ -86,7 +86,7 @@ module.exports = class Basic extends Component {
   render() {
 
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-
+    console.log(this.props.responseData.user.token);
     return (
       <SideMenu
         menu={menu}
@@ -95,7 +95,7 @@ module.exports = class Basic extends Component {
         <View style={styles.container}>
           
         <Header headerText={this.state.selectedItem}/>
-        <DashboardHeader />
+        <DashboardHeader infoClientLogin={this.props.responseData.user}/>
         </View>
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Image

@@ -20,6 +20,12 @@ class BuyRov extends  Component {
   }
 
   render(){
+
+    console.log("BuyRov");
+    console.log(this.props.categoryID);
+    console.log(this.props.category);
+    console.log("BuyRov");
+    
     return (
       <DatePicker
         style={{width: 200}}
