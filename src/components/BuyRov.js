@@ -1,32 +1,71 @@
 import React, {Component}from 'react';
-import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Text, TouchableOpacity, Picker } from 'react-native';
+import { Button, Card, CardSection, Input , Spinner} from './common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
+import Header from './common/Header';
+
 
 
 
 class BuyRov extends  Component {
-
+state = { vehicleNo: '', chasisNo: '', startDate: '', loading:false, country:'Romania', nrDays:"" };
   constructor(props){
     super(props)
     this.state = {date: this.getCurerntDate()}
-    console.log(this.getCurerntDate())
   }
   getCurerntDate(){
       let currentDate=new Date();
-    let date=dateFormat(currentDate, "yyyy-mm-dd").toString();
+    let date=dateFormat(currentDate, "dd-mm-yyyy").toString();
 
       return date;
   }
+  		
+		renderButton() {
+			if(this.state.loading)
+			{
+				return <Spinner size='small' />;
+			}
+
+			return (
+        //	<Button onPress = {this.onButtonPress.bind(this)}> 
+				<Button> 
+				Adauga in cos
+				</Button>
+				);
+
+		}
 
   render(){
     return (
+
+<View>
+  
+    	<Header headerText="Introduceti Datele" />
+				<Card >
+				<CardSection >
+				<Input
+				placeholder= "SM79BET"
+				label= "Numar Inm."
+				value= {this.state.vehicleNo}
+				onChangeText= {vehicleNo => this.setState({vehicleNo})}
+				/>
+				</CardSection>
+               	<CardSection >
+				<Input
+				placeholder= "WAULC68E92A140677"
+				label= "Serie Sasiu"
+				value= {this.state.chasisNo}
+				onChangeText= {chasisNo => this.setState({chasisNo})}
+				/>
+				</CardSection>
+	<CardSection >
+
       <DatePicker
         style={{width: 200}}
         date={this.state.date}
         mode="date"
-        placeholder="select date"
-        format="YYYY-MM-DD"
+        format="DD-MM-YYYY"
         minDate={this.getCurerntDate()}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
@@ -42,8 +81,39 @@ class BuyRov extends  Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => {this.setState({startDate: date})}}
       />
+      </CardSection>
+
+      <CardSection>
+        <Picker
+        style={styles.pickerStyle}
+  selectedValue={this.state.country}
+  onValueChange={(loc) => this.setState({country: loc})}>
+  <Picker.Item label="Romania" value="Romania" />
+  <Picker.Item label="Franta" value="Franta" />
+  <Picker.Item label="Bulgaria" value="Bulgaria" />
+</Picker>
+          </CardSection>
+          <CardSection>
+        <Picker
+        style={styles.pickerStyle}
+  selectedValue={this.state.counrDaysntry}
+  onValueChange={(days) => this.setState({nrDays: days})}>
+  <Picker.Item label="50" value="50" />
+ 
+</Picker>
+          </CardSection>
+      <CardSection>
+				{this.renderButton()}
+				</CardSection>
+       </Card>
+      </View>
+
+
+
+
+
     )
   }
 };
@@ -58,6 +128,10 @@ const styles = {
 		marginRight: 10,
 	}
 	,
+    pickerStyle:{
+ width: 200,   
+
+    },  
 	buttonStyle:{
 		flex: 1,
 		justifyContent: 'center',
