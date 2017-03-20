@@ -73,7 +73,7 @@ class BuyRov extends  Component {
 			{
 				return <Spinner size='small' />;
 			}
-			return (<View><Text style={styles.textStyle} > Tara: </Text>
+			return (
 							<Picker
 							style={styles.pickerStyle}
 							selectedValue={this.state.country}
@@ -81,7 +81,8 @@ class BuyRov extends  Component {
 										{this.state.countries.map(function(o, i){
 												
 												return <Picker.Item value={i} label={o} key={i}  />
-										})}</Picker></View>);
+										})}</Picker>
+);
 		}
 	renderButton() {
 		if(this.state.loading)
@@ -271,6 +272,7 @@ class BuyRov extends  Component {
 		</CardSection>
 		
 		<CardSection>
+			<Text style={styles.textStyle} > Tara: </Text>
 		{this.renderCountries()}
 		
 		</CardSection>
@@ -278,7 +280,7 @@ class BuyRov extends  Component {
 		<Text  style={styles.textStyle}> Valabilitate: </Text>
 		<Picker
 		style={styles.pickerStyle}
-		selectedValue={this.state.counrDaysntry}
+		selectedValue={this.state.nrDays}
 		onValueChange={(days) => this.setState({nrDays: days})}>
 		<Picker.Item label="7 zile - 3 EUR" value="95" />
 		<Picker.Item label="30 zile - 7 EUR" value="96" />
@@ -292,9 +294,7 @@ class BuyRov extends  Component {
 		</CardSection>
 		<CardSection>
 		
-		{this.renderButton()}
-		
-		
+		{this.renderButton()}		
 		</CardSection>
 		</Card>
 		</View>

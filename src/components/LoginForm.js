@@ -83,7 +83,7 @@ class LoginForm extends Component {
 
 		}
 		getPrice(){
-		console.log("--getPrice--");
+		//console.log("--getPrice--");
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'prices',
@@ -96,13 +96,13 @@ class LoginForm extends Component {
 				if (response.data.success)
 				{
 					response.data.prices.forEach(function(priceInfo) {
-						console.log("****");
-						console.log( priceInfo['id'] );
-						console.log( priceInfo['currency'] );
-						console.log( priceInfo['valability_id'] );
-						console.log( priceInfo['vehicle_id'] );
-						console.log( priceInfo['active'] );
-						console.log("****");
+					//	console.log("****");
+						// console.log( priceInfo['id'] );
+						// console.log( priceInfo['currency'] );
+						// console.log( priceInfo['valability_id'] );
+						// console.log( priceInfo['vehicle_id'] );
+						// console.log( priceInfo['active'] );
+						// console.log("****");
 					}, this);
 					
 				}
@@ -119,8 +119,9 @@ class LoginForm extends Component {
 
 
 			return (
-				<View>
+				<View >
 				<Header headerText="Autentificare" />
+				<View style={styles.logInStyle}>
 				<Card >
 				<CardSection >
 				<Input
@@ -148,6 +149,7 @@ class LoginForm extends Component {
 				</CardSection>
 				</Card>
 				</View>
+				</View>
 				);
 		}
 
@@ -161,6 +163,10 @@ class LoginForm extends Component {
 			fontSize:20,
 			alignSelf:'center',
 			color: 'red'
+		},
+		logInStyle:{
+			paddingTop:100,
+
 		}
 	
 	};
