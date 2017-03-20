@@ -86,7 +86,7 @@ module.exports = class Basic extends Component {
   render() {
 
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-    console.log(this.props.responseData.user.token);
+    //console.log(this.props.responseData.user.token);
     return (
       <SideMenu
         menu={menu}

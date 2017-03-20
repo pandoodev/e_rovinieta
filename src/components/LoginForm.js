@@ -116,7 +116,7 @@ class LoginForm extends Component {
 		
 		render() {
 
-			this.getPrice();
+			//this.getPrice();
 
 
 			return (
@@ -153,6 +153,8 @@ class LoginForm extends Component {
 		}
 
 	}
+
+
 
 	const styles ={
 
