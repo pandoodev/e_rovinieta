@@ -77,29 +77,29 @@ module.exports = class Menu extends Component {
 <View style={styles.menuItems}>
          <View>
         <Text
-          onPress={() => this.props.onItemSelected('Dashboard')}
+          onPress={() => this.props.onItemSelected('dashboard')}
           style={styles.item}>
-          Dashboard
+          Rovinieta
         </Text>
          </View>
 
          <View>
         <Text
-          onPress={() => this.props.onItemSelected('Profilurile Mele')}
+          onPress={() => this.props.onItemSelected('profiles')}
           style={styles.item}>
           Profilurile mele
         </Text>
         </View>
         <View>
         <Text
-          onPress={() => this.props.onItemSelected('Masinile Mele')}
+          onPress={() => this.props.onItemSelected('cars')}
           style={styles.item}>
           Masinile mele
         </Text>
         </View>
         <View>
         <Text
-          onPress={() => this.props.onItemSelected('Setari Cont')}
+          onPress={() => this.props.onItemSelected('account')}
           style={styles.item}>
           Setari cont
         </Text>

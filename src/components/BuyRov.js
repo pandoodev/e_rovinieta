@@ -9,59 +9,59 @@ import Header from './common/Header';
 
 
 class BuyRov extends  Component {
-state = { vehicleNo: '', chasisNo: '', startDate: '', loading:false, country:'Romania', nrDays:"" };
-  constructor(props){
-    super(props)
-    this.state = {date: this.getCurerntDate()}
-  }
-  getCurerntDate(){
-      let currentDate=new Date();
-    let date=dateFormat(currentDate, "dd-mm-yyyy").toString();
-
-      return date;
-  }
-  		
-		renderButton() {
-			if(this.state.loading)
-			{
-				return <Spinner size='small' />;
-			}
-
-			return (
+    state = { vehicleNo: '', chasisNo: '', startDate: '', loading:false, country:'Romania', nrDays:"" };
+    constructor(props){
+        super(props)
+        this.state = {date: this.getCurerntDate()}
+    }
+    getCurerntDate(){
+        let currentDate=new Date();
+        let date=dateFormat(currentDate, "dd-mm-yyyy").toString();
+        
+        return date;
+    }
+    
+    renderButton() {
+        if(this.state.loading)
+        {
+            return <Spinner size='small' />;
+        }
+        
+        return (
         //	<Button onPress = {this.onButtonPress.bind(this)}> 
-				<Button> 
-				Adauga in cos
-				</Button>
-				);
-
-		}
-
-  render(){
-    return (
-
-<View>
-  
-    	<Header headerText="Introduceti Datele" />
-				<Card >
-				<CardSection >
-				<Input
-				placeholder= "SM79BET"
-				label= "Numar Inm."
-				value= {this.state.vehicleNo}
-				onChangeText= {vehicleNo => this.setState({vehicleNo})}
-				/>
-				</CardSection>
-               	<CardSection >
-				<Input
-				placeholder= "WAULC68E92A140677"
-				label= "Serie Sasiu"
-				value= {this.state.chasisNo}
-				onChangeText= {chasisNo => this.setState({chasisNo})}
-				/>
-				</CardSection>
-	<CardSection >
-
-      <DatePicker
+        <Button> 
+        Adauga in cos
+        </Button>
+        );
+        
+    }
+    
+    render(){
+        return (
+        
+        <View>
+        
+        <Header headerText="Introduceti Datele" />
+        <Card >
+        <CardSection >
+        <Input
+        placeholder= "SM79BET"
+        label= "Numar Inm:"
+        value= {this.state.vehicleNo}
+        onChangeText= {vehicleNo => this.setState({vehicleNo})}
+        />
+        </CardSection>
+        <CardSection >
+        <Input
+        placeholder= "WAULC68E92A140677"
+        label= "Serie Sasiu:"
+        value= {this.state.chasisNo}
+        onChangeText= {chasisNo => this.setState({chasisNo})}
+        />
+        </CardSection>
+        <CardSection >
+        <Text style={styles.textStyle}> De la: </Text>
+        <DatePicker
         style={{width: 200}}
         date={this.state.date}
         mode="date"
@@ -70,52 +70,51 @@ state = { vehicleNo: '', chasisNo: '', startDate: '', loading:false, country:'Ro
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 0
-          },
-          dateInput: {
-            marginLeft: 36
-          }
-          // ... You can check the source to find the other keys.
+            dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+            },
+            dateInput: {
+                marginLeft: 36
+            }
+            // ... You can check the source to find the other keys.
         }}
         onDateChange={(date) => {this.setState({startDate: date})}}
-      />
-      </CardSection>
-
-      <CardSection>
+        />
+        </CardSection>
+        
+        <CardSection>
+            <Text style={styles.textStyle} > Tara: </Text>
         <Picker
         style={styles.pickerStyle}
-  selectedValue={this.state.country}
-  onValueChange={(loc) => this.setState({country: loc})}>
-  <Picker.Item label="Romania" value="Romania" />
-  <Picker.Item label="Franta" value="Franta" />
-  <Picker.Item label="Bulgaria" value="Bulgaria" />
-</Picker>
-          </CardSection>
-          <CardSection>
+        selectedValue={this.state.country}
+        onValueChange={(loc) => this.setState({country: loc})}>
+        <Picker.Item label="Romania" value="Romania" />
+        <Picker.Item label="Franta" value="Franta" />
+        <Picker.Item label="Bulgaria" value="Bulgaria" />
+        </Picker>
+        
+        </CardSection>
+        <CardSection>
+            <Text  style={styles.textStyle}> Valabilitate: </Text>
         <Picker
         style={styles.pickerStyle}
-  selectedValue={this.state.counrDaysntry}
-  onValueChange={(days) => this.setState({nrDays: days})}>
-  <Picker.Item label="50" value="50" />
- 
-</Picker>
-          </CardSection>
-      <CardSection>
-				{this.renderButton()}
-				</CardSection>
-       </Card>
-      </View>
-
-
-
-
-
-    )
-  }
+        selectedValue={this.state.counrDaysntry}
+        onValueChange={(days) => this.setState({nrDays: days})}>
+        <Picker.Item label="50" value="50" />
+        
+        </Picker>
+        </CardSection>
+        <CardSection>
+        {this.renderButton()}
+        </CardSection>
+        </Card>
+        </View>
+        
+        )
+    }
 };
 
 const styles = {
@@ -129,8 +128,8 @@ const styles = {
 	}
 	,
     pickerStyle:{
- width: 200,   
-
+        width: 200,   
+        
     },  
 	buttonStyle:{
 		flex: 1,
@@ -156,10 +155,13 @@ const styles = {
 		resizeMode: 'contain',
 	},
 	textStyle:{
-		paddingTop: -5,
+        flex:1,
+		paddingTop: 10,
+         fontSize: 18,
 		marginBottom: 15,
-
-
+        marginLeft:15,
+        
+        
 	}
 };
 
