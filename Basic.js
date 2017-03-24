@@ -126,7 +126,7 @@ module.exports = class Basic extends Component {
       return(
          <View>
        <Header headerText="Rovinieta"/>
-       <DashboardHeader />
+       <DashboardHeader infoClientLogin={this.props.responseData.user}/>
        </View>
       );
 		}
@@ -135,13 +135,14 @@ module.exports = class Basic extends Component {
   render() {
 
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-
+    //console.log(this.props.responseData.user.token);
     return (
       <SideMenu
         menu={menu}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        <View style={styles.container}>
+        <View style={styles.container}>       
+        
           {this.displayMainScreen(this.state.selectedItem)}
         </View>
         <Button style={styles.button} onPress={() => this.toggle()}>
