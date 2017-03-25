@@ -5,7 +5,7 @@ import Cart from './Cart';
 import History from './History';
 
 
-class  DashboardHeader extends Component {
+class  Shop extends Component {
 
 	state = { selected:'categories',  };
 
@@ -134,4 +134,4 @@ const styles = {
 	}
 };
 
-export default DashboardHeader;
+export default Shop;

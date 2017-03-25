@@ -2,7 +2,8 @@ const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 import { Keyboard } from 'react-native';
-import DashboardHeader from './src/components/DashboardHeader';
+import Dashboard from './src/components/Dashboard';
+import Shop from './src/components/Shop';
 import Account from './src/components/Account';
 import  Cars from './src/components/Cars';
 import  Profile from './src/components/Profile';
@@ -35,7 +36,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
- 
     backgroundColor: '#F5FCFF',
   },
   welcome: {
@@ -91,11 +91,21 @@ module.exports = class Basic extends Component {
   displayMainScreen(selectedItem){
 
     	switch(selectedItem){
+
+
 			case 'dashboard':
 			return(
        <View>
-       <Header headerText="Rovinieta"/>
-       <DashboardHeader />
+       <Header headerText="Dashboard"/>
+       <Dashboard />
+       </View>
+       );
+
+      case 'shop':
+			return(
+       <View>
+       <Header headerText="Magazin"/>
+       <Shop />
        </View>
        );
 			case 'profiles':
@@ -125,8 +135,8 @@ module.exports = class Basic extends Component {
       default:
       return(
          <View>
-       <Header headerText="Rovinieta"/>
-       <DashboardHeader infoClientLogin={this.props.responseData.user}/>
+       <Header headerText="Dashboard"/>
+       <Dashboard infoClientLogin={this.props.responseData.user}/>
        </View>
       );
 		}

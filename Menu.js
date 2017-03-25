@@ -75,11 +75,19 @@ module.exports = class Menu extends Component {
         </View>
 
 <View style={styles.menuItems}>
-         <View>
+   <View>
         <Text
           onPress={() => this.props.onItemSelected('dashboard')}
           style={styles.item}>
-          Rovinieta
+          Dashboard
+        </Text>
+         </View> 
+
+         <View>
+        <Text
+          onPress={() => this.props.onItemSelected('shop')}
+          style={styles.item}>
+          Magazin
         </Text>
          </View>
 
