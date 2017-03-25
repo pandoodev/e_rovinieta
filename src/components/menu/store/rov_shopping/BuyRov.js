@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Picker} from 'react-native';
-import { Button, Card, CardSection, Input, Spinner } from './common';
+import { View, Text, Picker } from 'react-native';
+import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
-import Header from './common/Header';
+import Header from '../../../common/Header';
 import axios from 'axios';
 import querystring from 'query-string';
 
@@ -241,7 +241,6 @@ class BuyRov extends Component {
 								dateInput: {
 									marginLeft: 36
 								}
-								// ... You can check the source to find the other keys.
 							}}
 							onDateChange={(date) => { this.setState({ startDate: date }) }}
 						/>

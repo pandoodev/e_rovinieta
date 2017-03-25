@@ -1,21 +1,21 @@
-import React, {Component}from 'react';
+import React, { Component } from 'react';
 import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
 
 
-class Account extends  Component {
+class AccountSettings extends Component {
 
-state = { selected:'', cart:false, history:false };
+	state = { selected: '', cart: false, history: false };
 
 
 
-	render(){
+	render() {
 		return (
 			<View style={styles.containerStyle}>
-			<View style={styles.buttonStyle} >
-		<Text style={styles.textStyle} >Setari Cont</Text>
+				<View style={styles.buttonStyle} >
+					<Text style={styles.textStyle} >Setari Cont</Text>
+				</View>
 			</View>
-			</View>
-			);
+		);
 	}
 };
 
@@ -29,7 +29,7 @@ const styles = {
 		marginRight: 10,
 	}
 	,
-	buttonStyle:{
+	buttonStyle: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -44,15 +44,15 @@ const styles = {
 		shadowOpacity: 0.1,
 		shadowRadius: 2,
 	},
-	imgStyle:{
+	imgStyle: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 50, 
+		width: 50,
 		height: 50,
 		resizeMode: 'contain',
 	},
-	textStyle:{
+	textStyle: {
 		paddingTop: -5,
 		marginBottom: 15,
 
@@ -60,4 +60,4 @@ const styles = {
 	}
 };
 
-export default Account;
+export default AccountSettings;

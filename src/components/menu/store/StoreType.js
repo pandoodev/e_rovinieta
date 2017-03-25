@@ -14,27 +14,27 @@ class StoreType extends Component {
       <View style={{ flex: 1 }}>
         <View style={styles.containerRov}>
 
-          <Image source={require('../../assets/e-rov.jpg')} style={styles.backgroundImage}>
+          <Image source={require('../../../../assets/e-rov.jpg')} style={styles.backgroundImage}>
             <TouchableOpacity
               onPress={() => { Actions.shop({ infoClientLogin: this.props.infoClientLogin, location: 'rovignette' }); }}
               style={styles.buttonStyle}>
               <View>
                 <Image
-                  source={require('../../assets/rovinieta.png')} style={styles.imgStyle} />
+                  source={require('../../../../assets/rovinieta.png')} style={styles.imgStyle} />
               </View>
 
             </TouchableOpacity>
           </Image>
         </View>
         <View style={styles.containerBridge}>
-          <Image source={require('../../assets/pod-f.jpg')} style={styles.backgroundImage}>
+          <Image source={require('../../../../assets/pod-f.jpg')} style={styles.backgroundImage}>
             <TouchableOpacity
               onPress={() => { Actions.shop({ infoClientLogin: this.props.infoClientLogin, location: 'bridge' }); }}
 
               style={styles.buttonStyle}>
               <View>
                 <Image
-                  source={require('../../assets/taxapod.png')} style={styles.imgStyle} />
+                  source={require('../../../../assets/taxapod.png')} style={styles.imgStyle} />
               </View>
 
             </TouchableOpacity>

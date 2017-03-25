@@ -2,11 +2,11 @@ const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 import { Keyboard } from 'react-native';
-import StoreType from './src/components/StoreType';
-import Shop from './src/components/Shop';
-import Account from './src/components/Account';
-import  Cars from './src/components/Cars';
-import  Profile from './src/components/Profile';
+import StoreType from './src/components/menu/store/StoreType';
+import AddToCart from './src/components/menu/store/rov_shopping/AddToCart';
+import AccountSettings from './src/components/menu/accountsettings/AccountSettings';
+import  Cars from './src/components/menu/mycars/Cars';
+import  Profile from './src/components/menu/profile/Profile';
 const {
   StyleSheet,
   Text,
@@ -110,11 +110,11 @@ module.exports = class Basic extends Component {
        </View>
       
       );
-      case 'account':
+      case 'accountsettings':
 			return( 
        <View style={{flex:1}}>
        <Header headerText="Setari Cont"/>
-       <Account />
+       <AccountSettings />
        </View>
       );
       default:

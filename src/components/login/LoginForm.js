@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {View , Text, Navigaor, Image, Alert} from 'react-native';
-import { Button, Card, CardSection, Input , Spinner} from './common';
+import { Button, Card, CardSection, Input , Spinner} from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
 import md5 from "react-native-md5";
 import {Actions} from 'react-native-router-flux';
-import Header from './common/Header';
+import Header from '../common/Header';
 
 
 class LoginForm extends Component {
@@ -139,7 +139,7 @@ class LoginForm extends Component {
 			
 			
 		}}>
-		<Image source={require('../../assets/login.jpg')}
+		<Image source={require('../../../assets/login.jpg')}
 		style={styles.backgroundImage}>
 		
 		

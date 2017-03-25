@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
-import MyCars from './MyCars';
+import MyCars from '../../../common/MyCars';
+import Header from '../../../common/Header';
 import Cart from './Cart';
 import History from './History';
-class Shop extends Component {
+class AddToCart extends Component {
 
 	state = { selected: 'categories', };
 	displayModule() {
@@ -22,6 +23,7 @@ class Shop extends Component {
 	render() {
 		return (
 			<View>
+				<Header headerText={'Cumpara Rovinieta'}/>
 				<View style={styles.containerStyle}>
 					<View style={styles.headerStyle}>
 						<TouchableOpacity
@@ -29,7 +31,7 @@ class Shop extends Component {
 							style={styles.buttonStyle}>
 							<View>
 								<Image
-									source={require('../../assets/categories.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/categories.png')} style={styles.imgStyle} />
 							</View>
 							<Text style={styles.textStyle} > Categorii </Text>
 						</TouchableOpacity>
@@ -39,7 +41,7 @@ class Shop extends Component {
 							style={styles.buttonStyle}>
 							<View>
 								<Image
-									source={require('../../assets/cart.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/cart.png')} style={styles.imgStyle} />
 							</View>
 							<Text style={styles.textStyle}> Cos cumparaturi </Text>
 						</TouchableOpacity>
@@ -50,7 +52,7 @@ class Shop extends Component {
 							style={styles.buttonStyle}>
 							<View >
 								<Image
-									source={require('../../assets/history.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/history.png')} style={styles.imgStyle} />
 							</View>
 							<Text style={styles.textStyle}> Istoric comenzi </Text>
 						</TouchableOpacity>
@@ -110,4 +112,4 @@ const styles = {
 	}
 };
 
-export default Shop;
+export default AddToCart;

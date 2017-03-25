@@ -79,12 +79,7 @@ module.exports = class Menu extends Component {
         </View>
 
         <View style={styles.menuItems}>
-              <View style={styles.rowItem}>
-                
-                <Image style={styles.smallIcon} source={require('./assets/menu/dashboard.png')} />
-                        <Text onPress={() => this.props.onItemSelected('dashboard')} style={styles.item}>Dashboard</Text>
-                    
-              </View>
+             
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
@@ -121,7 +116,7 @@ module.exports = class Menu extends Component {
               style={styles.smallIcon}
               source={require('./assets/menu/accountsettings.png')} />
                           <Text
-                            onPress={() => this.props.onItemSelected('account')}
+                            onPress={() => this.props.onItemSelected('accountsettings')}
                             style={styles.item}>
                             Setari cont
                   </Text>
