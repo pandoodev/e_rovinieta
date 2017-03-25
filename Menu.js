@@ -6,6 +6,7 @@ const {
   View,
   Image,
   Text,
+  TouchableOpacity
 } = require('react-native');
 const { Component } = React;
 
@@ -14,17 +15,15 @@ const window = Dimensions.get('window');
 const styles = StyleSheet.create({
   menu: {
     flex: 1,
-    width: window.width,
-    height: window.height,
-    backgroundColor: 'gray',
-    padding: 20,
+    width: null,
+    height: null,
+    backgroundColor: 'white',
   },
   avatarContainer: {
-    marginBottom: 10,
-    marginTop: -20,
-    borderBottomColor: "#FFFFFF",
-    borderBottomWidth: 3,
-    width:200,
+    width: null,
+    height: window.height * 0.2,
+    backgroundColor: '#000000',
+    alignItems: 'center'
 
   },
   avatar: {
@@ -33,25 +32,34 @@ const styles = StyleSheet.create({
     height: 65,
     resizeMode: 'contain',
     flex: 1,
+    justifyContent: 'center',
   },
   name: {
     position: 'absolute',
     left: 70,
     top: 20,
   },
-  menuItems:{
-paddingTop: 30,
+  menuItems: {
+    paddingTop: 20,
 
   },
+  smallIcon: {
+    paddingTop: 10,
+    width: 22,
+    height: 22,
+  },
   item: {
-    color:"#FFFFFF",
+    color: "#000000",
     fontSize: 18,
     fontWeight: '400',
-    paddingTop: 10,
+    paddingLeft: 10,
     height: 40,
-    borderBottomColor: "#FFFFFF",
-    borderBottomWidth: 1,
-   width:150,
+    width: null,
+  },
+  rowItem:{
+        flex: 1, 
+        flexDirection: 'row',
+        paddingLeft: window.width * 0.05,
   },
 });
 
@@ -67,50 +75,57 @@ module.exports = class Menu extends Component {
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={require('./assets/rovinieta.png')}  />
-            <View>
-          <Text style={styles.name}></Text>
+            source={require('./assets/rovinieta.png')} />
+        </View>
+
+        <View style={styles.menuItems}>
+              <View style={styles.rowItem}>
+                
+                <Image style={styles.smallIcon} source={require('./assets/menu/dashboard.png')} />
+                        <Text onPress={() => this.props.onItemSelected('dashboard')} style={styles.item}>Dashboard</Text>
+                    
+              </View>
+          <View style={styles.rowItem}>
+            <Image
+              style={styles.smallIcon}
+              source={require('./assets/menu/store.png')} />
+                      <Text
+                    onPress={() => this.props.onItemSelected('shop')}
+                    style={styles.item}>
+                    Magazin
+                    </Text>
           </View>
-        </View>
 
-<View style={styles.menuItems}>
-   <View>
-        <Text
-          onPress={() => this.props.onItemSelected('dashboard')}
-          style={styles.item}>
-          Dashboard
-        </Text>
-         </View> 
-
-         <View>
-        <Text
-          onPress={() => this.props.onItemSelected('shop')}
-          style={styles.item}>
-          Magazin
-        </Text>
-         </View>
-
-         <View>
-        <Text
-          onPress={() => this.props.onItemSelected('profiles')}
-          style={styles.item}>
-          Profilurile mele
-        </Text>
-        </View>
-        <View>
-        <Text
-          onPress={() => this.props.onItemSelected('cars')}
-          style={styles.item}>
-          Masinile mele
-        </Text>
-        </View>
-        <View>
-        <Text
-          onPress={() => this.props.onItemSelected('account')}
-          style={styles.item}>
-          Setari cont
-        </Text>
-        </View>
+          <View style={styles.rowItem}>
+                      <Image
+                        style={styles.smallIcon}
+                        source={require('./assets/menu/profiles.png')} />
+                      <Text
+                        onPress={() => this.props.onItemSelected('profiles')}
+                        style={styles.item}>
+                        Profilurile mele
+              </Text>
+          </View>
+          <View style={styles.rowItem}>
+                      <Image
+                      style={styles.smallIcon}
+                      source={require('./assets/menu/car.png')} />
+                        <Text
+                          onPress={() => this.props.onItemSelected('cars')}
+                          style={styles.item}>
+                          Masinile mele
+                </Text>
+          </View>
+          <View style={styles.rowItem}>
+                    <Image
+              style={styles.smallIcon}
+              source={require('./assets/menu/accountsettings.png')} />
+                          <Text
+                            onPress={() => this.props.onItemSelected('account')}
+                            style={styles.item}>
+                            Setari cont
+                  </Text>
+          </View>
         </View>
       </ScrollView>
     );

@@ -2,16 +2,11 @@ const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 import { Keyboard } from 'react-native';
-import Dashboard from './src/components/Dashboard';
+import StoreType from './src/components/StoreType';
 import Shop from './src/components/Shop';
 import Account from './src/components/Account';
 import  Cars from './src/components/Cars';
 import  Profile from './src/components/Profile';
-
-
-
-
-
 const {
   StyleSheet,
   Text,
@@ -91,26 +86,16 @@ module.exports = class Basic extends Component {
   displayMainScreen(selectedItem){
 
     	switch(selectedItem){
-
-
-			case 'dashboard':
+		  case 'shop':
 			return(
-       <View>
-       <Header headerText="Dashboard"/>
-       <Dashboard />
-       </View>
-       );
-
-      case 'shop':
-			return(
-       <View>
+        <View style={{flex:1 }}>
        <Header headerText="Magazin"/>
-       <Shop />
+       <StoreType infoClientLogin={this.props.responseData.user}/>
        </View>
        );
 			case 'profiles':
 			return( 
-           <View>
+           <View style={{flex:1}}>
        <Header headerText="Profilurile Mele"/>
        <Profile />
        </View>
@@ -119,7 +104,7 @@ module.exports = class Basic extends Component {
 			case 'cars':
 			return( 
        
-      <View>
+      <View style={{flex:1}}>
        <Header headerText="Masinile mele"/>
        <Cars />
        </View>
@@ -127,16 +112,16 @@ module.exports = class Basic extends Component {
       );
       case 'account':
 			return( 
-       <View>
+       <View style={{flex:1}}>
        <Header headerText="Setari Cont"/>
        <Account />
        </View>
       );
       default:
       return(
-         <View>
-       <Header headerText="Dashboard"/>
-       <Dashboard infoClientLogin={this.props.responseData.user}/>
+         <View style={{flex:1 }}>
+       <Header headerText="Magazin"/>
+       <StoreType infoClientLogin={this.props.responseData.user}/>
        </View>
       );
 		}
