@@ -52,7 +52,6 @@ paddingTop: 30,
     borderBottomColor: "#FFFFFF",
     borderBottomWidth: 1,
    width:150,
-   fontFamily: 'FuturaStd-ExtraBold',
   },
 });
 

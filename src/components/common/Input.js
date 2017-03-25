@@ -29,6 +29,7 @@ const styles = {
     flex: 2
   },
   labelStyle: {
+    color: "#000000",
     fontSize: 18,
     paddingLeft: 20,
     flex: 1

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View , Text, Navigaor} from 'react-native';
+import {View , Text, Navigaor, Image, Alert} from 'react-native';
 import { Button, Card, CardSection, Input , Spinner} from './common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -9,7 +9,6 @@ import Header from './common/Header';
 
 
 class LoginForm extends Component {
-
 
 	state = { username: '', password: '', error: '', loading:false, loggedIn:false };
 
@@ -57,13 +56,26 @@ class LoginForm extends Component {
 
 			return (
 				<Button onPress = {this.onButtonPress.bind(this)}> 
-				Log In 
+				Login
 				</Button>
 				);
 
 		}
 		onLoginFail(response){
 			this.setState({error: response.data.error_msg, loading:false});
+			Alert.alert(
+  'Eroare',
+  'Utilizator sau parola gresita',
+  
+  [
+    
+    {text: 'OK', onPress: () => {}},
+  ],
+  { cancelable: false }
+)
+
+
+
 
 		}
 
@@ -119,14 +131,25 @@ class LoginForm extends Component {
 
 
 			return (
-				<View >
-				<Header headerText="Autentificare" />
+				<View style={{
+					flex:1,
+					 flexDirection: 'column',
+					   
+
+				
+				
+				}}>
+				<Image source={require('../../assets/login.jpg')}
+                  style={styles.backgroundImage}>
+
+                 
+
 				<View style={styles.logInStyle}>
 				<Card >
 				<CardSection >
-				<Input
-				placeholder= "username"
-				label= "Username"
+				<Input 
+				placeholder= "utilizator"
+				label= "Utilizator:"
 				value= {this.state.username}
 				onChangeText= {username => this.setState({username})}
 				/>
@@ -136,19 +159,23 @@ class LoginForm extends Component {
 				<Input
 				secureTextEntry
 				placeholder= "parola"
-				label= "Parola"
+				label= "Parola:"
 				value= {this.state.password}
 				onChangeText= {password => this.setState({password})}
 				/>
 				</CardSection>
-				<Text style={styles.errorTextStyle}>
-				{this.state.error}
-				</Text>
+			
+				</Card>
+						<Text>
+{"\n\n"}
+
+</Text>
 				<CardSection>
+			
 				{this.renderButton()}
 				</CardSection>
-				</Card>
 				</View>
+				</Image>
 				</View>
 				);
 		}
@@ -165,8 +192,16 @@ class LoginForm extends Component {
 			color: 'red'
 		},
 		logInStyle:{
-			paddingTop:100,
+		flex: 0.8,
+		justifyContent: 'center',
+			
+		},
+		backgroundImage:{
 
+		flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover'
 		}
 	
 	};

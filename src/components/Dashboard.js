@@ -49,9 +49,8 @@ const styles = {
     fontSize: 30,
   },
   backgroundImage: {
-        flex: 1,
-        width: null,
-        height: null,
+        width: 50,
+        height: 50,
         resizeMode: 'cover',
         justifyContent: 'center',
     },
