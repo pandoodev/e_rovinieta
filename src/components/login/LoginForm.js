@@ -16,7 +16,7 @@ class LoginForm extends Component {
 		
 		const { username, password } = this.state;
 		
-		let hashedPass= md5.hex_md5("123");
+		let hashedPass= md5.hex_md5(password);
 		var self = this;
 		this.setState({error:'', loading:true});
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -24,7 +24,7 @@ class LoginForm extends Component {
 			tag: 'login',
 			device: 'android',
 			password: hashedPass,
-			username: "dorinbujor"
+			username: username
 		}), {
 			headers: { 
 				"Content-Type": "application/x-www-form-urlencoded"
@@ -146,16 +146,16 @@ class LoginForm extends Component {
 		
 		<View style={styles.logInStyle}>
 		<Card >
-		<CardSection >
+		<View style={styles.containerStyle} >
 		<Input 
 		placeholder= "utilizator"
 		label= "Utilizator:"
 		value= {this.state.username}
 		onChangeText= {username => this.setState({username})}
 		/>
-		</CardSection>
+		</View>
 		
-		<CardSection >
+		<View style={styles.containerStyle} >
 		<Input
 		secureTextEntry
 		placeholder= "parola"
@@ -163,17 +163,17 @@ class LoginForm extends Component {
 		value= {this.state.password}
 		onChangeText= {password => this.setState({password})}
 		/>
-		</CardSection>
+	</View>
 		
 		</Card>
 		<Text>
 		{"\n\n"}
 		
 		</Text>
-		<CardSection>
+	<View style={styles.containerStyle} >
 		
 		{this.renderButton()}
-		</CardSection>
+		</View>
 			<Text>
 		{"\n\n\n\n\n\n\n\n"}
 		
@@ -188,7 +188,15 @@ class LoginForm extends Component {
 
 
 
+
+
 const styles ={
+	  containerStyle: {
+    padding: 5,
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    position: 'relative'
+  },
 	
 	errorTextStyle:{
 		fontSize:20,

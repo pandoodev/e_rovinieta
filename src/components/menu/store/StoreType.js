@@ -29,7 +29,7 @@ class StoreType extends Component {
         <View style={styles.containerBridge}>
           <Image source={require('../../../../assets/pod-f.jpg')} style={styles.backgroundImage}>
             <TouchableOpacity
-              onPress={() => { Actions.shop({ infoClientLogin: this.props.infoClientLogin, location: 'bridge' }); }}
+              onPress={() => { Actions.bridge_ticket({ infoClientLogin: this.props.infoClientLogin, location: 'bridge' }); }}
 
               style={styles.buttonStyle}>
               <View>

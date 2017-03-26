@@ -24,7 +24,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/a.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/a.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle} > Categoria A </Text>
 		</TouchableOpacity>
@@ -38,7 +38,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/e.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/e.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle}>Categoria E  </Text>
 		</TouchableOpacity>
@@ -54,7 +54,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/b.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/b.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle} > Categoria B </Text>
 		</TouchableOpacity>
@@ -67,7 +67,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/f.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/f.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle}> Categoria F </Text>
 		</TouchableOpacity>
@@ -83,7 +83,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/c.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/c.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle} > Categoria C </Text>
 		</TouchableOpacity>
@@ -96,7 +96,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/g.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/g.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle}> Categoria G </Text>
 		</TouchableOpacity>
@@ -112,7 +112,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/d.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/d.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle} > Categoria D </Text>
 		</TouchableOpacity>
@@ -125,7 +125,7 @@ class MyCars extends  Component {
 		style={styles.buttonStyle}>
 		<View>
 		<Image
-		source={require('../../../assets/h.png')} style={styles.imgStyle} />
+		source={require('../../../../../assets/h.png')} style={styles.imgStyle} />
 		</View>
 		<Text style={styles.textStyle}> Categoria H </Text>
 		</TouchableOpacity>

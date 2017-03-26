@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert } from 'react-native';
+import { View, Text, Picker } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
@@ -9,7 +9,7 @@ import querystring from 'query-string';
 
 
 
-class BuyRov extends Component {
+class Categories extends Component {
 	state = { userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [] };
 	constructor(props) {
 		super(props)
@@ -76,7 +76,7 @@ class BuyRov extends Component {
 
 		return (
 			//	<Button onPress = {this.onButtonPress.bind(this)}> 
-			<Button onPress={this.buyRovignette.bind(this)}>
+			<Button >
 				Cumpara
 		</Button>
 		);
@@ -114,7 +114,8 @@ class BuyRov extends Component {
 	}
 
 
-	getOrderHistory() {
+getOrderHistory()
+{
 		console.log("--getProfileID--");
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -129,16 +130,18 @@ class BuyRov extends Component {
 			}).then(function (response) {
 				if (response.data.success) {
 
+					 console.log("ORDER HISTORY");
 
-
-
+					 console.log(response.data);
+					 console.log("!!!!ORDER HISTORY!!!");
+					
 				}
 				if (response.data.success === 0) {
 					response.data.error_msg;
 					//	console.log("unsuccess");
 				}
 			});
-	}
+}
 	buyRovignette() {
 
 		if (this.validateInputs() == 1) {
@@ -153,29 +156,17 @@ class BuyRov extends Component {
 				this.state.country);
 		}
 		else {
-
-			Alert.alert(
-				'Eroare',
-				this.validateInputs(),
-
-				[
-
-					{ text: 'OK', onPress: () => { } },
-				],
-				{ cancelable: false }
-			)
-
+			this.setState({ error: this.validateInputs() });
 		}
 	}
 
 
 	validateInputs() {
 
-		if (this.state.vehicleNo === undefined || this.state.vehicleNo == "") {
-
+		if (this.state.vehicleNo === undefined) {
 			return "Numarul de inmatriculare nu este valid !";
 		}
-		if (this.state.chasisNo === undefined || this.state.vehicleNo == "") {
+		if (this.state.chasisNo === undefined) {
 			return "Numarul sasiului nu este valid !";
 		}
 		return 1;
@@ -221,47 +212,13 @@ class BuyRov extends Component {
 				if (response.data.success) {
 					console.log(response.data);
 
-					Alert.alert(
-						'Succes',
-						'Rovinieta a fost cumparata',
-
-						[
-
-							{ text: 'OK', onPress: () => { } },
-						],
-						{ cancelable: false }
-					)
-					return
 				}
 				if (response.data.success === 0) {
-
-					Alert.alert(
-						'Eroare',
-						response.data.error_msg,
-
-						[
-
-							{ text: 'OK', onPress: () => { } },
-						],
-						{ cancelable: false }
-					)
-
-
-					return
+					self.setState({ error: response.data.error_msg });
+					if (response.data.error_msg === undefined) {
+						self.setState({ error: response.data.errors[0] });
+					}
 					//	console.log(response.data);
-				}
-				if (response.data.error_msg === undefined) {
-
-					Alert.alert(
-						'Eroare',
-						response.data.errors[0],
-
-						[
-
-							{ text: 'OK', onPress: () => { } },
-						],
-						{ cancelable: false }
-					)
 				}
 			});
 	}
@@ -318,24 +275,14 @@ class BuyRov extends Component {
 						/>
 					</CardSection>
 
-					<CardSection>
-						<Text style={styles.textStyle} > Tara: </Text>
-						{this.renderCountries()}
-
+				
+					
+					<CardSection >
+						<Text style={styles.errorTextStyle}>
+							{this.state.error}
+						</Text>
 					</CardSection>
-					<CardSection>
-						<Text style={styles.textStyle}> Valabilitate: </Text>
-						<Picker
-							style={styles.pickerStyle}
-							selectedValue={this.state.nrDays}
-							onValueChange={(days) => this.setState({ nrDays: days })}>
-							<Picker.Item label="7 zile - 3 EUR" value="95" />
-							<Picker.Item label="30 zile - 7 EUR" value="96" />
-
-						</Picker>
-					</CardSection>
-
-					<CardSection>
+					<CardSection >
 						{this.renderButton()}
 					</CardSection>
 				</Card>
@@ -402,4 +349,4 @@ const styles = {
 	}
 };
 
-export default BuyRov;
+export default Categories;

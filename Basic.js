@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
   },
   welcome: {
     fontSize: 20,
@@ -97,7 +97,7 @@ module.exports = class Basic extends Component {
 			return( 
            <View style={{flex:1}}>
        <Header headerText="Profilurile Mele"/>
-       <Profile />
+       <Profile  infoClientLogin={this.props.responseData.user.token}/>
        </View>
        
        );
@@ -106,7 +106,7 @@ module.exports = class Basic extends Component {
        
       <View style={{flex:1}}>
        <Header headerText="Masinile mele"/>
-       <Cars />
+       <Cars  infoClientLogin={this.props.responseData.user.token} />
        </View>
       
       );

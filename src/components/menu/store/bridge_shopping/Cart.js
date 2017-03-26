@@ -1,9 +1,8 @@
 import React, {Component}from 'react';
 import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
-import axios from 'axios';
-import querystring from 'query-string';
 
-class History extends  Component {
+
+class Cart extends  Component {
 
 state = { selected:'', cart:false, history:false };
 
@@ -13,7 +12,7 @@ state = { selected:'', cart:false, history:false };
 		return (
 			<View style={styles.containerStyle}>
 			<View style={styles.buttonStyle} >
-		<Text style={styles.textStyle} >Nu aveti comenzi anterioare </Text>
+		<Text style={styles.textStyle} >Cosul de cumparaturi este gol</Text>
 			</View>
 			</View>
 			);
@@ -61,4 +60,4 @@ const styles = {
 	}
 };
 
-export default History;
+export default Cart;
