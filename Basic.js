@@ -1,12 +1,13 @@
 const React = require('react');
 const SideMenu = require('react-native-side-menu');
-const Menu = require('./Menu');
+const Menu = require('./src/components/common/Menu');
 import { Keyboard } from 'react-native';
 import StoreType from './src/components/menu/store/StoreType';
 import AddToCart from './src/components/menu/store/rov_shopping/AddToCart';
 import AccountSettings from './src/components/menu/accountsettings/AccountSettings';
 import  Cars from './src/components/menu/mycars/Cars';
 import  Profile from './src/components/menu/profile/Profile';
+import  MenuButton from './src/components/common/MenuButton';
 const {
   StyleSheet,
   Text,
@@ -39,28 +40,9 @@ const styles = StyleSheet.create({
     margin: 10,
 }
 });
-class Button extends Component {
-  handlePress(e) {
-    if (this.props.onPress) {
-      this.props.onPress(e);
-    }
-  }
 
-  render() {
-Keyboard.dismiss();
-    return (
-      <TouchableOpacity
-        onPress={this.handlePress.bind(this)}
-        style={this.props.style}>
-        <View>
-        <Text>{this.props.children}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
 
-module.exports = class Basic extends Component {
+class Basic extends Component {
   state = {
     isOpen: false,
     selectedItem: 'Dashboard',
@@ -128,7 +110,7 @@ module.exports = class Basic extends Component {
   }
 
   render() {
-
+Keyboard.dismiss();
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
     //console.log(this.props.responseData.user.token);
     return (
@@ -140,11 +122,12 @@ module.exports = class Basic extends Component {
         
           {this.displayMainScreen(this.state.selectedItem)}
         </View>
-        <Button style={styles.button} onPress={() => this.toggle()}>
+        <MenuButton style={styles.button} onPress={() => this.toggle()}>
           <Image
             source={require('./assets/menu.png')} style={{width: 32, height: 32}} />
-        </Button>
+        </MenuButton>
       </SideMenu>
     );
   }
 };
+export default Basic;

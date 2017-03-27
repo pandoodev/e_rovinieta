@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity} from 'react-native';
 
 
 class AccountSettings extends Component {
 
-	state = { selected: '', cart: false, history: false };
-
-
+	state = { selected: '', cart: false, history: false};
 
 	render() {
 		return (

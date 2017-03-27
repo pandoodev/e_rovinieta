@@ -4,6 +4,37 @@ import CarCategories from './CarCategories';
 import Header from '../../../common/Header';
 import Cart from './Cart';
 import History from './History';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class BuyBridgeTicket extends Component {
 
 	state = { selected: 'categories', };
@@ -20,6 +51,15 @@ class BuyBridgeTicket extends Component {
 				return (<History />);
 		}
 	}
+
+
+
+
+
+
+
+
+	
 	render() {
 		return (
 			<View>
