@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Navigaor, Image, Alert, AppState } from 'react-native';
+import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -9,11 +9,46 @@ import Header from '../common/Header';
 import PushController from "./PushController";
 var PushNotification = require('react-native-push-notification');
 
-
 class LoginForm extends Component {
 
 	state = { username: '', password: '', error: '', loading: false, loggedIn: false };
 
+// START Storage Methods
+	_removeStorage = async (STORAGE_KEY_ARG) => {
+		try {
+			await AsyncStorage.removeItem(STORAGE_KEY_ARG);
+			//console.log('Selection removed from disk.');
+		} catch (error) {
+			//console.log('AsyncStorage error: ' + error.message);
+		}
+	};
+	_addToStorage = async (STORAGE_KEY_ARG, objData) => {
+		try {
+			await AsyncStorage.setItem(STORAGE_KEY_ARG, objData);
+			//console.log('Saved selection to disk: ' + objData);
+		} catch (error) {
+			//console.log('AsyncStorage error: ' + error.message);
+		}
+	};
+	// END Storage Methods
+checkIfUserIsLoged() {
+		try {
+			var loginData = AsyncStorage.getItem(STORAGE_KEY);
+			if (loginData !== null) {
+				loginData.then(function(value) {
+						if(value != null || value != undefined)
+						{
+							var loginDataFromStorage = JSON.parse(value);
+							Actions.main({ responseData: loginDataFromStorage });
+						}
+					});
+			}
+		} catch (error) {
+		}
+	}
+	componentWillMount(){
+		this.checkIfUserIsLoged();
+	}
 	constructor(props) {
 		super(props);
 		this.handleAppStateChange = this.handleAppStateChange.bind(this);
@@ -63,6 +98,7 @@ class LoginForm extends Component {
 				console.log(response);
 
 				if (response.data.success) {
+					self._addToStorage(STORAGE_KEY,JSON.stringify(response.data));
 					self.onLoginSuccess(response);
 					self.setState({ loggedIn: true });
 
@@ -120,34 +156,6 @@ class LoginForm extends Component {
 
 		Actions.main({ responseData: response.data });
 
-	}
-	getPrice() {
-		//console.log("--getPrice--");
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
-			querystring.stringify({
-				tag: 'prices',
-				device: 'android'
-			}), {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			}).then(function (response) {
-				if (response.data.success) {
-					response.data.prices.forEach(function (priceInfo) {
-						//	console.log("****");
-						// console.log( priceInfo['id'] );
-						// console.log( priceInfo['currency'] );
-						// console.log( priceInfo['valability_id'] );
-						// console.log( priceInfo['vehicle_id'] );
-						// console.log( priceInfo['active'] );
-						// console.log("****");
-					}, this);
-
-				}
-				if (response.data.success === 0) {
-					console.log("unsuccess");
-				}
-			});
 	}
 
 	render() {
@@ -215,7 +223,7 @@ class LoginForm extends Component {
 
 
 
-
+const STORAGE_KEY = '@LgInfStore:key';
 const styles = {
 	containerStyle: {
 		padding: 5,

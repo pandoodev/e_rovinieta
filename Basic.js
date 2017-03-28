@@ -1,13 +1,14 @@
 const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./src/components/common/Menu');
-import { Keyboard } from 'react-native';
+import { Keyboard,AsyncStorage } from 'react-native';
 import StoreType from './src/components/menu/store/StoreType';
 import AddToCart from './src/components/menu/store/rov_shopping/AddToCart';
 import AccountSettings from './src/components/menu/accountsettings/AccountSettings';
 import  Cars from './src/components/menu/mycars/Cars';
 import  Profile from './src/components/menu/profile/Profile';
 import  MenuButton from './src/components/common/MenuButton';
+import { Actions } from 'react-native-router-flux';
 const {
   StyleSheet,
   Text,
@@ -99,6 +100,9 @@ class Basic extends Component {
        <AccountSettings />
        </View>
       );
+      case 'logout':
+      this._logoutUser();
+			return;
       default:
       return(
          <View style={{flex:1 }}>
@@ -108,7 +112,15 @@ class Basic extends Component {
       );
 		}
   }
-
+  _logoutUser = async () => {
+		try {
+			await AsyncStorage.removeItem('@LgInfStore:key');
+			//console.log('Selection removed from disk.');
+      Actions.auth();
+		} catch (error) {
+			//console.log('AsyncStorage error: ' + error.message);
+		}
+	};
   render() {
 Keyboard.dismiss();
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;

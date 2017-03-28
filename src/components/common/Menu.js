@@ -62,6 +62,17 @@ module.exports = class Menu extends Component {
                             Setari cont
                   </Text>
           </View>
+          <View style={styles.rowItem}>
+                    <Image
+              style={styles.smallIcon}
+              source={require('../../../assets/menu/logout.png')} />
+                          <Text
+                            onPress={() => this.props.onItemSelected('logout')}
+                            style={styles.item}>
+                            Delogare
+                  </Text>
+          </View>
+         
         </View>
       </ScrollView>
     );
