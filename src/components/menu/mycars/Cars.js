@@ -15,6 +15,7 @@ class Cars extends  Component {
 		if (this.state.loading || this.state.loading == undefined) {
 			return <Spinner size='small' />;
 		}
+
                 if(this.state.vehicles.length==0)
                    return <View style={{marginTop: window.height*0.01}}><Text > Nu exista masini inregistrate pe acest cont.</Text></View>
 		return (<View style={{marginTop: window.height*0.01}}>
@@ -27,7 +28,6 @@ class Cars extends  Component {
                
                return <View  key={i+1} style={styles.containerStyle}><Text style={styles.nrCrtStyle} key={0}> {i+1}. </Text><Text style={styles.textStyle} key={1}>{o.plateNo}</Text><Text style={styles.textStyle} key={2}>{o.chasisNo}</Text></View>
 			
-
 					
 				})}
 				</View>);

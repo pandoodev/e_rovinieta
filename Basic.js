@@ -3,7 +3,7 @@ const SideMenu = require('react-native-side-menu');
 const Menu = require('./src/components/common/Menu');
 import { Keyboard,AsyncStorage } from 'react-native';
 import StoreType from './src/components/menu/store/StoreType';
-import AddToCart from './src/components/menu/store/rov_shopping/AddToCart';
+import RovignetteShopMain from './src/components/menu/store/rov_shopping/RovignetteShopMain';
 import AccountSettings from './src/components/menu/accountsettings/AccountSettings';
 import  Cars from './src/components/menu/mycars/Cars';
 import  Profile from './src/components/menu/profile/Profile';

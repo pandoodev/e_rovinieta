@@ -4,8 +4,7 @@ import CarCategories from './CarCategories';
 import Header from '../../../common/Header';
 import Cart from './Cart';
 import History from './History';
-
-class BuyBridgeTicket extends Component {
+class RovignetteShopMain extends Component {
 
 	state = { selected: 'categories', };
 	displayModule() {
@@ -21,40 +20,57 @@ class BuyBridgeTicket extends Component {
 				return (<History />);
 		}
 	}
-
 	render() {
 		return (
 			<View>
-				<Header headerText={'Achita Taxa Pod'}/>
+				<Header headerText={'Cumpara Rovinieta'}/>
 				<View style={styles.containerStyle}>
 					<View style={styles.headerStyle}>
-						<TouchableOpacity
-							onPress={() => { this.setState({ selected: 'categories', }) }}
-							style={styles.buttonStyle}>
-							<View>
-															<Text > {'\n'}</Text>
+					
 
+					<TouchableOpacity
+							onPress={() => { this.setState({ selected: 'categories' }) }}
+							style={styles.buttonStyle}>
+
+							<View >
+								<Text > {'\n'}</Text>
 								<Image
 									source={require('../../../../../assets/categories.png')} style={styles.imgStyle} />
 							</View>
-														<Text style={styles.textStyle} > Categorii{'\n'} </Text>
 
+							<Text style={styles.textStyle}>Categorii  {'\n'}</Text>
 						</TouchableOpacity>
+
+					<TouchableOpacity
+							onPress={() => { this.setState({ selected: 'cart' }) }}
+							style={styles.buttonStyle}>
+
+							<View >
+								<Text > {'\n'}</Text>
+								<Image
+									source={require('../../../../../assets/cart.png')} style={styles.imgStyle} />
+							</View>
+
+							<Text style={styles.textStyle}>Cos Cumparaturi  {'\n'}</Text>
+						</TouchableOpacity>
+
 
 						<TouchableOpacity
 							onPress={() => { this.setState({ selected: 'history' }) }}
 
 							style={styles.buttonStyle}>
 							<View >
-									<Text > {'\n'}</Text>
+								<Text > {'\n'}</Text>
 								<Image
 									source={require('../../../../../assets/history.png')} style={styles.imgStyle} />
 							</View>
-										<Text style={styles.textStyle}> Istoric comenzi  {'\n'}</Text>
+							<Text style={styles.textStyle}> Istoric comenzi  {'\n'}</Text>
+							
 						</TouchableOpacity>
+							
 					</View>
 				</View>
-								<Text > {'\n'}</Text>
+				<Text > {'\n'}</Text>
 				{this.displayModule()}
 			</View>
 
@@ -74,12 +90,12 @@ const styles = {
 	,
 	headerStyle: {
 		flex: 1,
-		height:80,
+		height: 80,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		borderWidth: 1,
-		borderRadius: 2,
+		borderRadius: 15,
 		borderColor: '#ddd',
 		borderBottomWidth: 0,
 		shadowColor: '#000',
@@ -89,6 +105,7 @@ const styles = {
 		elevation: 1,
 		marginLeft: 5,
 		marginRight: 5,
+		
 	},
 	buttonStyle: {
 		flex: 1,
@@ -109,4 +126,4 @@ const styles = {
 	}
 };
 
-export default BuyBridgeTicket;
+export default RovignetteShopMain;

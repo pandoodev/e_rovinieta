@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage } from 'react-native';
-import { Button, Card, CardSection, Input, Spinner } from '../common';
+import { LoginButton, Card, CardSection, Input, Spinner } from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
 import md5 from "react-native-md5";
@@ -70,7 +70,7 @@ checkIfUserIsLoged() {
 
 		if (appState === 'background') {
 			PushNotification.localNotificationSchedule({
-				message: "My Notification Message", // (required)
+				message: "Notificare expirare rovinieta", 
 				date: new Date(Date.now() + (5 * 1000)) 
 			});
 		}
@@ -81,7 +81,7 @@ checkIfUserIsLoged() {
 
 		const { username, password } = this.state;
 
-		let hashedPass = md5.hex_md5("123");
+		let hashedPass = md5.hex_md5(password);
 		var self = this;
 		this.setState({ error: '', loading: true });
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -89,7 +89,7 @@ checkIfUserIsLoged() {
 				tag: 'login',
 				device: 'android',
 				password: hashedPass,
-				username: "dorinbujor"
+				username: username
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -118,9 +118,9 @@ checkIfUserIsLoged() {
 		}
 
 		return (
-			<Button onPress={this.onButtonPress.bind(this)}>
+			<LoginButton onPress={this.onButtonPress.bind(this)}>
 				Login
-		</Button>
+		</LoginButton>
 		);
 
 	}
