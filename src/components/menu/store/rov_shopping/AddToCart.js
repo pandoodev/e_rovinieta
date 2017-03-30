@@ -6,6 +6,8 @@ var dateFormat = require('dateformat');
 import Header from '../../../common/Header';
 import axios from 'axios';
 import querystring from 'query-string';
+import { Actions } from 'react-native-router-flux';
+
 
 //menu
 const SideMenu = require('react-native-side-menu');
@@ -86,7 +88,7 @@ class AddtoCart extends Component {
 		this.getCountries();
 		this.getProfileID();
 		console.log("add to cart");
-		
+
 		console.log(this.props.responseData);
 
 	}
@@ -118,7 +120,11 @@ class AddtoCart extends Component {
 		);
 
 	}
+	
+		redirectToCart() {
+		Actions.shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
 
+	}
 	getProfileID() {
 		console.log("this.props.responseData")
 		var self = this;
@@ -238,21 +244,14 @@ class AddtoCart extends Component {
 		}
 	};
 	_addToStorage = async (STORAGE_KEY_ARG, objData) => {
+		var self=this;
 		try {
-			await AsyncStorage.setItem(STORAGE_KEY_ARG, objData);
-			console.log('Saved selection to disk: ' + objData);
+			var x = await AsyncStorage.setItem(STORAGE_KEY_ARG, objData).then((token) => {
+			
+			self.redirectToCart();
+  });
 
-
-			Alert.alert(
-				'Succes',
-				'Rovinieta a fost adaugata in cos.',
-
-				[
-
-					{ text: 'OK', onPress: () => { } },
-				],
-				{ cancelable: false }
-			)
+		
 
 
 		} catch (error) {
@@ -273,7 +272,6 @@ class AddtoCart extends Component {
 						itemsInCartJson.push(newItem[0]);
 						console.log("appending");
 
-						console.log(itemsInCartJson);
 						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
 
 
@@ -320,7 +318,7 @@ class AddtoCart extends Component {
 
 	render() {
 		//menu
-		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData}/>;
+		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
 		//!!menu!!
 
 		return (

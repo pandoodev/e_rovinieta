@@ -3,13 +3,14 @@ import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert } fro
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import axios from 'axios';
 import querystring from 'query-string';
+import { Actions } from 'react-native-router-flux';
 
 
 class Cart extends Component {
 
 	state = { selected: '', cart: false, history: false, itemsInCart: '' };
 
-//Display pop-up message to the user
+	//Display pop-up message to the user
 	message(title, content) {
 		Alert.alert(
 			title,
@@ -17,7 +18,7 @@ class Cart extends Component {
 			[
 				{ text: 'OK', onPress: () => { } },
 			],
-			
+
 			{ cancelable: false }
 		)
 	}
@@ -48,6 +49,7 @@ class Cart extends Component {
 
 	componentWillMount() {
 		this.addCartItemsToState();
+		console.log('cart is mounting');
 	}
 
 	//initiate state items with constructor
@@ -59,7 +61,7 @@ class Cart extends Component {
 		};
 	}
 
-//Getting data from AsyncStorage into state variable
+	//Getting data from AsyncStorage into state variable
 	addCartItemsToState() {
 		var self = this;
 		try {
@@ -123,14 +125,21 @@ class Cart extends Component {
 
 				);
 			})}
-			<View style={{ height: 80, marginTop: 30 }}>
-				<Button onPress={this.buyItemsButton.bind(this)}>
-					Cumpara Produse
-		</Button>
-				<Button onPress={this.delelteButton.bind(this)}>
-					Goleste Cosul
-		</Button>
-			</View>
+			<View style={styles.buttonContainerStyle}>
+     <View style={styles.buttonStyle}>
+   
+		  <Button onPress={ this.props.changeParentState}>
+	  Adauga rovienieta
+	  </Button>
+
+    </View>
+    <View style={styles.buttonStyle}>
+         <Button onPress={this.buyItemsButton.bind(this)}>
+		  Plaseaza Comanda
+		  </Button>
+    </View>
+  </View>
+	
 		</View>
 		);
 
@@ -174,7 +183,7 @@ class Cart extends Component {
 		self.deleteItems();
 	}
 
-//Calling API to perform a new 'initiate' rovignette request
+	//Calling API to perform a new 'initiate' rovignette request
 	buy(obj) {
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -240,21 +249,21 @@ const styles = {
 		marginLeft: 10,
 		marginRight: 10,
 	}
+	, buttonContainerStyle: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: 50
+		
+	}
 	,
 	buttonStyle: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: 80,
-		elevation: 1,
-		borderWidth: 1,
-		borderRadius: 2,
-		borderColor: '#ddd',
-		borderBottomWidth: 0,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 2,
+		height:50,
+		
+		
+
 	},
 	imgStyle: {
 		flex: 1,
