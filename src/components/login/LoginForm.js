@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput } from 'react-native';
+import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput, Linking } from 'react-native';
 import { LoginButton, Card, CardSection, Input, Spinner } from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -74,6 +74,8 @@ class LoginForm extends Component {
 		}
 
 		console.log('mount');
+
+		
 	}
 
 	componentWillUnmount() {
@@ -186,25 +188,22 @@ class LoginForm extends Component {
 
 
 		return (
+
 			<View style={styles.container}>
-				<View style={styles.quarterHeight}>
-					<Image
-						source={require('../../../assets/erovinieta_red.png')}
-					/>
+				<View style={styles.headerStyle}>
+					<Image source={require('../../../assets/erovinieta_red.png')} />
 				</View>
-				<View style={styles.logInStyle}>
-					
-						<View style={styles.containerStyle}>
-							<TextInput
+				<View style={styles.loginStyle}>
+					<View style={styles.insideStyle}>
+						<TextInput
 								placeholder="utilizator"
 								autoCorrect={false}
 								style={styles.inputStyle}
 								value={this.state.username}
 								onChangeText={username => this.setState({ username })}
 							/>
-						</View>
-
-						<View style={styles.containerStyle}>
+					</View>
+					<View style={styles.insideStyle}>
 							<TextInput
 								secureTextEntry
 								placeholder="parola"
@@ -213,15 +212,28 @@ class LoginForm extends Component {
 								value={this.state.password}
 								onChangeText={password => this.setState({ password })}
 							/>
-						</View>
-					
-					<View style={styles.containerStyle} >
+					</View>
+					<View style={styles.insideStyle} >
 
 								{this.renderButton()}
 					</View>
 				</View>
-				<View style={styles.quarterHeight} />
-				<PushController />
+				<View style={styles.footerStyle}>
+					<View style={styles.insideStyle} >
+						<Text  
+						style={{color: 'blue'}}
+						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/contnou')}
+						>
+						Crează cont</Text>								
+					</View>
+					
+					<View style={styles.insideStyle} >
+						<Text 
+						style={{color: 'blue', paddingBottom: 10}}
+						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/reset')}
+						>Resetare parolă</Text>								
+					</View>
+				</View>
 			</View>
 		);
 	}
@@ -233,50 +245,41 @@ class LoginForm extends Component {
 
 const STORAGE_KEY = '@LgInfStore:key';
 const styles = {
-	inputStyle:{
+	inputStyle: {
 		flex: 1,
-		textAlign: 'center'
+		textAlign: 'center',
+		height: 40,
 	},
-	containerStyle: {
-		padding: 5,
-		justifyContent: 'flex-start',
-		flexDirection: 'row',
-		position: 'relative'
-	},
-
 	errorTextStyle: {
 		fontSize: 20,
 		alignSelf: 'center',
 		color: 'red'
 	},
-	logInStyle: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-	backgroundImage: {
-
-		flex: 1,
-		width: null,
-		height: null,
-		resizeMode: 'cover'
-	},
-
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#FFFFFF'
-	},
-	halfHeight: {
-		flex: .6,
 		backgroundColor: '#FFFFFF',
-		alignSelf: 'center',
+	},
+	loginStyle: {
+		flex: .5,
 		justifyContent: 'center',
 	},
-	quarterHeight: {
-		flex: .20,
-		backgroundColor: '#FFFFFF',
+	footerStyle: {
+		flex: .25,
+		justifyContent: 'flex-end',
 		alignSelf: 'center',
-		justifyContent: 'center',
+	},
+	headerStyle: {
+		flex: .25,
+		justifyContent: 'flex-end',
+		alignSelf: 'center',
+	},
+	insideStyle: {
+		padding: 5,
+		justifyContent: 'flex-start',
+		flexDirection: 'row',
+		position: 'relative',
+		alignSelf: 'center',
 	}
 
 };
