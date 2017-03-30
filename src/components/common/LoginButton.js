@@ -16,7 +16,7 @@ const LoginButton = ({ onPress, children }) => {
 const styles = {
   textStyle: {
     alignSelf: 'center',
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 10,
@@ -25,7 +25,7 @@ const styles = {
   buttonStyle: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: '#cc0000',
     borderRadius: 5,
     marginLeft: 5,
     marginRight: 5

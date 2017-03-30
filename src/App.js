@@ -18,7 +18,7 @@ const scenes = Actions.create(
 			<Scene key="login" component={LoginForm} title="Please Login" />
 		</Scene>
 
-		<Scene key="main" hideNavBar >
+		<Scene key="main" hideNavBar type={ActionConst.RESET}>
 			<Scene key="dashboard" component={Dashboard} initial/>
 			<Scene key="profiles" component={Profile} />
 			<Scene key="cars" component={Cars} />
@@ -36,12 +36,12 @@ const scenes = Actions.create(
 );
 
 class App extends Component {
+	
+	render(){
+		
+		return(
+		<Router scenes={scenes}/>
 
-
-	render() {
-
-		return (
-			<Router scenes={scenes} />
 		);
 	}
 }
