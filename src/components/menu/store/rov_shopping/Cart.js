@@ -70,7 +70,6 @@ class Cart extends Component {
 				itemsInCart.then(function (value) {
 					if (value != null || value != undefined) {
 						var itemsInCartJson = JSON.parse(value);
-						console.log(itemsInCartJson[0]['argToken']);
 						self.setState({ itemsInCart: itemsInCartJson });
 						self.setState({ loading: false });
 					}
@@ -104,26 +103,28 @@ class Cart extends Component {
 	}
 
 	showItemsToUser() {
+		var self=this;
 		//Displaying empty cart if no items in storage
 		if (this.state.itemsInCart.length == 0)
 			return (<View style={{ marginTop: 80 }} ><Text > Cosul este gol.</Text></View>);
 		//Displaying items in cart stored in AsyncStorage
-		return (<ScrollView>>
+		return (<View>
 			<View style={styles.containerStyle}>
 				<Text style={styles.nrCrtStyle}>Nr.</Text>
-				<Text style={styles.textStyle}>Nr. înmatriculare</Text>
-				<Text style={styles.textStyle}>Incepe la</Text>
-				<Text style={styles.textStyle}></Text>
+				<Text style={styles.textStyle}>Nr. înmatriculare:</Text>
+				<Text style={styles.textStyle}>  Incepe la:</Text>
+				<Text style={styles.textStyle}>Sterge din Cos</Text>
 
 			</View>
 
 			{this.state.itemsInCart.map(function (o, i) {
 				return (
+
 					<View key={i} style={styles.elementStyle}>
 						<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 						<Text style={styles.textStyle} key={1}>{o.argVehicleNo}</Text>
 						<Text style={styles.textStyle} key={2}>{o.argStartDate}</Text>
-						<TouchableOpacity style={styles.deleteItemButtonContainerStyle} onPress={this._onPressButton} key={3}>
+						<TouchableOpacity style={styles.deleteItemButtonContainerStyle} onPress={() => {self.deleteElementFromCart(i)}} key={3}>
 							<Image
 								style={styles.deleteItemButtonStyle}
 								source={require('../../../../../assets/delete.png')}
@@ -148,13 +149,20 @@ class Cart extends Component {
 				</View>
 			</View>
 
-		</ScrollView>
+		</View>
 		);
 
 	}
 
 
+deleteElementFromCart(elementPosition){
+	var currentItemsInCart=this.state.itemsInCart;
+	 currentItemsInCart.splice(elementPosition, 1);
+	this.setState({itemsInCart:currentItemsInCart})	;
+	 	this._removeStorage(inCartRovignette);
+		 this._addToStorage(inCartRovignette,JSON.stringify(currentItemsInCart));
 
+}
 	delelteButton() {
 		this.deleteItems();
 		this.message('Succes', 'Elementele au fost eliminate din cos.');
