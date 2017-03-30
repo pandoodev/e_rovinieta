@@ -49,7 +49,6 @@ class Cart extends Component {
 
 	componentWillMount() {
 		this.addCartItemsToState();
-		console.log('cart is mounting');
 	}
 
 	//initiate state items with constructor
@@ -106,7 +105,15 @@ class Cart extends Component {
 		var self=this;
 		//Displaying empty cart if no items in storage
 		if (this.state.itemsInCart.length == 0)
-			return (<View style={{ marginTop: 80 }} ><Text > Cosul este gol.</Text></View>);
+			return (
+				<View style={styles.emptyCartContainerStyle}>
+			<View style={styles.emptyCartTextStyle} >
+				<Text > Cosul este gol.</Text>
+				
+				</View>
+				</View>
+			
+			);
 		//Displaying items in cart stored in AsyncStorage
 		return (<View>
 			<View style={styles.containerStyle}>
@@ -322,7 +329,31 @@ deleteItemButtonContainerStyle:{
 		width: 10,
 		height: 60,
 
+	},
+	emptyCartContainerStyle: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginTop: 80,
+		marginLeft: 10,
+		marginRight: 10,
 	}
+	,
+	emptyCartTextStyle:{
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 80,
+		elevation: 1,
+		borderWidth: 1,
+		borderRadius: 2,
+		borderColor: '#ddd',
+		borderBottomWidth: 0,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.1,
+		shadowRadius: 2,
+	},
 };
 
 export default Cart;
