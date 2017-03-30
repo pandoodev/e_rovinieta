@@ -7,14 +7,46 @@ import Header from '../../../common/Header';
 import axios from 'axios';
 import querystring from 'query-string';
 
-
+//menu
+const SideMenu = require('react-native-side-menu');
+const Menu = require('../../../common/Menu');
+import MenuButton from '../../../common/MenuButton';
+//menu
 
 class AddtoCart extends Component {
-	state = { userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [] };
+	state = { userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [], isOpen: false,
+    selectedItem: 'Dashboard', };
 	constructor(props) {
 		super(props)
 		this.state = { date: this.getCurerntDate() }
 	}
+
+
+
+  // Start side-menu functions
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
+  updateMenuState(isOpen) {
+    this.setState({ isOpen, });
+  }
+
+  onMenuItemSelected = (item) => {
+    this.setState({
+      isOpen: false,
+      selectedItem: item,
+    });
+  }
+  // !!!End side-menu functions!!!
+
+
+
+
+
+
 	getCountries() {
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -280,14 +312,23 @@ class AddtoCart extends Component {
 	}
 
 	render() {
-		if (this.state.loading == false) {
-			//console.log(this.state.countries);
-		}
+			  //menu
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} />;
+    //!!menu!!
+	
 		return (
+   // Side menu start
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.isOpen}
+        onChange={(isOpen) => this.updateMenuState(isOpen)}>
+        <View style={{
+          flex: 1,
+          backgroundColor: '#FFFFFF',
+        }}>
+          {/*Content start */}
 
-			<View>
 
-				<Header headerText="Introduceti Datele" />
 				<Card >
 					<CardSection >
 						<Input
@@ -351,7 +392,12 @@ class AddtoCart extends Component {
 						{this.renderButton()}
 					</CardSection>
 				</Card>
-			</View>
+			    
+          {/*!!!Content end!!! */}
+          <MenuButton onPress={() => this.toggle()} />
+        </View>
+      </SideMenu>
+      // !!!Side menu end!!!
 
 		)
 	}
