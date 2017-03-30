@@ -7,7 +7,6 @@ import BuyBridgeTicket from './components/menu/store/bridge_shopping/BuyBridgeTi
 import Categories from './components/menu/store/bridge_shopping/Categories';
 import Dashboard from './components/menu/store/Dashboard';
 
-
 const scenes = Actions.create(
 	<Scene key="root">
 
@@ -15,19 +14,18 @@ const scenes = Actions.create(
 			<Scene key="login" component={LoginForm} title="Please Login" />
 		</Scene>
 
-
 		<Scene key="main" hideNavBar >
 			<Scene key="dashboard" component={Dashboard} initial/>
 			<Scene key="buy" component={AddToCart} />
 			<Scene key="shop" component={RovignetteShopMain} />
 			<Scene key="bridge_ticket" component={BuyBridgeTicket} />
 			<Scene key="bridge_ticket_to_cart" component={Categories} />
+			
 		</Scene>
 		
 	</Scene>
 
 );
-
 
 class App extends Component {
 
