@@ -17,7 +17,6 @@ class Categories extends Component {
 	}
 	getCountries() {
 		var self = this;
-		console.log("--getCountries--");
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'countries',
@@ -84,7 +83,6 @@ class Categories extends Component {
 	}
 
 	getProfileID() {
-		console.log("--getProfileID--");
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -130,10 +128,6 @@ getOrderHistory()
 			}).then(function (response) {
 				if (response.data.success) {
 
-					 console.log("ORDER HISTORY");
-
-					 console.log(response.data);
-					 console.log("!!!!ORDER HISTORY!!!");
 					
 				}
 				if (response.data.success === 0) {

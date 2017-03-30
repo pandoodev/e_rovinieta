@@ -56,7 +56,6 @@ class Profile extends  Component {
 	}
 	getProfiles() {
 			var self = this;
-			console.log("--getProfiles--");
 			axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 				querystring.stringify({
 					tag: 'profile',

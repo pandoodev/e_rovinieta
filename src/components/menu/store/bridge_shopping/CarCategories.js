@@ -12,7 +12,6 @@ class MyCars extends  Component {
 	render(){
 
 
-		console.log(this.props);
 		return (
 		<View style={{marginTop: 80}}>
 			

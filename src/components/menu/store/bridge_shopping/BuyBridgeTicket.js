@@ -9,9 +9,6 @@ class BuyBridgeTicket extends Component {
 
 	state = { selected: 'categories', };
 	displayModule() {
-		console.log("Dashboard header:");
-		console.log(this.props.infoClientLogin);
-		console.log("Dashboard header:");
 		switch (this.state.selected) {
 			case 'categories':
 				return (<CarCategories infoClientLogin={this.props.infoClientLogin} />);

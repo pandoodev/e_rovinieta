@@ -20,8 +20,6 @@ class Dashboard extends Component {
   };
 
 componentWillMount(){
-  console.log('infoClientLogin');
-		console.log(this.props.responseData);
 
 	}
 

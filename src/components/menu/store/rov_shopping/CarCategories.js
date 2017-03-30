@@ -11,8 +11,6 @@ class MyCars extends  Component {
 	
 	render(){
 
-console.log('car category');
-		console.log(this.props.responseData);
 		return (
 		<View>
 		<View style={styles.containerStyle}>

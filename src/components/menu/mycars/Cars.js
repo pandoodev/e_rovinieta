@@ -62,7 +62,6 @@ class Cars extends  Component {
 	}
 	getCars() {
 			var self = this;
-			console.log("--getCars--");
 			axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 				querystring.stringify({
 					tag: 'vehicles',
