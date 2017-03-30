@@ -113,6 +113,8 @@ class Cart extends Component {
 				<Text style={styles.nrCrtStyle}>Nr.</Text>
 				<Text style={styles.textStyle}>Nr. înmatriculare</Text>
 				<Text style={styles.textStyle}>Incepe la</Text>
+				<Text style={styles.textStyle}></Text>
+				
 			</View>
 
 			{this.state.itemsInCart.map(function (o, i) {
