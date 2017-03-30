@@ -47,7 +47,48 @@ class AddtoCart extends Component {
 	// !!!End side-menu functions!!!
 
 
+	getValabilities() {
+		var self = this;
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'valabilities',
+				device: 'android'
+			}), {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function (response) {
+				if (response.data.success) {
+					console.log(response.data);
+				}
+				if (response.data.success === 0) {
+					console.log("unsuccess");
+				}
+			});
 
+	}
+
+	getPrices() {
+		var self = this;
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'prices',
+				device: 'android'
+			}), {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function (response) {
+				if (response.data.success) {
+					console.log("Prices:");
+					console.log(response.data);
+				}
+				if (response.data.success === 0) {
+					console.log("unsuccess");
+				}
+			});
+
+	}
 
 
 
@@ -87,6 +128,8 @@ class AddtoCart extends Component {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "95", error: "" });
 		this.getCountries();
 		this.getProfileID();
+		this.getValabilities();
+		this.getPrices();
 		console.log("add to cart");
 
 		console.log(this.props.responseData);
@@ -170,10 +213,6 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-
-
-
-
 				}
 				if (response.data.success === 0) {
 					response.data.error_msg;
@@ -238,8 +277,6 @@ class AddtoCart extends Component {
 				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
 				this.isNumeric(this.state.vehicleNo.charAt(5))) 
 			{
-
-
 				console.log("second validation");
 				return "Numarul de inmatriculare nu este valid !";
 			}

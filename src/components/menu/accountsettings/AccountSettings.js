@@ -6,9 +6,18 @@ const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
 
+import { Spinner } from '../../common';
+
 //!menu!!
 
 class AccountSettings extends Component {
+
+		state = { loading: true  };
+	constructor(props) {
+		super(props)
+		this.state = {  loading: true }
+	}
+
   // Start side-menu functions
   toggle() {
     this.setState({
@@ -53,9 +62,12 @@ class AccountSettings extends Component {
 
 			<View style={styles.containerStyle}>
 				<View style={styles.buttonStyle} >
-					<Text style={styles.textStyle} >Setari Cont</Text>
+						<Text style={styles.textStyle} >Email: {this.props.responseData.user.email}</Text>
+						<Text style={styles.textStyle} >Telefon:  - </Text>
 				</View>
 			</View>
+
+
 
 			      {/*!!!Content end!!! */}
         </View>

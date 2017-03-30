@@ -50,7 +50,6 @@ class Profile extends Component {
 					return <View key={i} style={styles.containerStyle}><Text style={styles.textStyle} key={0}>{i + 1}. {o.lastName} {o.firstName}</Text><Text style={styles.textStyle} key={1}>Persoană fizică</Text></View>
 				}
 
-
 			})}
 		</View>);
 	}
