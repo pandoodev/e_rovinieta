@@ -1,7 +1,9 @@
+//menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 //!menu!!
+import Header from '../../common/Header';
 import React, { Component } from 'react';
 import {
   Text,
@@ -18,7 +20,9 @@ class Dashboard extends Component {
   };
 
 componentWillMount(){
+  console.log('infoClientLogin');
 		console.log(this.props.responseData);
+
 	}
 
   // Start side-menu functions
@@ -49,7 +53,7 @@ componentWillMount(){
 
   render() {
     //menu
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} />;
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
     //!!menu!!
     return (
       // Side menu start
@@ -57,17 +61,19 @@ componentWillMount(){
         menu={menu}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
+        
         <View style={{
           flex: 1,
           backgroundColor: '#FFFFFF',
         }}>
           {/*Content start */}
-
-
+          
+          <Header headerText={'Prima Pagina'} />
+          
           <View style={styles.containerRov}>
 
               <TouchableOpacity
-                onPress={() => { Actions.shop({ infoClientLogin: this.props.responseData, location: 'rovignette' }); }}
+                onPress={() => { Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }); }}
                 style={styles.buttonStyle}>
                 <View>
                   <Image
@@ -78,8 +84,8 @@ componentWillMount(){
           </View>
         
           {/*!!!Content end!!! */}
-          <MenuButton onPress={() => this.toggle()} />
         </View>
+         <MenuButton onPress={() => this.toggle()} />
       </SideMenu>
       // !!!Side menu end!!!
     );

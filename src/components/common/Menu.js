@@ -1,14 +1,22 @@
 const React = require('react');
-const { Dimensions, StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } = require('react-native');
+const { Dimensions, StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, AsyncStorage } = require('react-native');
 const { Component } = React;
-
+import { Actions } from 'react-native-router-flux';
 
 
 module.exports = class Menu extends Component {
   static propTypes = {
     onItemSelected: React.PropTypes.func.isRequired,
   };
-
+  _logoutUser = async () => {
+		try {
+			await AsyncStorage.removeItem('@LgInfStore:key');
+		console.log('Selection removed from disk.');
+      Actions.auth();
+		} catch (error) {
+			console.log('AsyncStorage error: ' + error.message);
+		}
+	};
   render() {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
@@ -25,54 +33,67 @@ module.exports = class Menu extends Component {
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/store.png')} />
+              <View>
             <Text
-              onPress={() => this.props.onItemSelected('shop')}
+              onPress={() => {this.props.onItemSelected('dashboard'); Actions.main({responseData: this.props.responseData})} }
               style={styles.item}>
-              Magazin
+              Dashboard
                     </Text>
+              </View>
+                    
           </View>
 
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/profiles.png')} />
+              <View>
+              
             <Text
-              onPress={() => this.props.onItemSelected('profiles')}
+              onPress={() => {this.props.onItemSelected('profiles'); Actions.profiles({responseData: this.props.responseData.user.token})}}
               style={styles.item}>
               Profilurile mele
-              </Text>
+              </Text>   
+               </View>
           </View>
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/car.png')} />
+              <View>
+              
             <Text
-              onPress={() => this.props.onItemSelected('cars')}
+              onPress={() => {this.props.onItemSelected('cars'); Actions.cars({responseData: this.props.responseData.user.token})}}
               style={styles.item}>
               Masinile mele
                 </Text>
+          </View>
+                
           </View>
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/accountsettings.png')} />
+              <View>
             <Text
-              onPress={() => this.props.onItemSelected('accountsettings')}
+              onPress={() => {this.props.onItemSelected('accountsettings'); Actions.account_settings({responseData: this.props.responseData.user.token})}}
               style={styles.item}>
               Setari cont
                   </Text>
+                  </View>
           </View>
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/logout.png')} />
+              <View>
             <Text
-              onPress={() => this.props.onItemSelected('logout')}
+              onPress={() => {this.props.onItemSelected('logout');  this._logoutUser()}}
               style={styles.item}>
               Delogare
                   </Text>
           </View>
-
+ </View>
         </View>
       </ScrollView>
     );

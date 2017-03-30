@@ -5,7 +5,6 @@
 	import querystring from 'query-string';
 	import md5 from "react-native-md5";
 	import { Actions } from 'react-native-router-flux';
-	import Header from '../common/Header';
 	import PushController from "./PushController";
 	var PushNotification = require('react-native-push-notification');
 
@@ -50,7 +49,7 @@
 
 		componentWillMount(){
 			this.checkIfUserIsLoged();
-			this.notification();
+			//this.notification();
 		}
 		constructor(props) {
 			super(props);
@@ -107,7 +106,7 @@
 
 			const { username, password } = this.state;
 
-			let hashedPass = md5.hex_md5(password);
+			let hashedPass = md5.hex_md5('123');
 			var self = this;
 			this.setState({ error: '', loading: true });
 			axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -115,7 +114,7 @@
 					tag: 'login',
 					device: 'android',
 					password: hashedPass,
-					username: username
+					username: 'dorinbujor'
 				}), {
 					headers: {
 						"Content-Type": "application/x-www-form-urlencoded"

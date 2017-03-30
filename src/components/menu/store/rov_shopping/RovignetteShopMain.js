@@ -14,11 +14,11 @@ class RovignetteShopMain extends Component {
 	state = { selected: 'categories', };
 	displayModule() {
 		console.log("Dashboard header:");
-		console.log(this.props.infoClientLogin);
+		console.log(this.props.responseData);
 		console.log("Dashboard header:");
 		switch (this.state.selected) {
 			case 'categories':
-				return (<CarCategories infoClientLogin={this.props.infoClientLogin} />);
+				return (<CarCategories responseData={this.props.responseData} />);
 			case 'cart':
 				return (<Cart />);
 			case 'history':
@@ -51,7 +51,7 @@ class RovignetteShopMain extends Component {
 	render() {
 
 		  //menu
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} />;
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem}  responseData={this.props.responseData}/>;
     //!!menu!!
 
 		return (
@@ -65,6 +65,7 @@ class RovignetteShopMain extends Component {
           backgroundColor: '#FFFFFF',
         }}>
           {/*Content start */}
+					 <Header headerText={'Plaseaza Comanda'} />
 			<View>
 				<View style={styles.containerStyle}>
 					<View style={styles.headerStyle}>
@@ -116,8 +117,8 @@ class RovignetteShopMain extends Component {
 				{this.displayModule()}
 			</View>
 			          {/*!!!Content end!!! */}
-          <MenuButton onPress={() => this.toggle()} />
         </View>
+          <MenuButton onPress={() => this.toggle()} />
       </SideMenu>
       // !!!Side menu end!!!
 

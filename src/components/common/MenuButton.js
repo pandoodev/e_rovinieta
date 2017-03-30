@@ -29,8 +29,9 @@ class MenuButton extends Component {
 const styles = StyleSheet.create({
   button: {
     position: 'absolute',
-    top: 15,
+    top: 12,
     padding: 10,
+    
 
   },
 });

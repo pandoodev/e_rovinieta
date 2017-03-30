@@ -36,7 +36,7 @@ class Profile extends  Component {
 				querystring.stringify({
 					tag: 'profile',
 					device: 'android',
-					token: this.props.infoClientLogin
+					token: this.props.responseData
 				}), {
 					headers: {
 						"Content-Type": "application/x-www-form-urlencoded"

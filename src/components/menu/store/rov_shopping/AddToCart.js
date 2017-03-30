@@ -14,8 +14,10 @@ import MenuButton from '../../../common/MenuButton';
 //menu
 
 class AddtoCart extends Component {
-	state = { userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [], isOpen: false,
-    selectedItem: 'Dashboard', };
+	state = {
+		userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [], isOpen: false,
+		selectedItem: 'Dashboard',
+	};
 	constructor(props) {
 		super(props)
 		this.state = { date: this.getCurerntDate() }
@@ -23,24 +25,24 @@ class AddtoCart extends Component {
 
 
 
-  // Start side-menu functions
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
+	// Start side-menu functions
+	toggle() {
+		this.setState({
+			isOpen: !this.state.isOpen,
+		});
+	}
 
-  updateMenuState(isOpen) {
-    this.setState({ isOpen, });
-  }
+	updateMenuState(isOpen) {
+		this.setState({ isOpen, });
+	}
 
-  onMenuItemSelected = (item) => {
-    this.setState({
-      isOpen: false,
-      selectedItem: item,
-    });
-  }
-  // !!!End side-menu functions!!!
+	onMenuItemSelected = (item) => {
+		this.setState({
+			isOpen: false,
+			selectedItem: item,
+		});
+	}
+	// !!!End side-menu functions!!!
 
 
 
@@ -83,6 +85,9 @@ class AddtoCart extends Component {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "95", error: "" });
 		this.getCountries();
 		this.getProfileID();
+		console.log("add to cart");
+		
+		console.log(this.props.responseData);
 
 	}
 	renderCountries() {
@@ -115,12 +120,14 @@ class AddtoCart extends Component {
 	}
 
 	getProfileID() {
+		console.log("this.props.responseData")
 		var self = this;
+		console.log(this.props.responseData)
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
-				token: this.props.infoClientLogin.infoClientLogin.token
+				token: this.props.responseData.token
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -150,7 +157,7 @@ class AddtoCart extends Component {
 			querystring.stringify({
 				tag: 'orders',
 				device: 'android',
-				token: this.props.infoClientLogin.infoClientLogin.token
+				token: this.props.responseData.user.token
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -171,7 +178,7 @@ class AddtoCart extends Component {
 	buyRovignette() {
 
 		if (this.validateInputs() == 1) {
-			this.addRovignetteToCart(this.props.infoClientLogin.infoClientLogin.token,
+			this.addRovignetteToCart(this.props.responseData.user.token,
 				this.state.profileID,
 				this.props.categoryID,
 				this.state.nrDays,
@@ -312,92 +319,93 @@ class AddtoCart extends Component {
 	}
 
 	render() {
-			  //menu
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} />;
-    //!!menu!!
-	
+		//menu
+		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData}/>;
+		//!!menu!!
+
 		return (
-   // Side menu start
-      <SideMenu
-        menu={menu}
-        isOpen={this.state.isOpen}
-        onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        <View style={{
-          flex: 1,
-          backgroundColor: '#FFFFFF',
-        }}>
-          {/*Content start */}
+			// Side menu start
+			<SideMenu
+				menu={menu}
+				isOpen={this.state.isOpen}
+				onChange={(isOpen) => this.updateMenuState(isOpen)}>
+				<View style={{
+					flex: 1,
+					backgroundColor: '#FFFFFF',
+				}}>
+					{/*Content start */}
+					<Header headerText={"Categoria " + this.props.category} />
 
+					<Card >
+						<CardSection >
+							<Input
+								placeholder="SM79BET"
+								label="Numar Inm:"
+								value={this.state.vehicleNo}
+								onChangeText={vehicleNo => this.setState({ vehicleNo })}
+							/>
+						</CardSection>
+						<CardSection >
+							<Input
+								placeholder="WAULC68E92A140677"
+								label="Serie Sasiu:"
+								value={this.state.chasisNo}
+								onChangeText={chasisNo => this.setState({ chasisNo })}
+							/>
+						</CardSection>
+						<CardSection >
+							<Text style={styles.textStyle}> De la: </Text>
+							<DatePicker
+								style={{ width: 200 }}
+								date={this.state.date}
+								mode="date"
+								format="DD-MM-YYYY"
+								minDate={this.getCurerntDate()}
+								confirmBtnText="Confirm"
+								cancelBtnText="Cancel"
+								customStyles={{
+									dateIcon: {
+										position: 'absolute',
+										left: 0,
+										top: 4,
+										marginLeft: 0
+									},
+									dateInput: {
+										marginLeft: 36
+									}
+								}}
+								onDateChange={(date) => { this.setState({ startDate: date }) }}
+							/>
+						</CardSection>
 
-				<Card >
-					<CardSection >
-						<Input
-							placeholder="SM79BET"
-							label="Numar Inm:"
-							value={this.state.vehicleNo}
-							onChangeText={vehicleNo => this.setState({ vehicleNo })}
-						/>
-					</CardSection>
-					<CardSection >
-						<Input
-							placeholder="WAULC68E92A140677"
-							label="Serie Sasiu:"
-							value={this.state.chasisNo}
-							onChangeText={chasisNo => this.setState({ chasisNo })}
-						/>
-					</CardSection>
-					<CardSection >
-						<Text style={styles.textStyle}> De la: </Text>
-						<DatePicker
-							style={{ width: 200 }}
-							date={this.state.date}
-							mode="date"
-							format="DD-MM-YYYY"
-							minDate={this.getCurerntDate()}
-							confirmBtnText="Confirm"
-							cancelBtnText="Cancel"
-							customStyles={{
-								dateIcon: {
-									position: 'absolute',
-									left: 0,
-									top: 4,
-									marginLeft: 0
-								},
-								dateInput: {
-									marginLeft: 36
-								}
-							}}
-							onDateChange={(date) => { this.setState({ startDate: date }) }}
-						/>
-					</CardSection>
+						<CardSection>
+							<Text style={styles.textStyle} > Tara: </Text>
+							{this.renderCountries()}
 
-					<CardSection>
-						<Text style={styles.textStyle} > Tara: </Text>
-						{this.renderCountries()}
+						</CardSection>
+						<CardSection>
+							<Text style={styles.textStyle}> Valabilitate: </Text>
+							<Picker
+								style={styles.pickerStyle}
+								selectedValue={this.state.nrDays}
+								onValueChange={(days) => this.setState({ nrDays: days })}>
+								<Picker.Item label="7 zile - 3 EUR" value="95" />
+								<Picker.Item label="30 zile - 7 EUR" value="96" />
 
-					</CardSection>
-					<CardSection>
-						<Text style={styles.textStyle}> Valabilitate: </Text>
-						<Picker
-							style={styles.pickerStyle}
-							selectedValue={this.state.nrDays}
-							onValueChange={(days) => this.setState({ nrDays: days })}>
-							<Picker.Item label="7 zile - 3 EUR" value="95" />
-							<Picker.Item label="30 zile - 7 EUR" value="96" />
+							</Picker>
+						</CardSection>
 
-						</Picker>
-					</CardSection>
+						<CardSection>
+							{this.renderButton()}
+						</CardSection>
+					</Card>
 
-					<CardSection>
-						{this.renderButton()}
-					</CardSection>
-				</Card>
-			    
-          {/*!!!Content end!!! */}
-          <MenuButton onPress={() => this.toggle()} />
-        </View>
-      </SideMenu>
-      // !!!Side menu end!!!
+					{/*!!!Content end!!! */}
+				</View>
+				<MenuButton onPress={() => this.toggle()} />
+
+			</SideMenu>
+			// !!!Side menu end!!!
 
 		)
 	}
