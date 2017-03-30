@@ -264,9 +264,9 @@ class AddtoCart extends Component {
 		if (this.state.chasisNo === undefined
 			|| this.state.chasisNo == ""
 			|| this.state.chasisNo.length != 17
-			|| this.state.chasisNo.indexOf("Q")
-			|| this.state.chasisNo.indexOf("O")
-			|| this.state.chasisNo.indexOf("I")
+			|| this.state.chasisNo.indexOf("Q") >= 0
+			|| this.state.chasisNo.indexOf("O")>= 0
+			|| this.state.chasisNo.indexOf("I")>= 0
 		) {
 			return "Numarul sasiului nu este valid! Acesta trebuie sa contina 17 caractere si sa nu contina literele Q, I sau O";
 		}
