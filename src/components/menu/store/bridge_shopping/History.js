@@ -2,20 +2,71 @@ import React, {Component}from 'react';
 import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
+const SideMenu = require('react-native-side-menu');
+const Menu = require('../../../common/Menu');
+
+
+
+
+
+
+
 
 class History extends  Component {
 
-state = { selected:'', cart:false, history:false };
+state = { selected:'', cart:false, history:false,  isOpen: false,
+    selectedItem: 'Dashboard', };
+
+// Start side-menu functions
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
+  updateMenuState(isOpen) {
+    this.setState({ isOpen, });
+  }
+
+  onMenuItemSelected = (item) => {
+    this.setState({
+      isOpen: false,
+      selectedItem: item,
+    });
+  }
+// !!!End side-menu functions!!!
+
+  
 
 
 
 	render(){
+ const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem}/>;
+
 		return (
+     // Side menu start
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.isOpen}
+        onChange={(isOpen) => this.updateMenuState(isOpen)}>
+        <View style={{flex: 1,
+    backgroundColor: '#FFFFFF',}}>       
+        <MenuButton onPress={() => this.toggle()} />
+      {/*Content start */}
+
+
+
 			<View style={styles.containerStyle}>
 			<View style={styles.buttonStyle} >
 		<Text style={styles.textStyle} >Nu aveti comenzi anterioare </Text>
 			</View>
 			</View>
+
+
+      {/*!!!Content end!!! */}
+        </View>
+      </SideMenu>
+      // !!!Side menu end!!!
 			);
 	}
 };

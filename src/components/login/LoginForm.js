@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage } from 'react-native';
+import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput } from 'react-native';
 import { LoginButton, Card, CardSection, Input, Spinner } from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -11,9 +11,9 @@ var PushNotification = require('react-native-push-notification');
 
 class LoginForm extends Component {
 
-	state = { username: '', password: '', error: '', loading: false, loggedIn: false };
+	state = { username: '', password: '', error: '', loading: false, loggedIn: false, appState: null };
 
-// START Storage Methods
+	// START Storage Methods
 	_removeStorage = async (STORAGE_KEY_ARG) => {
 		try {
 			await AsyncStorage.removeItem(STORAGE_KEY_ARG);
@@ -31,50 +31,72 @@ class LoginForm extends Component {
 		}
 	};
 	// END Storage Methods
-checkIfUserIsLoged() {
+	checkIfUserIsLoged() {
 		try {
 			var loginData = AsyncStorage.getItem(STORAGE_KEY);
 			if (loginData !== null) {
-				loginData.then(function(value) {
-						if(value != null || value != undefined)
-						{
-							var loginDataFromStorage = JSON.parse(value);
-							Actions.main({ responseData: loginDataFromStorage });
-						}
-					});
+				loginData.then(function (value) {
+					if (value != null || value != undefined) {
+						var loginDataFromStorage = JSON.parse(value);
+						Actions.main({ responseData: loginDataFromStorage });
+					}
+				});
 			}
 		} catch (error) {
+			console.log(error);
 		}
 	}
-	componentWillMount(){
+
+	componentWillMount() {
 		this.checkIfUserIsLoged();
+		this.notification();
 	}
 	constructor(props) {
 		super(props);
-		this.handleAppStateChange = this.handleAppStateChange.bind(this);
+		//this.handleAppStateChange = this.handleAppStateChange.bind(this);
 		this.state = {
 			seconds: 5,
+			username: '',
+			password: '',
+			appState: null
 		};
 	}
 
 	componentDidMount() {
-		AppState.addEventListener('change', this.handleAppStateChange);
+		console.log('mount');
+
+		if (this.state.appState != null) {
+			console.log("app state not null");
+		}
+		else {
+			console.log("app state is null! ");
+			AppState.addEventListener('change', this.handleAppStateChange);
+		}
+
+		console.log('mount');
 	}
 
 	componentWillUnmount() {
-		AppState.addEventListener('change', this.handleAppStateChange);
+		console.log('unmount')
+		AppState.removeEventListener('change', this.handleAppStateChange);
+		console.log('unmount')
+	}
+
+	handleAppStateChange = (nextAppState) => {
+
+		this.setState({ appState: nextAppState });
+
+		console.log("currentState");
+		console.log(this.state.appState);
+		console.log("currentState");
 
 	}
 
-	handleAppStateChange(appState) {
-
-		if (appState === 'background') {
-			PushNotification.localNotificationSchedule({
-				message: "Notificare expirare rovinieta", 
-				date: new Date(Date.now() + (5 * 1000)) 
-			});
-		}
-
+	notification() {
+		PushNotification.localNotificationSchedule({
+			message: "Notificare expirare rovinieta",
+			date: new Date(Date.now() + (5 * 1000))
+		});
 	}
 
 	onButtonPress() {
@@ -98,7 +120,7 @@ checkIfUserIsLoged() {
 				console.log(response);
 
 				if (response.data.success) {
-					self._addToStorage(STORAGE_KEY,JSON.stringify(response.data));
+					self._addToStorage(STORAGE_KEY, JSON.stringify(response.data));
 					self.onLoginSuccess(response);
 					self.setState({ loggedIn: true });
 
@@ -120,7 +142,7 @@ checkIfUserIsLoged() {
 		return (
 			<LoginButton onPress={this.onButtonPress.bind(this)}>
 				Login
-		</LoginButton>
+			    </LoginButton>
 		);
 
 	}
@@ -164,55 +186,41 @@ checkIfUserIsLoged() {
 
 
 		return (
-			<View style={{
-				flex: 1,
-				flexDirection: 'column',
-
-
-
-
-			}}>
-				<Image source={require('../../../assets/login.jpg')}
-					style={styles.backgroundImage}>
-
-
-
-					<View style={styles.logInStyle}>
-						<Card >
-							<View style={styles.containerStyle} >
-								<Input
-									placeholder="utilizator"
-									label="Utilizator:"
-									value={this.state.username}
-									onChangeText={username => this.setState({ username })}
-								/>
-							</View>
-
-							<View style={styles.containerStyle} >
-								<Input
-									secureTextEntry
-									placeholder="parola"
-									label="Parola:"
-									value={this.state.password}
-									onChangeText={password => this.setState({ password })}
-								/>
-							</View>
-
-						</Card>
-						<Text>
-							{"\n\n"}
-
-						</Text>
-						<View style={styles.containerStyle} >
-
-							{this.renderButton()}
+			<View style={styles.container}>
+				<View style={styles.quarterHeight}>
+					<Image
+						source={require('../../../assets/erovinieta_red.png')}
+					/>
+				</View>
+				<View style={styles.logInStyle}>
+					
+						<View style={styles.containerStyle}>
+							<TextInput
+								placeholder="utilizator"
+								autoCorrect={false}
+								style={styles.inputStyle}
+								value={this.state.username}
+								onChangeText={username => this.setState({ username })}
+							/>
 						</View>
-						<Text>
-							{"\n\n\n\n\n\n\n\n"}
 
-						</Text>
+						<View style={styles.containerStyle}>
+							<TextInput
+								secureTextEntry
+								placeholder="parola"
+								autoCorrect={false}
+								style={styles.inputStyle}
+								value={this.state.password}
+								onChangeText={password => this.setState({ password })}
+							/>
+						</View>
+					
+					<View style={styles.containerStyle} >
+
+								{this.renderButton()}
 					</View>
-				</Image>
+				</View>
+				<View style={styles.quarterHeight} />
 				<PushController />
 			</View>
 		);
@@ -225,6 +233,10 @@ checkIfUserIsLoged() {
 
 const STORAGE_KEY = '@LgInfStore:key';
 const styles = {
+	inputStyle:{
+		flex: 1,
+		textAlign: 'center'
+	},
 	containerStyle: {
 		padding: 5,
 		justifyContent: 'flex-start',
@@ -240,7 +252,6 @@ const styles = {
 	logInStyle: {
 		flex: 1,
 		justifyContent: 'center',
-
 	},
 	backgroundImage: {
 
@@ -248,6 +259,24 @@ const styles = {
 		width: null,
 		height: null,
 		resizeMode: 'cover'
+	},
+
+	container: {
+		flex: 1,
+		flexDirection: 'column',
+		backgroundColor: '#FFFFFF'
+	},
+	halfHeight: {
+		flex: .6,
+		backgroundColor: '#FFFFFF',
+		alignSelf: 'center',
+		justifyContent: 'center',
+	},
+	quarterHeight: {
+		flex: .20,
+		backgroundColor: '#FFFFFF',
+		alignSelf: 'center',
+		justifyContent: 'center',
 	}
 
 };

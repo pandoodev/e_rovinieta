@@ -1,5 +1,5 @@
 const React = require('react');
-const {  Dimensions, StyleSheet,  ScrollView,  View,  Image,  Text,  TouchableOpacity } = require('react-native');
+const { Dimensions, StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } = require('react-native');
 const { Component } = React;
 
 
@@ -20,59 +20,59 @@ module.exports = class Menu extends Component {
         </View>
 
         <View style={styles.menuItems}>
-             
+
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/store.png')} />
-                      <Text
-                    onPress={() => this.props.onItemSelected('shop')}
-                    style={styles.item}>
-                    Magazin
+            <Text
+              onPress={() => this.props.onItemSelected('shop')}
+              style={styles.item}>
+              Magazin
                     </Text>
           </View>
 
           <View style={styles.rowItem}>
-                      <Image
-                        style={styles.smallIcon}
-                        source={require('../../../assets/menu/profiles.png')} />
-                      <Text
-                        onPress={() => this.props.onItemSelected('profiles')}
-                        style={styles.item}>
-                        Profilurile mele
+            <Image
+              style={styles.smallIcon}
+              source={require('../../../assets/menu/profiles.png')} />
+            <Text
+              onPress={() => this.props.onItemSelected('profiles')}
+              style={styles.item}>
+              Profilurile mele
               </Text>
           </View>
           <View style={styles.rowItem}>
-                      <Image
-                      style={styles.smallIcon}
-                      source={require('../../../assets/menu/car.png')} />
-                        <Text
-                          onPress={() => this.props.onItemSelected('cars')}
-                          style={styles.item}>
-                          Masinile mele
+            <Image
+              style={styles.smallIcon}
+              source={require('../../../assets/menu/car.png')} />
+            <Text
+              onPress={() => this.props.onItemSelected('cars')}
+              style={styles.item}>
+              Masinile mele
                 </Text>
           </View>
           <View style={styles.rowItem}>
-                    <Image
+            <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/accountsettings.png')} />
-                          <Text
-                            onPress={() => this.props.onItemSelected('accountsettings')}
-                            style={styles.item}>
-                            Setari cont
+            <Text
+              onPress={() => this.props.onItemSelected('accountsettings')}
+              style={styles.item}>
+              Setari cont
                   </Text>
           </View>
           <View style={styles.rowItem}>
-                    <Image
+            <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/logout.png')} />
-                          <Text
-                            onPress={() => this.props.onItemSelected('logout')}
-                            style={styles.item}>
-                            Delogare
+            <Text
+              onPress={() => this.props.onItemSelected('logout')}
+              style={styles.item}>
+              Delogare
                   </Text>
           </View>
-         
+
         </View>
       </ScrollView>
     );
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
     height: 40,
     width: null,
   },
-  rowItem:{
-        flex: 1, 
-        flexDirection: 'row',
-        paddingLeft: window.width * 0.05,
+  rowItem: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingLeft: window.width * 0.05,
   },
 });

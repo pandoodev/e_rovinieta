@@ -4,6 +4,11 @@ import CarCategories from './CarCategories';
 import Header from '../../../common/Header';
 import Cart from './Cart';
 import History from './History';
+//menu
+const SideMenu = require('react-native-side-menu');
+const Menu = require('../../../common/Menu');
+import MenuButton from '../../../common/MenuButton';
+//menu
 class RovignetteShopMain extends Component {
 
 	state = { selected: 'categories', };
@@ -20,10 +25,47 @@ class RovignetteShopMain extends Component {
 				return (<History />);
 		}
 	}
+
+  // Start side-menu functions
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
+  updateMenuState(isOpen) {
+    this.setState({ isOpen, });
+  }
+
+  onMenuItemSelected = (item) => {
+    this.setState({
+      isOpen: false,
+      selectedItem: item,
+    });
+  }
+  // !!!End side-menu functions!!!
+
+
+
+
 	render() {
+
+		  //menu
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} />;
+    //!!menu!!
+
 		return (
+			     // Side menu start
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.isOpen}
+        onChange={(isOpen) => this.updateMenuState(isOpen)}>
+        <View style={{
+          flex: 1,
+          backgroundColor: '#FFFFFF',
+        }}>
+          {/*Content start */}
 			<View>
-				<Header headerText={'Cumpara Rovinieta'}/>
 				<View style={styles.containerStyle}>
 					<View style={styles.headerStyle}>
 					
@@ -73,6 +115,11 @@ class RovignetteShopMain extends Component {
 				<Text > {'\n'}</Text>
 				{this.displayModule()}
 			</View>
+			          {/*!!!Content end!!! */}
+          <MenuButton onPress={() => this.toggle()} />
+        </View>
+      </SideMenu>
+      // !!!Side menu end!!!
 
 		);
 	}
