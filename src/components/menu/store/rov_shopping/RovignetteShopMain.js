@@ -11,21 +11,30 @@ import MenuButton from '../../../common/MenuButton';
 //menu
 class RovignetteShopMain extends Component {
 
-	state = { selected: 'categories', };
+	state = { selected: 'categories', componentToDisplay:''};
 	displayModule() {
-		console.log("Dashboard header:");
-		console.log(this.props.responseData);
-		console.log("Dashboard header:");
+	
 		switch (this.state.selected) {
 			case 'categories':
-				return (<CarCategories responseData={this.props.responseData} />);
+				return (<CarCategories responseData={this.props.responseData}  />);
 			case 'cart':
-				return (<Cart />);
+				return (<Cart responseData={this.props.responseData} changeParentState={this.changeStateFromCart.bind(this)} />);
 			case 'history':
-				return (<History />);
+				return (<History responseData={this.props.responseData} />);
 		}
 	}
+componentWillMount(){
+	if(this.props.componentToDisplay!=undefined){
+	 this.setState({selected: this.props.componentToDisplay});
+	}
+	if(this.state.componentToDisplay!=''){
+	 this.setState({selected: this.state.componentToDisplay})
+	}
 
+}
+changeStateFromCart(event) {
+    this.setState({selected: 'categories'})
+}
   // Start side-menu functions
   toggle() {
     this.setState({

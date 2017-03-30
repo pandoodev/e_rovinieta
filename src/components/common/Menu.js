@@ -24,7 +24,7 @@ module.exports = class Menu extends Component {
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={require('../../../assets/rovinieta.png')} />
+            source={require('../../../assets/erovinieta_red.png')} />
         </View>
 
         <View style={styles.menuItems}>
