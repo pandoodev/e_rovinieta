@@ -9,7 +9,6 @@ import StoreType from './components/menu/store/StoreType';
 import Basic from '../Basic';
 
 
-
 const scenes = Actions.create(
 	<Scene key="root">
 
@@ -17,19 +16,18 @@ const scenes = Actions.create(
 			<Scene key="login" component={LoginForm} title="Please Login" />
 		</Scene>
 
-
 		<Scene key="main" hideNavBar >
 			<Scene key="menu" component={Basic} />
 			<Scene key="buy" component={AddToCart} />
 			<Scene key="shop" component={RovignetteShopMain} />
 			<Scene key="bridge_ticket" component={BuyBridgeTicket} />
 			<Scene key="bridge_ticket_to_cart" component={Categories} />
+			
 		</Scene>
 		
 	</Scene>
 
 );
-
 
 class App extends Component {
 
