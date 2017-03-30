@@ -11,9 +11,10 @@ import Basic from '../Basic';
 
 
 const scenes = Actions.create(
+	
   <Scene key="root">
 
-   <Scene key="auth" hideNavBar initial>
+   		    <Scene key="auth" hideNavBar initial>
 				<Scene key="login" component={LoginForm} title="Please Login"  />
 			</Scene>
 			<Scene key="main" hideNavBar >
@@ -23,12 +24,12 @@ const scenes = Actions.create(
 				<Scene key="bridge_ticket" component={BuyBridgeTicket}  />
 				<Scene key="bridge_ticket_to_cart" component={Categories}  />
 			</Scene>
+			
   </Scene>
 );
 
 
 class App extends Component{
-
 
 	render(){
 		
