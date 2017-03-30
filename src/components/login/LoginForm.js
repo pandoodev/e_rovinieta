@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput, Linking } from 'react-native';
+import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage } from 'react-native';
 import { LoginButton, Card, CardSection, Input, Spinner } from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -74,8 +74,6 @@ class LoginForm extends Component {
 		}
 
 		console.log('mount');
-
-		
 	}
 
 	componentWillUnmount() {
@@ -144,7 +142,7 @@ class LoginForm extends Component {
 		return (
 			<LoginButton onPress={this.onButtonPress.bind(this)}>
 				Login
-			    </LoginButton>
+			</LoginButton>
 		);
 
 	}
@@ -188,52 +186,50 @@ class LoginForm extends Component {
 
 
 		return (
+			<View style={{
+				flex: 1,
+				flexDirection: 'column',
+			}}>
+				<Image source={require('../../../assets/login.jpg')}
+					style={styles.backgroundImage}>
 
-			<View style={styles.container}>
-				<View style={styles.headerStyle}>
-					<Image source={require('../../../assets/erovinieta_red.png')} />
-				</View>
-				<View style={styles.loginStyle}>
-					<View style={styles.insideStyle}>
-						<TextInput
-								placeholder="utilizator"
-								autoCorrect={false}
-								style={styles.inputStyle}
-								value={this.state.username}
-								onChangeText={username => this.setState({ username })}
-							/>
-					</View>
-					<View style={styles.insideStyle}>
-							<TextInput
-								secureTextEntry
-								placeholder="parola"
-								autoCorrect={false}
-								style={styles.inputStyle}
-								value={this.state.password}
-								onChangeText={password => this.setState({ password })}
-							/>
-					</View>
-					<View style={styles.insideStyle} >
+					<View style={styles.logInStyle}>
+						<Card >
+							<View style={styles.containerStyle} >
+								<Input
+									placeholder="utilizator"
+									label="Utilizator:"
+									value={this.state.username}
+									onChangeText={username => this.setState({ username })}
+								/>
+							</View>
 
-								{this.renderButton()}
+							<View style={styles.containerStyle} >
+								<Input
+									secureTextEntry
+									placeholder="parola"
+									label="Parola:"
+									value={this.state.password}
+									onChangeText={password => this.setState({ password })}
+								/>
+							</View>
+
+						</Card>
+						<Text>
+							{"\n\n"}
+
+						</Text>
+						<View style={styles.containerStyle} >
+
+							{this.renderButton()}
+						</View>
+						<Text>
+							{"\n\n\n\n\n\n\n\n"}
+
+						</Text>
 					</View>
-				</View>
-				<View style={styles.footerStyle}>
-					<View style={styles.insideStyle} >
-						<Text  
-						style={{color: 'blue'}}
-						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/contnou')}
-						>
-						Crează cont</Text>								
-					</View>
-					
-					<View style={styles.insideStyle} >
-						<Text 
-						style={{color: 'blue', paddingBottom: 10}}
-						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/reset')}
-						>Resetare parolă</Text>								
-					</View>
-				</View>
+				</Image>
+				<PushController />
 			</View>
 		);
 	}
@@ -245,41 +241,29 @@ class LoginForm extends Component {
 
 const STORAGE_KEY = '@LgInfStore:key';
 const styles = {
-	inputStyle: {
-		flex: 1,
-		textAlign: 'center',
-		height: 40,
+	containerStyle: {
+		padding: 5,
+		justifyContent: 'flex-start',
+		flexDirection: 'row',
+		position: 'relative'
 	},
+
 	errorTextStyle: {
 		fontSize: 20,
 		alignSelf: 'center',
 		color: 'red'
 	},
-	container: {
+	logInStyle: {
 		flex: 1,
-		flexDirection: 'column',
-		backgroundColor: '#FFFFFF',
-	},
-	loginStyle: {
-		flex: .5,
 		justifyContent: 'center',
+
 	},
-	footerStyle: {
-		flex: .25,
-		justifyContent: 'flex-end',
-		alignSelf: 'center',
-	},
-	headerStyle: {
-		flex: .25,
-		justifyContent: 'flex-end',
-		alignSelf: 'center',
-	},
-	insideStyle: {
-		padding: 5,
-		justifyContent: 'flex-start',
-		flexDirection: 'row',
-		position: 'relative',
-		alignSelf: 'center',
+	backgroundImage: {
+
+		flex: 1,
+		width: null,
+		height: null,
+		resizeMode: 'cover'
 	}
 
 };
