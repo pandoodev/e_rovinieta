@@ -75,10 +75,7 @@ class LoginForm extends Component {
 			AppState.addEventListener('change', this.handleAppStateChange);
 		}
 
-		console.log('mount');
-
-		
-
+		console.log('mount');	
 	}
 
 
@@ -91,7 +88,6 @@ class LoginForm extends Component {
 	handleAppStateChange = (nextAppState) => {
 
 		//this.setState({ appState: nextAppState });
-
 		console.log("currentState");
 		//console.log(this.state.appState);
 		console.log("currentState");
@@ -165,15 +161,9 @@ class LoginForm extends Component {
 			{ cancelable: false }
 		)
 
-
-
-
 	}
 
-
-
 	onLoginSuccess(response) {
-
 
 		this.setState({
 			username: '',

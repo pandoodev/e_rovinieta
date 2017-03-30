@@ -192,7 +192,6 @@ class AddtoCart extends Component {
 			Alert.alert(
 				'Eroare',
 				this.validateInputs(),
-
 				[
 
 					{ text: 'OK', onPress: () => { } },
@@ -203,25 +202,67 @@ class AddtoCart extends Component {
 		}
 	}
 
+	isNumeric(character)
+	{
+		if(character >= '0' && character <= '9')
+		{
+			return true;
+		}
+
+		return false;
+	}
 
 	validateInputs() {
 		//Vehicle number validation
 		if (this.state.vehicleNo === undefined
 			|| this.state.vehicleNo == ""
-			|| this.state.vehicleNo.length != 7
-
+			|| (this.state.vehicleNo.length != 7 && this.state.vehicleNo.length != 6)
 		) {
-
+			console.log("first validation");
 			return "Numarul de inmatriculare nu este valid !";
+
+		}
+
+		if(this.state.vehicleNo.length == 6)
+		{
+			if(this.isNumeric(this.state.vehicleNo.charAt(0)) ||
+				!this.isNumeric(this.state.vehicleNo.charAt(1)) ||
+				!this.isNumeric(this.state.vehicleNo.charAt(2)) ||
+				this.isNumeric(this.state.vehicleNo.charAt(3)) ||
+				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
+				this.isNumeric(this.state.vehicleNo.charAt(5))) 
+			{
+
+
+				console.log("second validation");
+				return "Numarul de inmatriculare nu este valid !";
+			}
+		}
+		else
+		{
+			if(this.isNumeric(this.state.vehicleNo.charAt(0))||
+				this.isNumeric(this.state.vehicleNo.charAt(1))||
+				!this.isNumeric(this.state.vehicleNo.charAt(2)) ||
+				!this.isNumeric(this.state.vehicleNo.charAt(3)) ||
+				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
+				this.isNumeric(this.state.vehicleNo.charAt(5)) ||
+				this.isNumeric(this.state.vehicleNo.charAt(6))) 
+			{
+
+				console.log("third validation");
+				return "Numarul de inmatriculare nu este valid !";
+			}
 		}
 
 		//Chasis number validation
 		if (this.state.chasisNo === undefined
-			|| this.state.vehicleNo == ""
-
-
+			|| this.state.chasisNo == ""
+			|| this.state.chasisNo.length != 17
+			|| this.state.chasisNo.indexOf("Q")
+			|| this.state.chasisNo.indexOf("O")
+			|| this.state.chasisNo.indexOf("I")
 		) {
-			return "Numarul sasiului nu este valid !";
+			return "Numarul sasiului nu este valid! Acesta trebuie sa contina 17 caractere si sa nu contina literele Q, I sau O";
 		}
 		return 1;
 
