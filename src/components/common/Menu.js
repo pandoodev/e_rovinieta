@@ -35,7 +35,7 @@ module.exports = class Menu extends Component {
               source={require('../../../assets/menu/store.png')} />
               <View>
             <Text
-              onPress={() => {this.props.onItemSelected('dashboard'); Actions.main({responseData: this.props.responseData})} }
+              onPress={() => {this.props.onItemSelected('dashboard'); Actions.dashboard({responseData: this.props.responseData})} }
               style={styles.item}>
               Dashboard
                     </Text>
@@ -50,9 +50,9 @@ module.exports = class Menu extends Component {
               <View>
               
             <Text
-              onPress={() => {this.props.onItemSelected('profiles'); Actions.profiles({responseData: this.props.responseData.user.token})}}
+              onPress={() => {this.props.onItemSelected('profiles'); Actions.profiles({responseData: this.props.responseData})}}
               style={styles.item}>
-              Profilurile mele
+              Profilele mele
               </Text>   
                </View>
           </View>
@@ -63,7 +63,7 @@ module.exports = class Menu extends Component {
               <View>
               
             <Text
-              onPress={() => {this.props.onItemSelected('cars'); Actions.cars({responseData: this.props.responseData.user.token})}}
+              onPress={() => {this.props.onItemSelected('cars'); Actions.cars({responseData: this.props.responseData})}}
               style={styles.item}>
               Masinile mele
                 </Text>
@@ -76,7 +76,7 @@ module.exports = class Menu extends Component {
               source={require('../../../assets/menu/accountsettings.png')} />
               <View>
             <Text
-              onPress={() => {this.props.onItemSelected('accountsettings'); Actions.account_settings({responseData: this.props.responseData.user.token})}}
+              onPress={() => {this.props.onItemSelected('accountsettings'); Actions.account_settings({responseData: this.props.responseData})}}
               style={styles.item}>
               Setari cont
                   </Text>

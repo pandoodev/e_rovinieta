@@ -51,7 +51,7 @@ class LoginForm extends Component {
 
 	componentWillMount() {
 		this.checkIfUserIsLoged();
-		this.notification();
+		//this.notification();
 	}
 	constructor(props) {
 		super(props);

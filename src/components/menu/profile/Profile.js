@@ -3,8 +3,33 @@ import { View, Button, Image, Text, TouchableOpacity,Dimensions } from 'react-na
 import { Spinner } from '../../common';
 import axios from 'axios';
 import querystring from 'query-string';
+//menu
+const SideMenu = require('react-native-side-menu');
+const Menu = require('../../common/Menu');
+import MenuButton from '../../common/MenuButton';
+import Header from '../../common/Header';
 
+//!menu!!
 class Profile extends  Component {
+
+  // Start side-menu functions
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
+  updateMenuState(isOpen) {
+    this.setState({ isOpen, });
+  }
+
+  onMenuItemSelected = (item) => {
+    this.setState({
+      isOpen: false,
+      selectedItem: item,
+    });
+  }
+  // !!!End side-menu functions!!!
 
 	state = { selected:'', cart:false, history:false, loading: true, profiles: [] };
     constructor(props) {
@@ -36,7 +61,7 @@ class Profile extends  Component {
 				querystring.stringify({
 					tag: 'profile',
 					device: 'android',
-					token: this.props.responseData
+					token: this.props.responseData.user.token
 				}), {
 					headers: {
 						"Content-Type": "application/x-www-form-urlencoded"
@@ -56,10 +81,30 @@ class Profile extends  Component {
 			 this.getProfiles();
          }
 	render(){
+		 //menu
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
+    //!!menu!!
 		return (
+					 // Side menu start
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.isOpen}
+        onChange={(isOpen) => this.updateMenuState(isOpen)}>
+        
+        <View style={{
+          flex: 1,
+          backgroundColor: '#FFFFFF',
+        }}>
+          {/*Content start */}
+		  		  <Header headerText={'Profilele Mele'} />
 			<View>
 					{this.renderProfiles()}
 			</View>
+			      {/*!!!Content end!!! */}
+        </View>
+         <MenuButton onPress={() => this.toggle()} />
+      </SideMenu>
+      // !!!Side menu end!!!
 			);
 	}
 };
