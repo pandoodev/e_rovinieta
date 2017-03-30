@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert } from 'react-native';
+import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert,ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -108,13 +108,13 @@ class Cart extends Component {
 		if (this.state.itemsInCart.length == 0)
 			return (<View style={{ marginTop: 80 }} ><Text > Cosul este gol.</Text></View>);
 		//Displaying items in cart stored in AsyncStorage
-		return (<View>
+		return (<ScrollView>>
 			<View style={styles.containerStyle}>
 				<Text style={styles.nrCrtStyle}>Nr.</Text>
 				<Text style={styles.textStyle}>Nr. înmatriculare</Text>
 				<Text style={styles.textStyle}>Incepe la</Text>
 				<Text style={styles.textStyle}></Text>
-				
+
 			</View>
 
 			{this.state.itemsInCart.map(function (o, i) {
@@ -123,26 +123,32 @@ class Cart extends Component {
 						<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 						<Text style={styles.textStyle} key={1}>{o.argVehicleNo}</Text>
 						<Text style={styles.textStyle} key={2}>{o.argStartDate}</Text>
+						<TouchableOpacity style={styles.deleteItemButtonContainerStyle} onPress={this._onPressButton} key={3}>
+							<Image
+								style={styles.deleteItemButtonStyle}
+								source={require('../../../../../assets/delete.png')}
+							/>
+						</TouchableOpacity>
 					</View>
 
 				);
 			})}
 			<View style={styles.buttonContainerStyle}>
-     <View style={styles.buttonStyle}>
-   
-		  <Button onPress={ this.props.changeParentState}>
-	  Adauga rovienieta
+				<View style={styles.buttonStyle}>
+
+					<Button onPress={this.props.changeParentState}>
+						Adauga rovienieta
 	  </Button>
 
-    </View>
-    <View style={styles.buttonStyle}>
-         <Button onPress={this.buyItemsButton.bind(this)}>
-		  Plaseaza Comanda
+				</View>
+				<View style={styles.buttonStyle}>
+					<Button onPress={this.buyItemsButton.bind(this)}>
+						Plaseaza Comanda
 		  </Button>
-    </View>
-  </View>
-	
-		</View>
+				</View>
+			</View>
+
+		</ScrollView>
 		);
 
 	}
@@ -227,7 +233,9 @@ class Cart extends Component {
 
 	render() {
 		return (
+			
 			this.waitForData()
+			
 		);
 	}
 
@@ -239,7 +247,7 @@ const styles = {
 	elementStyle: {
 		flex: 1,
 		flexDirection: 'row',
-		marginTop: 20,
+		marginTop: 30,
 		marginLeft: 10,
 		marginRight: 10,
 	},
@@ -257,15 +265,22 @@ const styles = {
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop: 50
-		
+
 	}
 	,
 	buttonStyle: {
 		flex: 1,
-		height:50,
-		
-		
+		height: 50,
 
+
+
+	},
+	deleteItemButton:{
+		flex: 1,
+		width: null,
+		height: null,
+		resizeMode: 'contain',
+		justifyContent: 'center',
 	},
 	imgStyle: {
 		flex: 1,
@@ -275,7 +290,13 @@ const styles = {
 		height: 50,
 		resizeMode: 'contain',
 	},
-
+deleteItemButtonContainerStyle:{
+		flex: 3,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: 5,
+		height: 23,
+},
 	textStyle: {
 		color: 'black',
 		flex: 3,
