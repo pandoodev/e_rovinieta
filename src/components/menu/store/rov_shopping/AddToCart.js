@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert,AsyncStorage } from 'react-native';
+import { View, Text, Picker, Alert, AsyncStorage } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
@@ -166,21 +166,21 @@ class AddtoCart extends Component {
 
 
 	validateInputs() {
-          //Vehicle number validation
-		if (this.state.vehicleNo === undefined 
-		|| this.state.vehicleNo == ""
-		|| this.state.vehicleNo.length != 7
-		
+		//Vehicle number validation
+		if (this.state.vehicleNo === undefined
+			|| this.state.vehicleNo == ""
+			|| this.state.vehicleNo.length != 7
+
 		) {
 
 			return "Numarul de inmatriculare nu este valid !";
 		}
-    
-          //Chasis number validation
-		if (this.state.chasisNo === undefined 
-		|| this.state.vehicleNo == ""
-		
-		
+
+		//Chasis number validation
+		if (this.state.chasisNo === undefined
+			|| this.state.vehicleNo == ""
+
+
 		) {
 			return "Numarul sasiului nu este valid !";
 		}
@@ -188,8 +188,8 @@ class AddtoCart extends Component {
 
 	}
 
-	
-// START Storage Methods
+
+	// START Storage Methods
 	_removeStorage = async (STORAGE_KEY_ARG) => {
 		try {
 			await AsyncStorage.removeItem(STORAGE_KEY_ARG);
@@ -203,7 +203,7 @@ class AddtoCart extends Component {
 			await AsyncStorage.setItem(STORAGE_KEY_ARG, objData);
 			console.log('Saved selection to disk: ' + objData);
 
-							
+
 			Alert.alert(
 				'Succes',
 				'Rovinieta a fost adaugata in cos.',
@@ -222,7 +222,7 @@ class AddtoCart extends Component {
 	};
 	// END Storage Methods
 	appendIfNotEmpty(STORAGE_KEY_ARG, newItem) {
-		var self=this;
+		var self = this;
 		try {
 			var itemsInCart = AsyncStorage.getItem(inCartRovignette);
 			if (itemsInCart !== null) {
@@ -233,18 +233,18 @@ class AddtoCart extends Component {
 
 						itemsInCartJson.push(newItem[0]);
 						console.log("appending");
-						
+
 						console.log(itemsInCartJson);
 						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
 
-		
+
 					}
-					else{
-						
-						
+					else {
+
+
 						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(newItem))
 					}
-				
+
 				});
 			}
 		} catch (error) {
@@ -263,19 +263,20 @@ class AddtoCart extends Component {
 
 
 
-		let rovignetteInfo=[
-		{'argToken':argToken,
-		 'argProfileID':argProfileID,
-		'argCategoryID':argCategoryID,
-		'argPriceID':argPriceID,
-		'argStartDate':argStartDate,
-		'argVehicleNo':argVehicleNo,
-		'argChasisNo':argChasisNo,
-		'argVehicleCountry':argVehicleCountry
-		}
+		let rovignetteInfo = [
+			{
+				'argToken': argToken,
+				'argProfileID': argProfileID,
+				'argCategoryID': argCategoryID,
+				'argPriceID': argPriceID,
+				'argStartDate': argStartDate,
+				'argVehicleNo': argVehicleNo,
+				'argChasisNo': argChasisNo,
+				'argVehicleCountry': argVehicleCountry
+			}
 		];
 
-		self.appendIfNotEmpty(inCartRovignette,rovignetteInfo);
+		self.appendIfNotEmpty(inCartRovignette, rovignetteInfo);
 	}
 
 	render() {

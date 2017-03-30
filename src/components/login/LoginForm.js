@@ -44,39 +44,51 @@ checkIfUserIsLoged() {
 					});
 			}
 		} catch (error) {
+			console.log(error);
 		}
 	}
+
+
+
 	componentWillMount(){
 		this.checkIfUserIsLoged();
+	//	this.notification();
 	}
 	constructor(props) {
 		super(props);
 		this.handleAppStateChange = this.handleAppStateChange.bind(this);
 		this.state = {
 			seconds: 5,
+			username:'',
+			password: '',
+
 		};
 	}
 
 	componentDidMount() {
 		AppState.addEventListener('change', this.handleAppStateChange);
+		console.log('mount');
 	}
 
 	componentWillUnmount() {
 		AppState.addEventListener('change', this.handleAppStateChange);
-
+		console.log('unmount')
 	}
 
 	handleAppStateChange(appState) {
-
+console.log(appState);
 		if (appState === 'background') {
-			PushNotification.localNotificationSchedule({
-				message: "Notificare expirare rovinieta", 
-				date: new Date(Date.now() + (5 * 1000)) 
-			});
+			
 		}
 
 	}
-
+notification ()
+{
+	PushNotification.localNotificationSchedule({
+				message: "Notificare expirare rovinieta", 
+				date: new Date(Date.now() + (5 * 1000)) 
+			});
+}
 	onButtonPress() {
 
 		const { username, password } = this.state;
