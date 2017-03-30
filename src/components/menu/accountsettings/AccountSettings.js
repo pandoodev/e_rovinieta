@@ -28,6 +28,7 @@ class AccountSettings extends Component {
   }
   // !!!End side-menu functions!!!
 
+
 	state = { selected: '', cart: false, history: false,isOpen: false,
     selectedItem: 'Dashboard',};
 
