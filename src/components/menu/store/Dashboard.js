@@ -76,9 +76,10 @@ componentWillMount(){
                 onPress={() => { Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }); }}
                 style={styles.buttonStyle}>
                 <View>
-                  <Image
-                    source={require('../../../../assets/rovinieta.png')} style={styles.imgStyle} />
+                  {/*<Image
+                    source={require('../../../../assets/erovinieta_red.png')} style={styles.imgStyle} />*/}
                 </View>
+                <Text style={styles.welcomeText}> Cumpara rovinieta</Text>
 
               </TouchableOpacity>
           </View>
@@ -104,10 +105,12 @@ const styles = {
     flex: 0.5,
     borderTopWidth: 2.5,
   },
-  welcome: {
-    fontSize: 20,
+  welcomeText: {
+    fontSize: 35,
     textAlign: 'center',
     margin: 10,
+    color: '#000000',
+    
   },
   instructions: {
     textAlign: 'center',
