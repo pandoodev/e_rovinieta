@@ -191,11 +191,11 @@ class AddtoCart extends Component {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", priceID: "95", error: "" });
 		this.getCountries();
 		this.getProfileID();
-		this.getValabilities();
+		//this.getValabilities();
 		//this.getPrices();
-		console.log("add to cart");
+		// console.log("add to cart");
 
-		console.log(this.props.responseData);
+		// console.log(this.props.responseData);
 
 	}
 	renderCountries() {
@@ -468,8 +468,7 @@ class AddtoCart extends Component {
 		}
 
 	}
-
-
+ 
 	addRovignetteToCart(argToken, argProfileID, argCategoryID, argPriceID,
 		argStartDate, argVehicleNo, argChasisNo, argVehicleCountry) {
 		var self = this;
@@ -479,14 +478,14 @@ class AddtoCart extends Component {
 
 		let rovignetteInfo = [
 			{
-				'argToken': argToken,
-				'argProfileID': argProfileID,
-				'argCategoryID': argCategoryID,
-				'argPriceID': argPriceID,
-				'argStartDate': argStartDate,
-				'argVehicleNo': argVehicleNo,
-				'argChasisNo': argChasisNo,
-				'argVehicleCountry': argVehicleCountry
+				'token': argToken,
+				'profileID': argProfileID,
+				'categoryID': argCategoryID,
+				'priceID': argPriceID,
+				'startDate': argStartDate,
+				'vehicleNo': argVehicleNo,
+				'chasisNo': argChasisNo,
+				'vehicleCountry': argVehicleCountry
 			}
 		];
 
