@@ -59,10 +59,10 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-					console.log(response.data);
+				//	console.log(response.data);
 				}
 				if (response.data.success === 0) {
-					console.log("unsuccess");
+				//	console.log("unsuccess");
 				}
 			});
 
@@ -176,7 +176,7 @@ class AddtoCart extends Component {
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
-				token: this.props.responseData.token
+				token: this.props.responseData.user.token
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -186,15 +186,11 @@ class AddtoCart extends Component {
 
 					self.setState({ profileID: response.data.profiles[0]['id'] });
 
-					// console.log(response.data.profiles[0]['id']);
-					// console.log(response.data.profiles[0]['type']);
-					// console.log(response.data.profiles[0]['firstName']);
-					// console.log(response.data.profiles[0]['lastName']);
-					// console.log(response.data.profiles[0]['personalID']);
+				
 				}
 				if (response.data.success === 0) {
-					response.data.error_msg;
-					//	console.log("unsuccess");
+						console.log("unsuccess while getting profile id");
+						console.log(response.data);
 				}
 			});
 	}
@@ -223,7 +219,8 @@ class AddtoCart extends Component {
 	buyRovignette() {
 
 		if (this.validateInputs() == 1) {
-			this.addRovignetteToCart(this.props.responseData.user.token,
+			this.addRovignetteToCart(
+				this.props.responseData.user.token,
 				this.state.profileID,
 				this.props.categoryID,
 				this.state.nrDays,
@@ -380,14 +377,17 @@ class AddtoCart extends Component {
 
 		let rovignetteInfo = [
 			{
-				'argToken': argToken,
-				'argProfileID': argProfileID,
-				'argCategoryID': argCategoryID,
-				'argPriceID': argPriceID,
-				'argStartDate': argStartDate,
-				'argVehicleNo': argVehicleNo,
-				'argChasisNo': argChasisNo,
-				'argVehicleCountry': argVehicleCountry
+				'token': this.props.responseData.user.token,
+				'tag': 'initiate',
+				'device': 'android',
+				'token': argToken,
+				'profileID': argProfileID,
+				'categoryID': argCategoryID,
+				'priceID': argPriceID,
+				'startDate': argStartDate,
+				'vehicleNo': argVehicleNo,
+				'chasisNo': argChasisNo,
+				'vehicleCountry': argVehicleCountry
 			}
 		];
 

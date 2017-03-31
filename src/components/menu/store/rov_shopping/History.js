@@ -13,7 +13,7 @@ state = { selected:'', cart:false, history:false };
 		return (
 			<View style={styles.containerStyle}>
 			<View style={styles.buttonStyle} >
-		<Text style={styles.textStyle} >Nu aveti comenzi anterioare </Text>
+		<Text>Nu aveti comenzi anterioare </Text>
 			</View>
 			</View>
 			);
@@ -52,12 +52,6 @@ const styles = {
 		width: 50, 
 		height: 50,
 		resizeMode: 'contain',
-	},
-	textStyle:{
-		paddingTop: -5,
-		marginBottom: 15,
-
-
 	}
 };
 

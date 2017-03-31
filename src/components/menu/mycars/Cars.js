@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
 import { Spinner } from '../../common';
@@ -46,7 +46,7 @@ class Cars extends Component {
       return <Spinner size='small' />;
     }
 
-    if (this.state.vehicles.length == 0)
+    if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
       return <View style={{ marginTop: window.height * 0.01 }}><Text > Nu exista masini inregistrate pe acest cont.</Text></View>
     return (<View style={{ marginTop: window.height * 0.01 }}>
       <View key={0} style={styles.containerStyle}>
@@ -109,6 +109,12 @@ class Cars extends Component {
 
           <View>
             {this.renderCars()}
+            <View style={styles.insideStyle} >
+						<Text 
+						style={{color: 'blue', paddingBottom: 10}}
+						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
+						>Iti poti configura parcul auto de aici</Text>								
+					</View>
           </View>
           {/*!!!Content end!!! */}
         </View>
@@ -145,7 +151,14 @@ const styles = {
     height: 20,
     borderWidth:1,
     paddingLeft: 5,
-  }
+  },
+	insideStyle: {
+		padding: 50,
+		justifyContent: 'flex-start',
+		flexDirection: 'row',
+		position: 'relative',
+		alignSelf: 'center',
+	}
 };
 
 export default Cars;
