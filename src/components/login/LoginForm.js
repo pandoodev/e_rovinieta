@@ -123,8 +123,8 @@ class LoginForm extends Component {
 
 				if (response.data.success) {
 					self._addToStorage(STORAGE_KEY, JSON.stringify(response.data));
-					self.onLoginSuccess(response);
 					self.setState({ loggedIn: true });
+					self.onLoginSuccess(response);
 
 				}
 				if (response.data.success === 0) {

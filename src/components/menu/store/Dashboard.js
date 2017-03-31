@@ -73,10 +73,7 @@ componentWillMount(){
               <TouchableOpacity
                 onPress={() => { Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }); }}
                 style={styles.buttonStyle}>
-                <View>
-                  {/*<Image
-                    source={require('../../../../assets/erovinieta_red.png')} style={styles.imgStyle} />*/}
-                </View>
+               
                 <Text style={styles.welcomeText}> Cumpara rovinieta</Text>
 
               </TouchableOpacity>
@@ -93,6 +90,7 @@ componentWillMount(){
 
 const styles = {
   containerRov: {
+    
     backgroundColor:'#FFFFFF',
     justifyContent: 'center',
     flex: 0.5,
@@ -106,7 +104,6 @@ const styles = {
   welcomeText: {
     fontSize: 35,
     textAlign: 'center',
-    margin: 10,
     color: '#000000',
     
   },
@@ -123,6 +120,9 @@ const styles = {
     justifyContent: 'center',
   },
   buttonStyle: {
+    marginTop:-30,
+    marginLeft:-8,
+    
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
