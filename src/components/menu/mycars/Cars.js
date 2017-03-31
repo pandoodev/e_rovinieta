@@ -47,7 +47,7 @@ class Cars extends Component {
     }
 
     if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
-      return <View style={{ marginTop: window.height * 0.01 }}><Text > Nu exista masini inregistrate pe acest cont.</Text></View>
+      return <View style={styles.emptyContainerStyle}><View style={styles.buttonStyle}><Text > Nu exista masini inregistrate pe acest cont.</Text></View></View>
     return (<View style={{ marginTop: window.height * 0.01 }}>
       <View key={0} style={styles.containerStyle}>
         <Text style={styles.nrCrtStyle}>Nr.</Text>
@@ -158,7 +158,31 @@ const styles = {
 		flexDirection: 'row',
 		position: 'relative',
 		alignSelf: 'center',
+	},
+  	emptyContainerStyle: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginTop: 80,
+		marginLeft: 10,
+		marginRight: 10,
 	}
+	,
+	buttonStyle: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 80,
+		elevation: 1,
+		borderWidth: 1,
+		borderRadius: 2,
+		borderColor: '#ddd',
+		borderBottomWidth: 0,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.1,
+		shadowRadius: 2,
+	},
 };
 
 export default Cars;

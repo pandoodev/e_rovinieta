@@ -243,8 +243,7 @@ class Cart extends Component {
 		}).catch(function (error) {
     console.log(error);
   });
-		console.log('end generate invoice');
-		
+		this.message('Eroare','Nu s-a putut efectua conexiunea cu serverul (emitere factura esuata)');
 
 	}
 
