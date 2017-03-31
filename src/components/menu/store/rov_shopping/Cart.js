@@ -189,8 +189,16 @@ class Cart extends Component {
 		let url = "http://www.e-rovinieta.ro";
 		var self = this;
 
-
-		this.buy(this.state.itemsInCart);
+	//Opening the url in case there exists an app that can handle request
+	Linking.canOpenURL(url).then(supported => {
+		if (!supported) {
+			console.log('Can\'t handle url: ' + url);
+		} else {
+			return Linking.openURL(url);
+		}
+	}).catch(err => console.error('An error occurred', err));
+		this.deleteItems();
+		//this.buy(this.state.itemsInCart);
 		console.log(this.state.itemsInCart);
 
 	}
@@ -206,11 +214,11 @@ class Cart extends Component {
 	//	self.deleteItems();
 
 	generateInvoice(validRovignetes, userInformation) {
-
+		url='http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
 		console.log('ready to generate invoice');
 		console.log(validRovignetes);
 		console.log(userInformation);
-		axios.post('http://e-rovinieta.ctrlf5.ro/ro/apps/payment',
+		axios.post(url,
 			querystring.stringify({
 				tag: userInformation[0],
 				token: userInformation[1],
@@ -243,7 +251,15 @@ class Cart extends Component {
 		}).catch(function (error) {
     console.log(error);
   });
-		this.message('Eroare','Nu s-a putut efectua conexiunea cu serverul (emitere factura esuata)');
+		//Opening the url in case there exists an app that can handle request
+	Linking.canOpenURL(url).then(supported => {
+		if (!supported) {
+			console.log('Can\'t handle url: ' + url);
+		} else {
+			return Linking.openURL(url);
+		}
+	}).catch(err => console.error('An error occurred', err));
+		this.deleteItems();
 
 	}
 
