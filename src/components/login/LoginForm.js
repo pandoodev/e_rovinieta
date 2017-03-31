@@ -105,7 +105,8 @@ class LoginForm extends Component {
 		else {
 			console.log("app state is null! ");
 			AppState.addEventListener('change', this.handleAppStateChange);
-		}
+			this.notification();
+	}
 
 		console.log('mount');	
 	}
@@ -119,9 +120,9 @@ class LoginForm extends Component {
 
 	handleAppStateChange = (nextAppState) => {
 
-		//this.setState({ appState: nextAppState });
+		this.setState({ appState: nextAppState });
 		console.log("currentState");
-		//console.log(this.state.appState);
+		console.log(this.state.appState);
 		console.log("currentState");
 
 	}
