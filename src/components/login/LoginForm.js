@@ -106,7 +106,8 @@ class LoginForm extends Component {
 			console.log("app state is null! ");
 			AppState.addEventListener('change', this.handleAppStateChange);
 			this.notification();
-	}
+
+		}	
 
 		console.log('mount');	
 	}
@@ -311,4 +312,7 @@ const styles = {
 
 };
 export default LoginForm;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2d295c9998445368691dc807f1387d8ce32fbcd3
