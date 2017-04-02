@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import CarCategories from './CarCategories';
 import Header from '../../../common/Header';
 import Cart from './Cart';
@@ -74,11 +74,11 @@ changeStateFromCart(event) {
           backgroundColor: '#FFFFFF',
         }}>
           {/*Content start */}
-					 <Header headerText={'Plaseaza Comanda'} />
+					 <Header headerText={'Plasează Comanda'} />
 			<View>
 				<View style={styles.containerStyle}>
 					<View style={styles.headerStyle}>
-					
+
 
 					<TouchableOpacity
 							onPress={() => { this.setState({ selected: 'categories' }) }}
@@ -103,7 +103,7 @@ changeStateFromCart(event) {
 									source={require('../../../../../assets/cart.png')} style={styles.imgStyle} />
 							</View>
 
-							<Text style={styles.textStyle}>Cos Cumparaturi  {'\n'}</Text>
+							<Text style={styles.textStyle}>Coș   {'\n'}</Text>
 						</TouchableOpacity>
 
 
@@ -116,14 +116,18 @@ changeStateFromCart(event) {
 								<Image
 									source={require('../../../../../assets/history.png')} style={styles.imgStyle} />
 							</View>
-							<Text style={styles.textStyle}> Istoric comenzi  {'\n'}</Text>
+							<Text style={styles.textStyle}> Istoric  {'\n'}</Text>
 							
 						</TouchableOpacity>
-							
+
 					</View>
 				</View>
 				<Text > {'\n'}</Text>
+									<ScrollView >
+				
 				{this.displayModule()}
+											</ScrollView >
+				
 			</View>
 			          {/*!!!Content end!!! */}
         </View>
@@ -134,20 +138,22 @@ changeStateFromCart(event) {
 		);
 	}
 };
+const window = Dimensions.get('window');
+
 
 const styles = {
 	containerStyle: {
-		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-around',
 		marginLeft: 5,
 		marginRight: 5,
 		marginTop: 10,
+		
 	}
 	,
 	headerStyle: {
+		height:window.height*0.13,
+		
 		flex: 1,
-		height: 80,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
@@ -168,18 +174,21 @@ const styles = {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 70,
+		marginTop:15
 	},
 	imgStyle: {
+		
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 40,
-		height: 35,
+		
 		resizeMode: 'contain',
 	},
 	textStyle: {
+
 		marginBottom: 15,
+	marginLeft:7
+		
 	}
 };
 

@@ -66,7 +66,7 @@ componentWillMount(){
         }}>
           {/*Content start */}
           
-          <Header headerText={'Prima Pagina'} />
+          <Header headerText={'Prima Pagină'} />
           
           <View style={styles.containerRov}>
 
@@ -74,7 +74,7 @@ componentWillMount(){
                 onPress={() => { Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }); }}
                 style={styles.buttonStyle}>
                
-                <Text style={styles.welcomeText}> Cumpara rovinieta</Text>
+                <Text style={styles.welcomeText}> Cumpără rovinietă</Text>
 
               </TouchableOpacity>
           </View>
@@ -90,7 +90,6 @@ componentWillMount(){
 
 const styles = {
   containerRov: {
-    
     backgroundColor:'#FFFFFF',
     justifyContent: 'center',
     flex: 0.5,
@@ -103,8 +102,12 @@ const styles = {
   },
   welcomeText: {
     fontSize: 35,
-    textAlign: 'center',
-    color: '#000000',
+  
+    alignSelf: 'center',
+    color: '#FFFFFF',
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 10
     
   },
   instructions: {
@@ -120,13 +123,12 @@ const styles = {
     justifyContent: 'center',
   },
   buttonStyle: {
-    marginTop:-30,
-    marginLeft:-8,
+    alignSelf: 'stretch',
+    backgroundColor: '#cc0000',
+    borderRadius: 5,
+    marginLeft: 5,
+    marginRight: 5
     
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 55,
   },
 };
 

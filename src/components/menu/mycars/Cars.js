@@ -43,7 +43,7 @@ class Cars extends Component {
   }
   renderCars() {
     if (this.state.loading || this.state.loading == undefined) {
-      return <Spinner size='small' />;
+      return <Spinner style={{paddingTop:40}} size='small' />;
     }
 
     if (this.state.vehicles == undefined || this.state.vehicles.length == 0)

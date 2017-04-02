@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert, AsyncStorage } from 'react-native';
+import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
@@ -25,7 +25,18 @@ class AddtoCart extends Component {
 		this.state = { date: this.getCurerntDate() }
 	}
 
+	//Display pop-up message to the user
+	message(title, content) {
+		Alert.alert(
+			title,
+			content,
+			[
+				{ text: 'OK', onPress: () => { } },
+			],
 
+			{ cancelable: false }
+		)
+	}
 
 	// Start side-menu functions
 	toggle() {
@@ -59,10 +70,10 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-				//	console.log(response.data);
+					//	console.log(response.data);
 				}
 				if (response.data.success === 0) {
-				//	console.log("unsuccess");
+					//	console.log("unsuccess");
 				}
 			});
 
@@ -112,11 +123,13 @@ class AddtoCart extends Component {
 					self.setState({ error: '', loading: false });
 				}
 				if (response.data.success === 0) {
-					console.log("unsuccess");
+					console.log("unsuccess from getCountries");
 				}
 			});
 
 	}
+
+
 	getCurerntDate() {
 		let currentDate = new Date();
 		let date = dateFormat(currentDate, "dd-mm-yyyy").toString();
@@ -128,11 +141,11 @@ class AddtoCart extends Component {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "95", error: "" });
 		this.getCountries();
 		this.getProfileID();
-		this.getValabilities();
-		this.getPrices();
-		console.log("add to cart");
+		//this.getValabilities();
+		//this.getPrices();
+		///	console.log("add to cart");
 
-		console.log(this.props.responseData);
+		//console.log(this.props.responseData);
 
 	}
 	renderCountries() {
@@ -157,14 +170,14 @@ class AddtoCart extends Component {
 
 		return (
 			//	<Button onPress = {this.onButtonPress.bind(this)}> 
-			<Button onPress={this.buyRovignette.bind(this)}>
-				Adauga In Cos
+			<Button onPress={this.addToCartButton.bind(this)}>
+				Adaugă în coș
 		</Button>
 		);
 
 	}
-	
-		redirectToCart() {
+
+	redirectToCart() {
 		Actions.shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
 
 	}
@@ -186,40 +199,23 @@ class AddtoCart extends Component {
 
 					self.setState({ profileID: response.data.profiles[0]['id'] });
 
-				
+
 				}
 				if (response.data.success === 0) {
-						console.log("unsuccess while getting profile id");
-						console.log(response.data);
+					console.log("unsuccess while getting profile id");
+					console.log(response.data);
 				}
 			});
 	}
 
 
-	getOrderHistory() {
-		var self = this;
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
-			querystring.stringify({
-				tag: 'orders',
-				device: 'android',
-				token: this.props.responseData.user.token
-			}), {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			}).then(function (response) {
-				if (response.data.success) {
-				}
-				if (response.data.success === 0) {
-					response.data.error_msg;
-					//	console.log("unsuccess");
-				}
-			});
-	}
-	buyRovignette() {
 
-		if (this.validateInputs() == 1) {
-			this.addRovignetteToCart(
+
+	addToCartButton() {
+		this.setState({ loading: true });
+
+		if (this.checkIfNotEmpty() == 1) {
+			this.validateRovignette(
 				this.props.responseData.user.token,
 				this.state.profileID,
 				this.props.categoryID,
@@ -230,12 +226,11 @@ class AddtoCart extends Component {
 				this.state.country);
 		}
 		else {
-
+			this.setState({ loading: false });
 			Alert.alert(
 				'Eroare',
-				this.validateInputs(),
+				this.checkIfNotEmpty(),
 				[
-
 					{ text: 'OK', onPress: () => { } },
 				],
 				{ cancelable: false }
@@ -244,136 +239,31 @@ class AddtoCart extends Component {
 		}
 	}
 
-	isNumeric(character)
-	{
-		if(character >= '0' && character <= '9')
-		{
-			return true;
-		}
 
-		return false;
-	}
-
-	validateInputs() {
+	checkIfNotEmpty() {
 		//Vehicle number validation
 		if (this.state.vehicleNo === undefined
 			|| this.state.vehicleNo == ""
-			|| (this.state.vehicleNo.length != 7 && this.state.vehicleNo.length != 6)
 		) {
-			console.log("first validation");
-			return "Numarul de inmatriculare nu este valid !";
+			return "Vă rugăm să introduceți numărul de înmatriculare al vehiculului !";
 
-		}
-
-		if(this.state.vehicleNo.length == 6)
-		{
-			if(this.isNumeric(this.state.vehicleNo.charAt(0)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(1)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(2)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(3)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(5))) 
-			{
-				console.log("second validation");
-				return "Numarul de inmatriculare nu este valid !";
-			}
-		}
-		else
-		{
-			if(this.isNumeric(this.state.vehicleNo.charAt(0))||
-				this.isNumeric(this.state.vehicleNo.charAt(1))||
-				!this.isNumeric(this.state.vehicleNo.charAt(2)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(3)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(5)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(6))) 
-			{
-
-				console.log("third validation");
-				return "Numarul de inmatriculare nu este valid !";
-			}
 		}
 
 		//Chasis number validation
 		if (this.state.chasisNo === undefined
 			|| this.state.chasisNo == ""
-			|| this.state.chasisNo.length != 17
-			|| this.state.chasisNo.indexOf("Q") >= 0
-			|| this.state.chasisNo.indexOf("O")>= 0
-			|| this.state.chasisNo.indexOf("I")>= 0
+
 		) {
-			return "Numarul sasiului nu este valid! Acesta trebuie sa contina 17 caractere si sa nu contina literele Q, I sau O";
+			return "Vă rugăm să introduceți numărul șasiului vehiculului !";
 		}
+
+
 		return 1;
 
 	}
 
-
-	// START Storage Methods
-	_removeStorage = async (STORAGE_KEY_ARG) => {
-		try {
-			await AsyncStorage.removeItem(STORAGE_KEY_ARG);
-			console.log('Selection removed from disk.');
-		} catch (error) {
-			//console.log('AsyncStorage error: ' + error.message);
-		}
-	};
-	_addToStorage = async (STORAGE_KEY_ARG, objData) => {
-		var self=this;
-		try {
-			var x = await AsyncStorage.setItem(STORAGE_KEY_ARG, objData).then((token) => {
-			
-			self.redirectToCart();
-  });
-
-		
-
-
-		} catch (error) {
-			//console.log('AsyncStorage error: ' + error.message);
-		}
-	};
-	// END Storage Methods
-	appendIfNotEmpty(STORAGE_KEY_ARG, newItem) {
-		var self = this;
-		try {
-			var itemsInCart = AsyncStorage.getItem(inCartRovignette);
-			if (itemsInCart !== null) {
-				itemsInCart.then(function (value) {
-					if (value != null || value != undefined) {
-						var itemsInCartJson = JSON.parse(value);
-
-
-						itemsInCartJson.push(newItem[0]);
-						console.log("appending");
-
-						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
-
-
-					}
-					else {
-
-
-						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(newItem))
-					}
-
-				});
-			}
-		} catch (error) {
-
-			console.log(error);
-
-		}
-
-	}
-
-
-	addRovignetteToCart(argToken, argProfileID, argCategoryID, argPriceID,
+	validateRovignette(argToken, argProfileID, argCategoryID, argPriceID,
 		argStartDate, argVehicleNo, argChasisNo, argVehicleCountry) {
-		var self = this;
-
-
-
 
 		let rovignetteInfo = [
 			{
@@ -390,9 +280,117 @@ class AddtoCart extends Component {
 				'vehicleCountry': argVehicleCountry
 			}
 		];
+		var self = this;
+		var aux = rovignetteInfo;
 
-		self.appendIfNotEmpty(inCartRovignette, rovignetteInfo);
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify(
+				rovignetteInfo[0]),
+			{
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}
+
+		).then(function (response) {
+
+			if (response.data.success) {
+
+
+				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);
+				return 1;
+
+			}
+
+			if (response.data.success === 0) {
+				self.setState({ loading: false });
+				if (response.data.errors != undefined && response.data.errors != '') {
+					if (response.data.errors[0] != undefined && response.data.errors[0] != '') {
+						self.message('Eroare', response.data.errors[0]);
+						return 0;
+					}
+				}
+
+				if (response.data.error_msg != undefined && response.data.error_msg != '') {
+					self.message('Eroare', response.data.error_msg);
+				}
+				else {
+					console.log(response.data);
+					self.message('Eroare', 'Vă rugăm să verificați corectitudinea datelor introduse.');
+				}
+				return 0;
+
+			}
+
+		});
 	}
+
+	// START Storage Methods
+	_removeStorage = async (STORAGE_KEY_ARG) => {
+		try {
+			await AsyncStorage.removeItem(STORAGE_KEY_ARG);
+			console.log('Selection removed from disk.');
+		} catch (error) {
+			//console.log('AsyncStorage error: ' + error.message);
+		}
+	};
+	_addToStorage = async (STORAGE_KEY_ARG, objData) => {
+		var self = this;
+		try {
+			var x = await AsyncStorage.setItem(STORAGE_KEY_ARG, objData).then((token) => {
+			//	console.log('The object has been added to storage:');
+				//console.log(objData);
+				self.redirectToCart();
+			});
+
+
+
+
+		} catch (error) {
+			//console.log('AsyncStorage error: ' + error.message);
+		}
+	};
+	// END Storage Methods
+	appendIfNotEmpty(STORAGE_KEY_ARG, newItem) {
+		var self = this;
+		try {
+			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+			if (itemsInCart !== null) {
+				itemsInCart.then(function (value) {
+					if (value != null || value != undefined) {
+						var itemsInCartJson = JSON.parse(value);
+
+						if (itemsInCartJson.length >= 9) {
+							console.log(itemsInCartJson.length + "can't add more than 8 items to cart");
+							self.message("Atenție", "Nu pot fi adăugate mai mult de 8 roviniete în coș!")
+							self.setState({ loading: false });
+						}
+						else {
+							itemsInCartJson.push(newItem[0]);
+							self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
+							self.setState({ loading: false });
+
+						}
+
+
+					}
+					else {
+						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(newItem))
+						self.setState({ loading: false });
+
+					}
+
+				});
+			}
+		} catch (error) {
+
+			console.log(error);
+
+		}
+
+	}
+
+
 
 	render() {
 		//menu
@@ -411,73 +409,75 @@ class AddtoCart extends Component {
 				}}>
 					{/*Content start */}
 					<Header headerText={"Categoria " + this.props.category} />
+					<ScrollView >
 
-					<Card >
-						<CardSection >
-							<Input
-								placeholder="SM79BET"
-								label="Numar Inm:"
-								value={this.state.vehicleNo}
-								onChangeText={vehicleNo => this.setState({ vehicleNo })}
-							/>
-						</CardSection>
-						<CardSection >
-							<Input
-								placeholder="WAULC68E92A140677"
-								label="Serie Sasiu:"
-								value={this.state.chasisNo}
-								onChangeText={chasisNo => this.setState({ chasisNo })}
-							/>
-						</CardSection>
-						<CardSection >
-							<Text style={styles.textStyle}> De la: </Text>
-							<DatePicker
-								style={{ width: 200 }}
-								date={this.state.date}
-								mode="date"
-								format="DD-MM-YYYY"
-								minDate={this.getCurerntDate()}
-								confirmBtnText="Confirm"
-								cancelBtnText="Cancel"
-								customStyles={{
-									dateIcon: {
-										position: 'absolute',
-										left: 0,
-										top: 4,
-										marginLeft: 0
-									},
-									dateInput: {
-										marginLeft: 36
-									}
-								}}
-								onDateChange={(date) => { this.setState({ startDate: date }) }}
-							/>
-						</CardSection>
+						<Card >
+							<CardSection >
+								<Input
+									placeholder="SM79BET"
+									label="Număr înm:"
+									value={this.state.vehicleNo}
+									onChangeText={vehicleNo => this.setState({ vehicleNo })}
+								/>
+							</CardSection>
+							<CardSection >
+								<Input
+									placeholder="WAULC68E92A140677"
+									label="Serie șasiu:"
+									value={this.state.chasisNo}
+									onChangeText={chasisNo => this.setState({ chasisNo })}
+								/>
+							</CardSection>
+							<CardSection >
+								<Text style={styles.textStyle}> De la: </Text>
+								<DatePicker
+									style={{ width: 200 }}
+									date={this.state.date}
+									mode="date"
+									format="DD-MM-YYYY"
+									minDate={this.getCurerntDate()}
+									confirmBtnText="Confirm"
+									cancelBtnText="Cancel"
+									customStyles={{
+										dateIcon: {
+											position: 'absolute',
+											left: 0,
+											top: 4,
+											marginLeft: 0
+										},
+										dateInput: {
+											marginLeft: 36
+										}
+									}}
+									onDateChange={(date) => { this.setState({ startDate: date }) }}
+								/>
+							</CardSection>
 
-						<CardSection>
-							<Text style={styles.textStyle} > Tara: </Text>
-							{this.renderCountries()}
+							<CardSection>
+								<Text style={styles.textStyle} > Țara: </Text>
+								{this.renderCountries()}
 
-						</CardSection>
-						<CardSection>
-							<Text style={styles.textStyle}> Valabilitate: </Text>
-							<Picker
-								style={styles.pickerStyle}
-								selectedValue={this.state.nrDays}
-								onValueChange={(days) => this.setState({ nrDays: days })}>
-								<Picker.Item label="1 zi - 7 EUR" value="76" />
-								<Picker.Item label="7 zile - 20 EUR" value="59" />
-								<Picker.Item label="30 zile - 91 EUR" value="63" />
-								<Picker.Item label="90 zile - 210 EUR" value="61" />
-								<Picker.Item label="12 luni - 320 EUR" value="62" />
+							</CardSection>
+							<CardSection>
+								<Text style={styles.textStyle}> Valabilitate: </Text>
+								<Picker
+									style={styles.pickerStyle}
+									selectedValue={this.state.nrDays}
+									onValueChange={(days) => this.setState({ nrDays: days })}>
+									<Picker.Item label="1 zi - 7 EUR" value="76" />
+									<Picker.Item label="7 zile - 20 EUR" value="59" />
+									<Picker.Item label="30 zile - 91 EUR" value="63" />
+									<Picker.Item label="90 zile - 210 EUR" value="61" />
+									<Picker.Item label="12 luni - 320 EUR" value="62" />
 
-							</Picker>
-						</CardSection>
+								</Picker>
+							</CardSection>
 
-						<CardSection>
-							{this.renderButton()}
-						</CardSection>
-					</Card>
+							<CardSection>
+								{this.renderButton()}
+							</CardSection>
+						</Card>
+					</ScrollView >
 
 					{/*!!!Content end!!! */}
 				</View>
@@ -489,7 +489,7 @@ class AddtoCart extends Component {
 		)
 	}
 };
-const inCartRovignette = '@inCartRovignette:key';
+const inCartRovignetteKey = '@inCartRovignetteKey:key';
 const styles = {
 	containerStyle: {
 		flex: 1,
@@ -533,6 +533,7 @@ const styles = {
 		fontSize: 18,
 		marginBottom: 15,
 		marginLeft: 15,
+		color: 'black',
 
 
 	},
