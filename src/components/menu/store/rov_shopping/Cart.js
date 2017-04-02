@@ -322,13 +322,13 @@ class Cart extends Component {
 						<View style={styles.buttonStyle}>
 
 							<Button onPress={this.props.changeParentState}>
-								Adauga rovinieta
+								Adaugă rovinieta
 	  </Button>
 
 						</View>
 						<View style={styles.buttonStyle}>
 							<Button onPress={this.buyItemsButton.bind(this)}>
-								Plaseaza Comanda
+								Plasează Comanda
 		  </Button>
 						</View>
 					</View>
@@ -384,8 +384,6 @@ const styles = {
 	,
 	buttonStyle: {
 		flex: 1,
-
-
 
 	},
 	deleteItemButton: {

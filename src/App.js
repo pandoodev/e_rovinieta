@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import LoginForm from './components/login/LoginForm';
 import AddToCart from './components/menu/store/rov_shopping/AddToCart';
-import EditProfile from './components/menu/profile/EditProfile';
+import AddProfile from './components/menu/profile/AddProfile';
 import RovignetteShopMain from './components/menu/store/rov_shopping/RovignetteShopMain';
 import BuyBridgeTicket from './components/menu/store/bridge_shopping/BuyBridgeTicket';
 import Categories from './components/menu/store/bridge_shopping/Categories';
@@ -22,7 +22,7 @@ const scenes = Actions.create(
 		<Scene key="main" hideNavBar type={ActionConst.RESET}>
 			<Scene key="dashboard" component={Dashboard} initial/>
 			<Scene key="profiles" component={Profile} />
-			<Scene key="edit_profile" component={EditProfile} />
+			<Scene key="add_profile" component={AddProfile} />
 			<Scene key="cars" component={Cars} />
 			<Scene key="account_settings" component={AccountSettings} />
 			

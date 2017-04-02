@@ -17,7 +17,7 @@ const styles = {
     justifyContent: 'flex-start',
     flexDirection: 'row',
     position: 'relative',
-    height: 60
+    height: 55
   }
 };
 

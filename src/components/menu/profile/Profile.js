@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
-import { Spinner } from '../../common';
+import { View, Image, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { Spinner, Button, } from '../../common';
 import axios from 'axios';
 import querystring from 'query-string';
 import { Actions } from 'react-native-router-flux';
@@ -57,7 +57,7 @@ class Profile extends Component {
 			<View style={styles.titleContainerStyle}>
 				<Text style={styles.textTitleContainerStyle}>Nume Profil:</Text>
 				<Text style={styles.iconTitleContainerStyle}>Tip:</Text>
-				<Text style={styles.iconTitleContainerStyle}>Edit</Text>
+				<Text style={styles.iconTitleContainerStyle}>  Edit</Text>
 				<Text style={styles.iconTitleContainerStyle}> Sterge</Text>
 
 			</View>
@@ -100,10 +100,13 @@ class Profile extends Component {
 			})}
 		</View>);
 	}
+	addProfileButton(i) {
+		console.log('add' + i);
+		Actions.add_profile({ responseData: this.props.responseData, headerTitle: 'Creare Profil' });
+
+	}
 	editProfileButton(i) {
 		console.log('edit' + i);
-				Actions.edit_profile({ responseData: this.props.responseData, headerTitle: 'Editare Profil' });
-
 	}
 	deleteProfileButton(index) {
 		// 		@tag = ‘profile_delete’
@@ -125,8 +128,16 @@ class Profile extends Component {
 			}).then(function (response) {
 				if (response.data.success) {
 
+					console.log(self.state.profiles)
 					self.message('Succes', 'Profilul a fost șters din baza de date.');
-					self.setState({ profiles: self.state.profiles.splice(index, 1) });
+
+					var profilesCurrent = self.state.profiles;
+					profilesCurrent.splice(index, 1);
+					self.setState({ itemsInCart: profilesCurrent });
+
+
+					console.log(self.state.profiles)
+
 					console.log(response.data)
 				}
 				if (response.data.success === 0) {
@@ -194,6 +205,14 @@ class Profile extends Component {
 					<Header headerText={'Profilele Mele'} />
 					<View>
 						{this.renderProfiles()}
+
+					</View>
+					<View style={styles.buttonContainerStyle}>
+						<View style={styles.buttonStyle}>
+							<Button onPress={this.addProfileButton.bind(this)}>
+								Adaugă Profil
+	 						 </Button>
+						</View>
 					</View>
 					{/*!!!Content end!!! */}
 				</View>
@@ -232,7 +251,6 @@ const styles = {
 		paddingLeft: 5,
 		borderBottomColor: '#bbb',
 		borderBottomWidth: 1,
-
 	},
 	textTitleContainerStyle: {
 		flex: 3,
@@ -244,9 +262,6 @@ const styles = {
 		fontSize: 16,
 		borderBottomColor: '#bbb',
 		borderBottomWidth: 2,
-
-
-
 	},
 	iconTitleStyle: {
 		flex: 1,
@@ -305,7 +320,19 @@ const styles = {
 		flex: 1,
 		resizeMode: 'contain',
 		justifyContent: 'center',
+	},
+	buttonContainerStyle: {
+		flex: 1,
+		flexDirection: 'row',
+		marginTop: 30
+
 	}
+	,
+	buttonStyle: {
+		flex: 1,
+		height: 40
+
+	},
 };
 
 export default Profile;
