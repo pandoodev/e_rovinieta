@@ -134,72 +134,7 @@ class Cart extends Component {
 
 	}
 
-	//Opening the url in case there exists an app that can handle request
-	// Linking.canOpenURL(url).then(supported => {
-	// 	if (!supported) {
-	// 		console.log('Can\'t handle url: ' + url);
-	// 	} else {
-	// 		return Linking.openURL(url);
-	// 	}
-	// }).catch(err => console.error('An error occurred', err));
-	//	self.deleteItems();
 
-	generateInvoice(preparedRovignettes, userInformation) {
-		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
-		console.log('ready to generate invoice');
-		console.log( preparedRovignettes[0]);
-		
-		cart=preparedRovignettes;
-		console.log(querystring.stringify({
-				tag: userInformation[0],
-				token: userInformation[1],
-				device: userInformation[2],
-				profileID: userInformation[3],
-				'cart[1][categoryID]': preparedRovignettes[0].categoryID,
-				'cart[1][priceID]': preparedRovignettes[0].priceID,
-				'cart[1][startDate]': preparedRovignettes[0].startDate,
-				'cart[1][vehicleNo]': preparedRovignettes[0].vehicleNo,
-				'cart[1][chasisNo]': preparedRovignettes[0].chasisNo,
-				'cart[1][vehicleCountry]': preparedRovignettes[0].vehicleCountry,
-
-			}));
-		// axios.post(url,
-		// 	querystring.stringify({
-		// 		tag: userInformation[0],
-		// 		token: userInformation[1],
-		// 		device: userInformation[2],
-		// 		profileID: userInformation[3],
-		// 		preparedRovignettes
-
-		// 	}),
-		// 	{
-		// 		headers: {
-		// 			"Content-Type": "application/x-www-form-urlencoded"
-		// 		}
-		// 	}
-
-		// ).then(function (response) {
-		// 	console.log(response.data);
-		// 	console.log("success la invoice ");
-
-		// 	if (response.data.success) {
-
-
-		// 	}
-		// 	if (response.data.success === 0) {
-
-		// 		console.log(response.data);
-		// 		console.log("unsuccess");
-
-
-		// 	}
-		// }).catch(function (error) {
-		// 	console.log(error);
-		// });
-
-	}
-
-	//Calling API to perform a new 'initiate' rovignette request
 	prepareData(obj) {
 		var preparedRovignettes = [];
 		var userInformation = [];
@@ -217,9 +152,6 @@ class Cart extends Component {
 					'chasisNo': obj[i]['chasisNo'],
 					'vehicleCountry': obj[i]['vehicleCountry']
 				};
-
-
-
 		}
 		if (userInformation === undefined || userInformation.length == 0) {
 			userInformation[0] = 'emission';
@@ -228,8 +160,50 @@ class Cart extends Component {
 			userInformation[3] = obj[0]['profileID'];
 
 		}
-
+		
 		this.generateInvoice(preparedRovignettes, userInformation);
+
+	}
+
+	generateInvoice(preparedRovignettes, userInformation) {
+		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
+		console.log('ready to generate invoice with');
+		console.log( preparedRovignettes[0]);
+		
+		cart=preparedRovignettes;
+		// console.log(querystring.stringify({
+		// 		tag: userInformation[0],
+		// 		token: userInformation[1],
+		// 		device: userInformation[2],
+		// 		profileID: userInformation[3],
+		// 		'cart[1][categoryID]': preparedRovignettes[0].categoryID,
+		// 		'cart[1][priceID]': preparedRovignettes[0].priceID,
+		// 		'cart[1][startDate]': preparedRovignettes[0].startDate,
+		// 		'cart[1][vehicleNo]': preparedRovignettes[0].vehicleNo,
+		// 		'cart[1][chasisNo]': preparedRovignettes[0].chasisNo,
+		// 		'cart[1][vehicleCountry]': preparedRovignettes[0].vehicleCountry,
+
+		// 	}));
+		axios.post(url,
+			querystring.stringify({
+				tag: userInformation[0],
+				token: userInformation[1],
+				device: userInformation[2],
+				profileID: userInformation[3],
+			//	preparedRovignettes
+
+			}),
+			{
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}
+
+		).then(function (response) {
+			console.log(response.data);
+		}).catch(function (error) {
+			console.log(error);
+		});
 
 	}
 

@@ -17,8 +17,7 @@ import MenuButton from '../../../common/MenuButton';
 
 class AddtoCart extends Component {
 	state = {
-		userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, 
-		priceID: 95, error: '', countries: [], pricesAndValabilities: [], isOpen: false,
+		userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [], isOpen: false,
 		selectedItem: 'Dashboard',
 	};
 	constructor(props) {
@@ -58,6 +57,7 @@ class AddtoCart extends Component {
 	}
 	// !!!End side-menu functions!!!
 
+
 	getValabilities() {
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
@@ -70,67 +70,10 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-
-					var valabilities = [];
-					response.data.valabilities.forEach(function (valability) {
-						valabilities.push(valability);
-					}, this);
-
-					console.log("valabilities");
-					console.log(valabilities);
-					console.log("valabilities");
-
-					console.log("categoryID");
-					console.log(self.props.categoryID);
-					console.log("categoryID");
-
-					axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
-						querystring.stringify({
-							tag: 'prices',
-							device: 'android'
-						}), {
-							headers: {
-								"Content-Type": "application/x-www-form-urlencoded"
-							}
-						}).then(function (response) {
-							if (response.data.success) {
-								console.log("Prices:");
-								console.log(response.data);
-
-								var valabilitiesWithPrices = [];
-
-								for (x in valabilities) {
-									valab = valabilities[x];
-									for (idx in response.data.prices) {
-										var element = response.data.prices[idx];
-										
-										if (element.valability_id == valab.id && 
-										element.vehicle_id == self.props.categoryID) {
-											valabilityElement = new Object();
-											valabilityElement.priceID = element.id;
-											valabilityElement.description = valab.description + " - " + element.value + " " + element.currency;
-											valabilitiesWithPrices.push(valabilityElement);
-											break;
-										}
-									}
-								}
-									
-								console.log("valabilitiesWithPrices");
-								console.log(valabilitiesWithPrices);
-								console.log("valabilitiesWithPrices");
-
-								self.state.pricesAndValabilities = valabilitiesWithPrices;
-								self.setState({ error: '', loading: false });
-
-							}
-							if (response.data.success === 0) {
-								console.log("unsuccess");
-							}
-						});
-
+					//	console.log(response.data);
 				}
 				if (response.data.success === 0) {
-					console.log("unsuccess");
+					//	console.log("unsuccess");
 				}
 			});
 
@@ -150,19 +93,6 @@ class AddtoCart extends Component {
 				if (response.data.success) {
 					console.log("Prices:");
 					console.log(response.data);
-
-
-					for (i = 0; i <= 7; ++i) {
-						for (idx in response.data.prices) {
-							var element = response.data.prices[idx];
-
-							if (element.valability_id == i) {
-								console.log(element);
-								break;
-							}
-						}
-					}
-
 				}
 				if (response.data.success === 0) {
 					console.log("unsuccess");
@@ -190,7 +120,7 @@ class AddtoCart extends Component {
 						arrCountries.push(countrieInfo['name']);
 					}, this);
 					self.state.countries = arrCountries;
-					//self.setState({ error: '', loading: false });
+					self.setState({ error: '', loading: false });
 				}
 				if (response.data.success === 0) {
 					console.log("unsuccess from getCountries");
@@ -208,12 +138,12 @@ class AddtoCart extends Component {
 	}
 
 	componentWillMount() {
-		this.setState({ startDate: this.getCurerntDate(), country: "1", priceID: "95", error: "" });
+		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "95", error: "" });
 		this.getCountries();
 		this.getProfileID();
-		this.getValabilities();
+		//this.getValabilities();
 		//this.getPrices();
-		console.log("add to cart");
+		///	console.log("add to cart");
 
 		//console.log(this.props.responseData);
 
@@ -233,67 +163,6 @@ class AddtoCart extends Component {
 				})}</Picker>
 		);
 	}
-
-	renderValabilitiesAndPrices() {
-
-		console.log("prices");
-		console.log(this.state.pricesAndValabilities);
-		console.log("prices");
-		console.log("countries");
-		console.log(this.state.countries);
-		console.log("countries");
-
-		if (this.state.loading || this.state.loading == undefined) {
-			return <Spinner size='small' />;
-		}
-		return (
-			<Picker
-				style={styles.pickerStyle}
-				selectedValue={this.state.priceID}
-				onValueChange={(days) => this.setState({ priceID: days })}>
-							
-				{this.state.pricesAndValabilities.map(function (o, i) {
-
-					return <Picker.Item value={o.priceID} label={o.description} key={o.priceID} />
-				})}		
-				
-						
-							
-				</Picker>
-		);
-
-		/*console.log("prices");
-		console.log(this.state.pricesAndValabilities);
-		console.log("prices");
-
-		if (this.state.loading || this.state.loading == undefined) {
-			return <Spinner size='small' />;
-		} else {
-
-			console.log("prices");
-			this.state.pricesAndValabilities.forEach(function (element) {
-				console.log(element);
-			}, this)
-			console.log("prices");
-
-		}
-		return (
-			
-
-			<Picker
-				style={styles.pickerStyle}
-				selectedValue={this.state.priceID}
-				onValueChange={(days) => this.setState({ priceID: days })}>
-
-				<Picker.Item label="1 zi - 7 EUR" value="76" />
-				<Picker.Item label="7 zile - 20 EUR" value="59" />
-				<Picker.Item label="30 zile - 91 EUR" value="63" />
-				<Picker.Item label="90 zile - 210 EUR" value="61" />
-				<Picker.Item label="12 luni - 320 EUR" value="62" />
-			</Picker>
-		);*/
-	}
-
 	renderButton() {
 		if (this.state.loading) {
 			return <Spinner size='small' />;
@@ -320,7 +189,7 @@ class AddtoCart extends Component {
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
-				token: this.props.responseData.token
+				token: this.props.responseData.user.token
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -329,18 +198,17 @@ class AddtoCart extends Component {
 				if (response.data.success) {
 
 					self.setState({ profileID: response.data.profiles[0]['id'] });
-					// console.log(response.data.profiles[0]['id']);
-					// console.log(response.data.profiles[0]['type']);
-					// console.log(response.data.profiles[0]['firstName']);
-					// console.log(response.data.profiles[0]['lastName']);
-					// console.log(response.data.profiles[0]['personalID']);
+
+
 				}
 				if (response.data.success === 0) {
-					response.data.error_msg;
-					//	console.log("unsuccess");
+					console.log("unsuccess while getting profile id");
+					console.log(response.data);
 				}
 			});
 	}
+
+
 
 
 	addToCartButton() {
@@ -351,7 +219,7 @@ class AddtoCart extends Component {
 				this.props.responseData.user.token,
 				this.state.profileID,
 				this.props.categoryID,
-				this.state.priceID,
+				this.state.nrDays,
 				this.state.startDate,
 				this.state.vehicleNo,
 				this.state.chasisNo,
@@ -367,14 +235,8 @@ class AddtoCart extends Component {
 				],
 				{ cancelable: false }
 			)
-		}
-	}
-	isNumeric(character) {
-		if (character >= '0' && character <= '9') {
-			return true;
-		}
 
-		return false;
+		}
 	}
 
 
@@ -384,41 +246,13 @@ class AddtoCart extends Component {
 			|| this.state.vehicleNo == ""
 		) {
 			return "Vă rugăm să introduceți numărul de înmatriculare al vehiculului !";
-		}
-
-		if (this.state.vehicleNo.length == 6) {
-			if (this.isNumeric(this.state.vehicleNo.charAt(0)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(1)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(2)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(3)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(5))) {
-				console.log("second validation");
-				return "Numarul de inmatriculare nu este valid !";
-			}
-		}
-		else {
-			if (this.isNumeric(this.state.vehicleNo.charAt(0)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(1)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(2)) ||
-				!this.isNumeric(this.state.vehicleNo.charAt(3)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(4)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(5)) ||
-				this.isNumeric(this.state.vehicleNo.charAt(6))) {
-
-				console.log("third validation");
-				return "Numarul de inmatriculare nu este valid !";
-			}
 
 		}
 
 		//Chasis number validation
 		if (this.state.chasisNo === undefined
 			|| this.state.chasisNo == ""
-			|| this.state.chasisNo.length != 17
-			|| this.state.chasisNo.indexOf("Q") >= 0
-			|| this.state.chasisNo.indexOf("O") >= 0
-			|| this.state.chasisNo.indexOf("I") >= 0
+
 		) {
 			return "Vă rugăm să introduceți numărul șasiului vehiculului !";
 		}
@@ -504,11 +338,13 @@ class AddtoCart extends Component {
 		var self = this;
 		try {
 			var x = await AsyncStorage.setItem(STORAGE_KEY_ARG, objData).then((token) => {
-
 			//	console.log('The object has been added to storage:');
 				//console.log(objData);
 				self.redirectToCart();
 			});
+
+
+
 
 		} catch (error) {
 			//console.log('AsyncStorage error: ' + error.message);
@@ -555,9 +391,8 @@ class AddtoCart extends Component {
 	}
 
 
-	render() {
 
-		
+	render() {
 		//menu
 		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
 		//!!menu!!
@@ -625,7 +460,17 @@ class AddtoCart extends Component {
 							</CardSection>
 							<CardSection>
 								<Text style={styles.textStyle}> Valabilitate: </Text>
-								{this.renderValabilitiesAndPrices()}
+								<Picker
+									style={styles.pickerStyle}
+									selectedValue={this.state.nrDays}
+									onValueChange={(days) => this.setState({ nrDays: days })}>
+									<Picker.Item label="1 zi - 7 EUR" value="76" />
+									<Picker.Item label="7 zile - 20 EUR" value="59" />
+									<Picker.Item label="30 zile - 91 EUR" value="63" />
+									<Picker.Item label="90 zile - 210 EUR" value="61" />
+									<Picker.Item label="12 luni - 320 EUR" value="62" />
+
+								</Picker>
 							</CardSection>
 
 							<CardSection>
@@ -633,7 +478,6 @@ class AddtoCart extends Component {
 							</CardSection>
 						</Card>
 					</ScrollView >
-
 
 					{/*!!!Content end!!! */}
 				</View>
@@ -705,3 +549,4 @@ const styles = {
 };
 
 export default AddtoCart;
+
