@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { Spinner } from '../../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -30,6 +30,17 @@ class Profile extends Component {
 		});
 	}
 	// !!!End side-menu functions!!!
+	message(title, content) {
+		Alert.alert(
+			title,
+			content,
+			[
+				{ text: 'OK', onPress: () => { } },
+			],
+
+			{ cancelable: false }
+		)
+	}
 
 	state = { selected: '', cart: false, history: false, loading: true, profiles: [] };
 	constructor(props) {
@@ -37,22 +48,103 @@ class Profile extends Component {
 		this.state = { profile: [], loading: true }
 	}
 	renderProfiles() {
+		var self = this;
+
 		if (this.state.loading || this.state.loading == undefined) {
 			return <Spinner size='small' />;
 		}
 		return (<View style={{ marginTop: window.height * 0.01 }}>
+			<View style={styles.titleContainerStyle}>
+				<Text style={styles.textTitleContainerStyle}>Nume Profil:</Text>
+				<Text style={styles.iconTitleContainerStyle}>Tip:</Text>
+				<Text style={styles.iconTitleContainerStyle}>Edit</Text>
+				<Text style={styles.iconTitleContainerStyle}> Sterge</Text>
 
+			</View>
 			{this.state.profiles.map(function (o, i) {
 
+
 				if (o.type == "0") {
-					return <View key={i} style={styles.containerStyle}><Text style={styles.textStyle} key={0}>{i + 1}. {o.companyName}</Text><Text style={styles.textStyle} key={1}>Persoană juridică</Text></View>
+					var profileType = "Jur.";
+					var profileName = o.companyName;
+
 				} else {
-					return <View key={i} style={styles.containerStyle}><Text style={styles.textStyle} key={0}>{i + 1}. {o.lastName} {o.firstName}</Text><Text style={styles.textStyle} key={1}>Persoană fizică</Text></View>
+					var profileType = "Fiz.";
+					var profileName = o.lastName + ' ' + o.firstName;
+
 				}
+
+				return (
+					<View key={i} style={styles.containerStyle}>
+						<Text style={styles.textStyle} key={0}>{i + 1}. {profileName}</Text>
+						<Text style={styles.iconTitleStyle} key={1}>{profileType}</Text>
+
+						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.editProfileButton(i) }} key={2}>
+							<Image
+								style={styles.deleteItemButtonStyle}
+								source={require('../../../../assets/edit.png')}
+							/>
+						</TouchableOpacity>
+
+						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteProfileButton(i) }} key={3}>
+							<Image
+								style={styles.deleteItemButtonStyle}
+								source={require('../../../../assets/delete.png')}
+							/>
+						</TouchableOpacity>
+
+
+
+					</View>);
 
 			})}
 		</View>);
 	}
+	editProfileButton(i) {
+		console.log('edit' + i);
+	}
+	deleteProfileButton(index) {
+// 		@tag = ‘profile_delete’
+// @device (‘android’ sau ‘ios’)
+// @token (Tokenul returnat prin metoda de login)
+// @pid - id-ul profilului
+		console.log("--deleteProfileButton--");
+	var self = this;
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'profile_delete',
+				device: 'android',
+				token: this.props.responseData.user.token,
+				pid:this.state.profiles[index].id
+			}), {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function (response) {
+				if (response.data.success) {
+
+					self.message('Succes','Profilul a fost șters din baza de date.');
+					self.setState({ profiles: self.state.profiles.splice(index, 1) });
+					console.log(response.data)
+				}
+				if (response.data.success === 0) {
+					console.log(response.data);
+					if(response.data.error_msg!=undefined && response.data.error_msg !='')
+					{
+					self.message('Eroare',response.data.error_msg );
+				}
+				else{
+					self.message('Atentie', 'Eroare la stergerea profilului' );
+				}
+				}
+			});
+
+
+
+
+	}
+
+
 	getProfiles() {
 
 		var self = this;
@@ -70,6 +162,7 @@ class Profile extends Component {
 				if (response.data.success) {
 					self.state.profiles = response.data.profiles;
 					self.setState({ loading: false });
+					console.log(response.data)
 				}
 				if (response.data.success === 0) {
 					console.log("Failed ");
@@ -115,20 +208,102 @@ const styles = {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		marginTop: 20,
+		marginTop: 30,
+		marginLeft: 10,
+		marginRight: 10,
+	},
+	titleContainerStyle:{
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginTop: 30,
+		marginBottom: 10,
 		marginLeft: 10,
 		marginRight: 10,
 	},
 	textStyle: {
 		color: 'black',
-    flex: 0.15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 10,
-    height: 20,
-    borderWidth:1,
-    paddingLeft: 5,
+		flex: 3,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: 10,
+		height: 20,
+		paddingLeft: 5,
+		borderBottomColor: '#bbb',
+		borderBottomWidth: 1,
 
+	},
+	textTitleContainerStyle: {
+		flex: 3,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 20,
+		fontSize: 16,
+		borderBottomColor: '#bbb',
+		borderBottomWidth: 2,
+		
+
+
+	},
+	iconTitleStyle: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 20,
+		borderBottomColor: '#bbb',
+		borderBottomWidth: 1,
+
+
+	},
+	iconContainerStyle: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		height: 20,
+		borderBottomColor: '#bbb',
+		borderBottomWidth: 1,
+
+
+	},
+	iconTitleContainerStyle: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 20,
+		fontSize: 16,
+		borderBottomColor: '#bbb',
+		borderBottomWidth: 2,
+	},
+	deleteItemButton: {
+		flex: 1,
+		width: null,
+		height: null,
+		resizeMode: 'contain',
+		justifyContent: 'center',
+	},
+	imgStyle: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		resizeMode: 'contain',
+	},
+	deleteItemButtonContainerStyle: {
+		flex: 3,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: 5,
+	},
+	deleteItemButtonStyle:{
+		flex:1,
+		resizeMode: 'contain',
+		justifyContent: 'center',
 	}
 };
 

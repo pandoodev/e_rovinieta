@@ -97,26 +97,20 @@ class LoginForm extends Component {
 	}
 
 	componentDidMount() {
-		console.log('mount');
 
 		if (this.state.appState != null) {
-			console.log("app state not null");
 		}
 		else {
-			console.log("app state is null! ");
 			AppState.addEventListener('change', this.handleAppStateChange);
-			this.notification();
+		//	this.notification();
 
 		}	
 
-		console.log('mount');	
 	}
 
 
 	componentWillUnmount() {
-		console.log('unmount')
 		AppState.removeEventListener('change', this.handleAppStateChange);
-		console.log('unmount')
 	}
 
 	handleAppStateChange = (nextAppState) => {

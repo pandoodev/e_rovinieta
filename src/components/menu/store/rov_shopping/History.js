@@ -13,7 +13,7 @@ state = { selected:'', cart:false, history:false };
 		return (
 			<View style={styles.containerStyle}>
 			<View style={styles.buttonStyle} >
-		<Text>Nu aveti comenzi anterioare </Text>
+		<Text>Nu aveți comenzi anterioare </Text>
 			</View>
 			</View>
 			);
@@ -25,7 +25,6 @@ const styles = {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		marginTop: 80,
 		marginLeft: 10,
 		marginRight: 10,
 	}

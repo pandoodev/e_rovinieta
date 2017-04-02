@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    backgroundColor: 'white',
+    backgroundColor: '#F3F3F5',
   },
   avatarContainer: {
     width: null,

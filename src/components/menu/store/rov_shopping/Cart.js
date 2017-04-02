@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert, ScrollView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert, ScrollView, Dimensions } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -64,7 +64,7 @@ class Cart extends Component {
 	addCartItemsToState() {
 		var self = this;
 		try {
-			var itemsInCart = AsyncStorage.getItem(inCartRovignette);
+			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
 			if (itemsInCart !== null) {
 				itemsInCart.then(function (value) {
 					if (value != null || value != undefined) {
@@ -80,11 +80,11 @@ class Cart extends Component {
 			}
 		} catch (error) {
 			console.log(error);
+
 			self.setState({ loading: false });
 		}
 
 	}
-
 
 
 	//Checking if data is ready
@@ -98,6 +98,138 @@ class Cart extends Component {
 		return (
 			this.showItemsToUser()
 		);
+
+	}
+
+
+	deleteElementFromCart(elementPosition) {
+		var currentItemsInCart = this.state.itemsInCart;
+		currentItemsInCart.splice(elementPosition, 1);
+		this.setState({ itemsInCart: currentItemsInCart });
+		this._removeStorage(inCartRovignetteKey);
+		this._addToStorage(inCartRovignetteKey, JSON.stringify(currentItemsInCart));
+
+	}
+	delelteButton() {
+		this.deleteItems();
+		this.message('Succes', 'Elementele au fost eliminate din cos.');
+	}
+
+
+	//Removes stored cart items from AsyncStorage
+	deleteItems() {
+		this._removeStorage(inCartRovignetteKey);
+		this.setState({ itemsInCart: "" });
+		this.setState({ loading: false });
+	}
+
+
+	//Called when buy items from cart button is pressed
+	buyItemsButton() {
+
+		this.prepareData(this.state.itemsInCart);
+		//console.log("Items in cart state variable");
+
+		//console.log(this.state.itemsInCart);
+
+	}
+
+	//Opening the url in case there exists an app that can handle request
+	// Linking.canOpenURL(url).then(supported => {
+	// 	if (!supported) {
+	// 		console.log('Can\'t handle url: ' + url);
+	// 	} else {
+	// 		return Linking.openURL(url);
+	// 	}
+	// }).catch(err => console.error('An error occurred', err));
+	//	self.deleteItems();
+
+	generateInvoice(preparedRovignettes, userInformation) {
+		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
+		console.log('ready to generate invoice');
+		console.log( preparedRovignettes[0]);
+		
+		cart=preparedRovignettes;
+		console.log(querystring.stringify({
+				tag: userInformation[0],
+				token: userInformation[1],
+				device: userInformation[2],
+				profileID: userInformation[3],
+				'cart[1][categoryID]': preparedRovignettes[0].categoryID,
+				'cart[1][priceID]': preparedRovignettes[0].priceID,
+				'cart[1][startDate]': preparedRovignettes[0].startDate,
+				'cart[1][vehicleNo]': preparedRovignettes[0].vehicleNo,
+				'cart[1][chasisNo]': preparedRovignettes[0].chasisNo,
+				'cart[1][vehicleCountry]': preparedRovignettes[0].vehicleCountry,
+
+			}));
+		// axios.post(url,
+		// 	querystring.stringify({
+		// 		tag: userInformation[0],
+		// 		token: userInformation[1],
+		// 		device: userInformation[2],
+		// 		profileID: userInformation[3],
+		// 		preparedRovignettes
+
+		// 	}),
+		// 	{
+		// 		headers: {
+		// 			"Content-Type": "application/x-www-form-urlencoded"
+		// 		}
+		// 	}
+
+		// ).then(function (response) {
+		// 	console.log(response.data);
+		// 	console.log("success la invoice ");
+
+		// 	if (response.data.success) {
+
+
+		// 	}
+		// 	if (response.data.success === 0) {
+
+		// 		console.log(response.data);
+		// 		console.log("unsuccess");
+
+
+		// 	}
+		// }).catch(function (error) {
+		// 	console.log(error);
+		// });
+
+	}
+
+	//Calling API to perform a new 'initiate' rovignette request
+	prepareData(obj) {
+		var preparedRovignettes = [];
+		var userInformation = [];
+		var self = this;
+
+
+		for (var i = 0; i < this.state.itemsInCart.length; i++) {
+
+			preparedRovignettes[i]=
+				{
+					'categoryID': obj[i]['categoryID'],
+					'priceID': obj[i]['priceID'],
+					'startDate': obj[i]['startDate'],
+					'vehicleNo': obj[i]['vehicleNo'],
+					'chasisNo': obj[i]['chasisNo'],
+					'vehicleCountry': obj[i]['vehicleCountry']
+				};
+
+
+
+		}
+		if (userInformation === undefined || userInformation.length == 0) {
+			userInformation[0] = 'emission';
+			userInformation[1] = obj[0]['token'];
+			userInformation[2] = obj[0]['device'];
+			userInformation[3] = obj[0]['profileID'];
+
+		}
+
+		this.generateInvoice(preparedRovignettes, userInformation);
 
 	}
 
@@ -115,224 +247,54 @@ class Cart extends Component {
 
 			);
 		//Displaying items in cart stored in AsyncStorage
-		return (<View>
-			<View style={styles.containerStyle}>
-				<Text style={styles.nrCrtStyle}>Nr.</Text>
-				<Text style={styles.textStyle}>Nr. înmatriculare:</Text>
-				<Text style={styles.textStyle}>  Incepe la:</Text>
-				<Text style={styles.textStyle}>Sterge din Cos</Text>
+		return (
+			<View style={styles.pageContainerStyle}>
+				<ScrollView >
 
-			</View>
+					<View style={styles.containerStyle}>
+						<Text style={styles.nrCrtStyle}>Nr.</Text>
+						<Text style={styles.textStyle}>Nr. înmatriculare:</Text>
+						<Text style={styles.textStyle}>  Incepe la:</Text>
+						<Text style={styles.textStyle}>Sterge din Cos</Text>
 
-			{this.state.itemsInCart.map(function (o, i) {
-				return (
-
-					<View key={i} style={styles.elementStyle}>
-						<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-						<Text style={styles.textStyle} key={1}>{o.vehicleNo}</Text>
-						<Text style={styles.textStyle} key={2}>{o.startDate}</Text>
-						<TouchableOpacity style={styles.deleteItemButtonContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
-							<Image
-								style={styles.deleteItemButtonStyle}
-								source={require('../../../../../assets/delete.png')}
-							/>
-						</TouchableOpacity>
 					</View>
 
-				);
-			})}
-			<View style={styles.buttonContainerStyle}>
-				<View style={styles.buttonStyle}>
+					{this.state.itemsInCart.map(function (o, i) {
+						return (
 
-					<Button onPress={this.props.changeParentState}>
-						Adauga rovinieta
+							<View key={i} style={styles.elementStyle}>
+								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
+								<Text style={styles.textStyle} key={1}>{o.vehicleNo}</Text>
+								<Text style={styles.textStyle} key={2}>{o.startDate}</Text>
+								<TouchableOpacity style={styles.deleteItemButtonContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
+									<Image
+										style={styles.deleteItemButtonStyle}
+										source={require('../../../../../assets/delete.png')}
+									/>
+								</TouchableOpacity>
+							</View>
+
+						);
+					})}
+					<View style={styles.buttonContainerStyle}>
+						<View style={styles.buttonStyle}>
+
+							<Button onPress={this.props.changeParentState}>
+								Adauga rovinieta
 	  </Button>
 
-				</View>
-				<View style={styles.buttonStyle}>
-					<Button onPress={this.buyItemsButton.bind(this)}>
-						Plaseaza Comanda
+						</View>
+						<View style={styles.buttonStyle}>
+							<Button onPress={this.buyItemsButton.bind(this)}>
+								Plaseaza Comanda
 		  </Button>
-				</View>
+						</View>
+					</View>
+				</ScrollView >
 			</View>
-
-		</View>
 		);
 
 	}
-
-
-	deleteElementFromCart(elementPosition) {
-		var currentItemsInCart = this.state.itemsInCart;
-		currentItemsInCart.splice(elementPosition, 1);
-		this.setState({ itemsInCart: currentItemsInCart });
-		this._removeStorage(inCartRovignette);
-		this._addToStorage(inCartRovignette, JSON.stringify(currentItemsInCart));
-
-	}
-	delelteButton() {
-		this.deleteItems();
-		this.message('Succes', 'Elementele au fost eliminate din cos.');
-	}
-
-
-	//Removes stored cart items from AsyncStorage
-	deleteItems() {
-		this._removeStorage(inCartRovignette);
-		this.setState({ itemsInCart: "" });
-		this.setState({ loading: false });
-	}
-
-
-	//Called when buy items from cart button is pressed
-	buyItemsButton() {
-		let url = "http://www.e-rovinieta.ro";
-		var self = this;
-
-	//Opening the url in case there exists an app that can handle request
-	Linking.canOpenURL(url).then(supported => {
-		if (!supported) {
-			console.log('Can\'t handle url: ' + url);
-		} else {
-			return Linking.openURL(url);
-		}
-	}).catch(err => console.error('An error occurred', err));
-		this.deleteItems();
-		//this.buy(this.state.itemsInCart);
-		console.log(this.state.itemsInCart);
-
-	}
-
-	//Opening the url in case there exists an app that can handle request
-	// Linking.canOpenURL(url).then(supported => {
-	// 	if (!supported) {
-	// 		console.log('Can\'t handle url: ' + url);
-	// 	} else {
-	// 		return Linking.openURL(url);
-	// 	}
-	// }).catch(err => console.error('An error occurred', err));
-	//	self.deleteItems();
-
-	generateInvoice(validRovignetes, userInformation) {
-		url='http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
-		console.log('ready to generate invoice');
-		console.log(validRovignetes);
-		console.log(userInformation);
-		axios.post(url,
-			querystring.stringify({
-				tag: userInformation[0],
-				token: userInformation[1],
-				device: userInformation[2],
-				profileID: userInformation[3],
-				cart: validRovignetes
-
-			}),
-			{
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			}
-
-		).then(function (response) {
-
-
-			if (response.data.success) {
-				console.log(response.data);
-				console.log("success la invoice ");
-				
-			}
-			if (response.data.success === 0) {
-				
-				console.log(response.data);
-					console.log("unsuccess");
-
-				
-			}
-		}).catch(function (error) {
-    console.log(error);
-  });
-		//Opening the url in case there exists an app that can handle request
-	Linking.canOpenURL(url).then(supported => {
-		if (!supported) {
-			console.log('Can\'t handle url: ' + url);
-		} else {
-			return Linking.openURL(url);
-		}
-	}).catch(err => console.error('An error occurred', err));
-		this.deleteItems();
-
-	}
-
-	//Calling API to perform a new 'initiate' rovignette request
-	buy(obj) {
-		var validRovignetes = [];
-		var userInformation = [];
-		console.log("object to initiate:");
-		console.log(obj);
-		console.log("object to initiate:");
-		
-		var self = this;
-
-		for (var i = 0; i < this.state.itemsInCart.length; i++) {
-			var aux = obj[i];
-			axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
-				querystring.stringify(
-					obj[i]),
-				{
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded"
-					}
-				}
-
-			).then(function (response) {
-
-				//	self.deleteItems();
-				if (i === self.state.itemsInCart.length) {
-					console.log(i);
-					console.log(i);
-
-					self.generateInvoice(validRovignetes, userInformation);
-				}
-
-				if (response.data.success) {
-					console.log(response.data);
-					console.log("success");
-					validRovignetes.push(
-						{
-							'categoryID': aux['categoryID'],
-							'priceID': aux['priceID'],
-							'startDate': aux['startDate'],
-							'vehicleNo': aux['vehicleNo'],
-							'chasisNo': aux['chasisNo'],
-							'vehicleCountry': aux['vehicleCountry']
-						});
-					if (userInformation === undefined || userInformation.length == 0) {
-						userInformation[0]=	'emision';
-						userInformation[1]=	aux['token'];
-						userInformation[2]=	aux['device'];
-						userInformation[3]=	aux['profileID'];
-					
-					}
-
-					i++;
-
-				}
-				if (response.data.success === 0) {
-					i++;
-
-					console.log(response.data);
-
-					if (response.data.error_msg === undefined) {
-						console.log(response.data);
-						console.log("unsuccess");
-
-
-					}
-				}
-			});
-		}
-	}
-
 	render() {
 		return (
 
@@ -343,13 +305,18 @@ class Cart extends Component {
 
 
 };
+const window = Dimensions.get('window');
 // AsyncStorage key to in cart rovignetts
-const inCartRovignette = '@inCartRovignette:key';
+const inCartRovignetteKey = '@inCartRovignetteKey:key';
 const styles = {
+
+	pageContainerStyle: {
+		height: window.height * 0.7,
+	},
 	elementStyle: {
 		flex: 1,
 		flexDirection: 'row',
-		marginTop: 30,
+		marginTop: 5,
 		marginLeft: 10,
 		marginRight: 10,
 	},
@@ -357,7 +324,6 @@ const styles = {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		marginTop: 80,
 		marginLeft: 10,
 		marginRight: 10,
 	}
@@ -366,13 +332,11 @@ const styles = {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop: 50
 
 	}
 	,
 	buttonStyle: {
 		flex: 1,
-		height: 50,
 
 
 
@@ -388,8 +352,6 @@ const styles = {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 50,
-		height: 50,
 		resizeMode: 'contain',
 	},
 	deleteItemButtonContainerStyle: {
@@ -397,7 +359,6 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 5,
-		height: 23,
 	},
 	textStyle: {
 		color: 'black',
@@ -405,7 +366,6 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 60,
-		height: 60,
 
 	},
 	nrCrtStyle: {
@@ -414,14 +374,12 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 10,
-		height: 60,
 
 	},
 	emptyCartContainerStyle: {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		marginTop: 80,
 		marginLeft: 10,
 		marginRight: 10,
 	}
