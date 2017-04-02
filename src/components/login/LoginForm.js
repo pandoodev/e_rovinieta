@@ -1,36 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 import React, { Component } from 'react';
 import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput, Linking } from 'react-native';
 import { LoginButton, Card, CardSection, Input, Spinner } from '../common';

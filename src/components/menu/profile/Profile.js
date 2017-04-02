@@ -3,12 +3,12 @@ import { View, Button, Image, Text, TouchableOpacity, Dimensions, Alert } from '
 import { Spinner } from '../../common';
 import axios from 'axios';
 import querystring from 'query-string';
+import { Actions } from 'react-native-router-flux';
 //menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
-
 //!menu!!
 class Profile extends Component {
 
@@ -102,20 +102,22 @@ class Profile extends Component {
 	}
 	editProfileButton(i) {
 		console.log('edit' + i);
+				Actions.edit_profile({ responseData: this.props.responseData, headerTitle: 'Editare Profil' });
+
 	}
 	deleteProfileButton(index) {
-// 		@tag = ‘profile_delete’
-// @device (‘android’ sau ‘ios’)
-// @token (Tokenul returnat prin metoda de login)
-// @pid - id-ul profilului
+		// 		@tag = ‘profile_delete’
+		// @device (‘android’ sau ‘ios’)
+		// @token (Tokenul returnat prin metoda de login)
+		// @pid - id-ul profilului
 		console.log("--deleteProfileButton--");
-	var self = this;
+		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile_delete',
 				device: 'android',
 				token: this.props.responseData.user.token,
-				pid:this.state.profiles[index].id
+				pid: this.state.profiles[index].id
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -123,19 +125,18 @@ class Profile extends Component {
 			}).then(function (response) {
 				if (response.data.success) {
 
-					self.message('Succes','Profilul a fost șters din baza de date.');
+					self.message('Succes', 'Profilul a fost șters din baza de date.');
 					self.setState({ profiles: self.state.profiles.splice(index, 1) });
 					console.log(response.data)
 				}
 				if (response.data.success === 0) {
 					console.log(response.data);
-					if(response.data.error_msg!=undefined && response.data.error_msg !='')
-					{
-					self.message('Eroare',response.data.error_msg );
-				}
-				else{
-					self.message('Atentie', 'Eroare la stergerea profilului' );
-				}
+					if (response.data.error_msg != undefined && response.data.error_msg != '') {
+						self.message('Eroare', response.data.error_msg);
+					}
+					else {
+						self.message('Atentie', 'Eroare la stergerea profilului');
+					}
 				}
 			});
 
@@ -212,7 +213,7 @@ const styles = {
 		marginLeft: 10,
 		marginRight: 10,
 	},
-	titleContainerStyle:{
+	titleContainerStyle: {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
@@ -243,7 +244,7 @@ const styles = {
 		fontSize: 16,
 		borderBottomColor: '#bbb',
 		borderBottomWidth: 2,
-		
+
 
 
 	},
@@ -300,8 +301,8 @@ const styles = {
 		alignItems: 'center',
 		width: 5,
 	},
-	deleteItemButtonStyle:{
-		flex:1,
+	deleteItemButtonStyle: {
+		flex: 1,
 		resizeMode: 'contain',
 		justifyContent: 'center',
 	}
