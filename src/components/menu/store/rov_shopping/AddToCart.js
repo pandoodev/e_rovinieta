@@ -17,7 +17,16 @@ import MenuButton from '../../../common/MenuButton';
 
 class AddtoCart extends Component {
 	state = {
-		userType: '', profileID: '', vehicleNo: '', chasisNo: '', startDate: '1', loading: true, country: 1, nrDays: 95, error: '', countries: [], isOpen: false,
+		userType: '', profileID: '', vehicleNo: '',
+		 chasisNo: '', startDate: '1', 
+		 loading: true,
+		 loadingPrices: true,
+		 country: 1, 
+		 nrDays: 95, 
+		 pricesAndValabilities: [],
+		 error: '', 
+		 countries: [], isOpen: false,
+
 		selectedItem: 'Dashboard',
 	};
 	constructor(props) {
@@ -33,7 +42,6 @@ class AddtoCart extends Component {
 			[
 				{ text: 'OK', onPress: () => { } },
 			],
-
 			{ cancelable: false }
 		)
 	}
@@ -58,7 +66,7 @@ class AddtoCart extends Component {
 	// !!!End side-menu functions!!!
 
 
-	getValabilities() {
+getValabilities() {
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -70,13 +78,81 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-					//	console.log(response.data);
+
+					var valabilities = [];
+					response.data.valabilities.forEach(function (valability) {
+						valabilities.push(valability);
+					}, this);
+
+					axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+						querystring.stringify({
+							tag: 'prices',
+							device: 'android'
+						}), {
+							headers: {
+								"Content-Type": "application/x-www-form-urlencoded"
+							}
+						}).then(function (response) {
+							if (response.data.success) {
+
+								var valabilitiesWithPrices = [];
+
+								for (x in valabilities) {
+									valab = valabilities[x];
+									for (idx in response.data.prices) {
+										var element = response.data.prices[idx];
+										
+										if (element.valability_id == valab.id && 
+										element.vehicle_id == self.props.categoryID) {
+											valabilityElement = new Object();
+											valabilityElement.priceID = element.id;
+											valabilityElement.description = valab.description + " - " + element.value + " " + element.currency;
+											valabilitiesWithPrices.push(valabilityElement);
+											break;
+										}
+									}
+								}
+															
+
+								self.state.pricesAndValabilities = valabilitiesWithPrices;
+								self.setState({ error: '', loadingPrices: false });
+
+							}
+							if (response.data.success === 0) {
+								console.log("unsuccess");
+							}
+						});
+
 				}
 				if (response.data.success === 0) {
-					//	console.log("unsuccess");
+					console.log("unsuccess");
 				}
 			});
 
+	}
+
+	renderValabilitiesAndPrices() {
+
+		if (this.state.loadingPrices || this.state.loadingPrices == undefined) {
+			return <Spinner size='small' />;
+		}
+		else
+		{
+			return (
+			<Picker
+				style={styles.pickerStyle}
+				selectedValue={this.state.priceID}
+				onValueChange={(days) => this.setState({ priceID: days })}>
+							
+				{this.state.pricesAndValabilities.map(function (o, i) {
+
+					return <Picker.Item value={o.priceID} label={o.description} key={o.priceID} />
+				})}		
+																
+				</Picker>
+			);
+		}
+		
 	}
 
 	getPrices() {
@@ -126,7 +202,6 @@ class AddtoCart extends Component {
 					console.log("unsuccess from getCountries");
 				}
 			});
-
 	}
 
 
@@ -140,13 +215,12 @@ class AddtoCart extends Component {
 	componentWillMount() {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "95", error: "" });
 		this.getCountries();
-		this.getProfileID();
-		//this.getValabilities();
+		this.getProfileID();		
+		this.getValabilities();
 		//this.getPrices();
 		///	console.log("add to cart");
 
 		//console.log(this.props.responseData);
-
 	}
 	renderCountries() {
 		if (this.state.loading || this.state.loading == undefined) {
@@ -179,7 +253,6 @@ class AddtoCart extends Component {
 
 	redirectToCart() {
 		Actions.shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
-
 	}
 	getProfileID() {
 		console.log("this.props.responseData")
@@ -196,10 +269,7 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-
 					self.setState({ profileID: response.data.profiles[0]['id'] });
-
-
 				}
 				if (response.data.success === 0) {
 					console.log("unsuccess while getting profile id");
@@ -207,9 +277,6 @@ class AddtoCart extends Component {
 				}
 			});
 	}
-
-
-
 
 	addToCartButton() {
 		this.setState({ loading: true });
@@ -235,7 +302,6 @@ class AddtoCart extends Component {
 				],
 				{ cancelable: false }
 			)
-
 		}
 	}
 
@@ -246,7 +312,6 @@ class AddtoCart extends Component {
 			|| this.state.vehicleNo == ""
 		) {
 			return "Vă rugăm să introduceți numărul de înmatriculare al vehiculului !";
-
 		}
 
 		//Chasis number validation
@@ -460,17 +525,8 @@ class AddtoCart extends Component {
 							</CardSection>
 							<CardSection>
 								<Text style={styles.textStyle}> Valabilitate: </Text>
-								<Picker
-									style={styles.pickerStyle}
-									selectedValue={this.state.nrDays}
-									onValueChange={(days) => this.setState({ nrDays: days })}>
-									<Picker.Item label="1 zi - 7 EUR" value="76" />
-									<Picker.Item label="7 zile - 20 EUR" value="59" />
-									<Picker.Item label="30 zile - 91 EUR" value="63" />
-									<Picker.Item label="90 zile - 210 EUR" value="61" />
-									<Picker.Item label="12 luni - 320 EUR" value="62" />
+								{this.renderValabilitiesAndPrices()}
 
-								</Picker>
 							</CardSection>
 
 							<CardSection>
