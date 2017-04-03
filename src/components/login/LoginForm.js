@@ -70,11 +70,8 @@ class LoginForm extends Component {
 		else {
 			AppState.addEventListener('change', this.handleAppStateChange);
 			//	this.notification();
-
 		}
-
 	}
-
 
 	componentWillUnmount() {
 		AppState.removeEventListener('change', this.handleAppStateChange);
@@ -148,14 +145,11 @@ class LoginForm extends Component {
 		Alert.alert(
 			'Eroare',
 			'Utilizator sau parola gresita',
-
 			[
-
 				{ text: 'OK', onPress: () => { } },
 			],
 			{ cancelable: false }
 		)
-
 	}
 
 	onLoginSuccess(response) {

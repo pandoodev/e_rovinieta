@@ -212,7 +212,18 @@ class Cart extends Component {
 		 		token: userInformation[1],
 		 		device: userInformation[2],
 				profileID: userInformation[3],
-		 		preparedRovignettes});
+		 		cart:preparedRovignettes});
+
+
+		console.log("parameters:");
+		console.log(querystring.stringify({
+
+			cart:preparedRovignettes
+
+		}));
+		console.log("parameters:");
+		
+				
 
 		console.log("parameters:");
 		console.log(parameters);
@@ -254,7 +265,7 @@ class Cart extends Component {
 			}
 
 		).then(function (response) {
-			console.log(response.data);
+			//console.log(response.data);
 
 			
 
