@@ -142,7 +142,7 @@ const window = Dimensions.get('window');
 
 
 const styles = {
-	containerStyle: {
+containerStyle: {
 		flexDirection: 'row',
 		marginLeft: 5,
 		marginRight: 5,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, ScrollView,Dimensions } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
 
@@ -39,7 +39,12 @@ class History extends Component {
 				}
 			});
 	}
+setPageHeight = function(options) {
+   return {
 
+    height: window.height*this.state.history.length/21
+   }
+ }
 
 	showOrderHistory() {
 
@@ -48,7 +53,8 @@ class History extends Component {
 			console.log(this.state.history);
 
 			return (
-				<View style={styles.pageContainerStyle}>
+				<View style={this.setPageHeight()}>
+				<ScrollView >
 
 					<View style={styles.containerStyle}>
 						<Text style={styles.nrCrtStyle}>Nr.</Text>
@@ -68,6 +74,7 @@ class History extends Component {
 
 						);
 					})}
+				</ScrollView >
 
 
 				</View>
@@ -93,6 +100,7 @@ class History extends Component {
 		);
 	}
 };
+const window = Dimensions.get('window');
 
 const styles = {
 	containerStyle: {
@@ -126,9 +134,8 @@ const styles = {
 		height: 50,
 		resizeMode: 'contain',
 	},
-		pageContainerStyle: {
-		height: window.height * 0.7,
-	},
+	
+	
 	textStyle: {
 		color: 'black',
 		flex: 3,
