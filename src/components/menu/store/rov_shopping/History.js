@@ -42,7 +42,7 @@ class History extends Component {
 setPageHeight = function(options) {
    return {
 
-    height: window.height*this.state.history.length/21
+    height: window.height*this.state.history.length/20
    }
  }
 
