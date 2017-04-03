@@ -69,9 +69,9 @@ class LoginForm extends Component {
 		}
 		else {
 			AppState.addEventListener('change', this.handleAppStateChange);
-		//	this.notification();
+			//	this.notification();
 
-		}	
+		}
 
 	}
 
@@ -167,6 +167,51 @@ class LoginForm extends Component {
 			error: ''
 		});
 
+		console.log("Push-notification setup started!");
+		PushNotification.configure({
+			onNotification:
+
+			function (notification) {
+
+				var loginData = AsyncStorage.getItem(STORAGE_KEY);
+				if (loginData !== null) {
+					loginData.then(function (value) {
+						if (value != null || value != undefined) {
+							var loginDataFromStorage = JSON.parse(value);
+
+
+							PushNotification.localNotificationSchedule({
+								message: notification['gcm.notification.body'],
+								date: new Date(Date.now())
+							});
+						}
+					});
+				}
+
+			},
+			// ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+			senderID: "728550501011",
+
+			// IOS ONLY (optional): default: all - Permissions to register.
+			permissions: {
+				alert: true,
+				badge: true,
+				sound: true
+			},
+
+			// Should the initial notification be popped automatically
+			// default: true
+			popInitialNotification: true,
+
+			/**
+			 * (optional) default: true
+			 * - Specified if permissions (ios) and token (android and ios) will requested or not,
+			 * - if not, you must call PushNotificationsHandler.requestPermissions() later
+			 */
+			requestPermissions: true,
+
+		});
+
 		Actions.main({ responseData: response.data });
 
 	}
@@ -185,42 +230,42 @@ class LoginForm extends Component {
 				<View style={styles.loginStyle}>
 					<View style={styles.insideStyle}>
 						<TextInput
-								placeholder="utilizator"
-								autoCorrect={false}
-								style={styles.inputStyle}
-								value={this.state.username}
-								onChangeText={username => this.setState({ username })}
-							/>
+							placeholder="utilizator"
+							autoCorrect={false}
+							style={styles.inputStyle}
+							value={this.state.username}
+							onChangeText={username => this.setState({ username })}
+						/>
 					</View>
 					<View style={styles.insideStyle}>
-							<TextInput
-								secureTextEntry
-								placeholder="parola"
-								autoCorrect={false}
-								style={styles.inputStyle}
-								value={this.state.password}
-								onChangeText={password => this.setState({ password })}
-							/>
+						<TextInput
+							secureTextEntry
+							placeholder="parola"
+							autoCorrect={false}
+							style={styles.inputStyle}
+							value={this.state.password}
+							onChangeText={password => this.setState({ password })}
+						/>
 					</View>
 					<View style={styles.insideStyle} >
 
-								{this.renderButton()}
+						{this.renderButton()}
 					</View>
 				</View>
 				<View style={styles.footerStyle}>
 					<View style={styles.insideStyle} >
-						<Text  
-						style={{color: 'blue'}}
-						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/contnou')}
+						<Text
+							style={{ color: 'blue' }}
+							onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/contnou')}
 						>
-						Crează cont</Text>								
+							Crează cont</Text>
 					</View>
-					
+
 					<View style={styles.insideStyle} >
-						<Text 
-						style={{color: 'blue', paddingBottom: 10}}
-						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/reset')}
-						>Resetare parolă</Text>								
+						<Text
+							style={{ color: 'blue', paddingBottom: 10 }}
+							onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/reset')}
+						>Resetare parolă</Text>
 					</View>
 				</View>
 			</View>

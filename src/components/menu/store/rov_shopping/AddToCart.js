@@ -22,7 +22,7 @@ class AddtoCart extends Component {
 		 loading: true,
 		 loadingPrices: true,
 		 country: 1, 
-		 nrDays: 95, 
+		 nrDays: 1, 
 		 pricesAndValabilities: [],
 		 error: '', 
 		 countries: [], isOpen: false,

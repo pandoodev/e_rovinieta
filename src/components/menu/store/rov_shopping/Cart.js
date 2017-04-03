@@ -4,6 +4,8 @@ import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import axios from 'axios';
 import querystring from 'query-string';
 import { Actions } from 'react-native-router-flux';
+import { WebView } from 'react-native';
+
 
 
 class Cart extends Component {
@@ -18,7 +20,6 @@ class Cart extends Component {
 			[
 				{ text: 'OK', onPress: () => { } },
 			],
-
 			{ cancelable: false }
 		)
 	}
@@ -141,6 +142,11 @@ class Cart extends Component {
 		var self = this;
 
 
+		console.log("Unprepared rovignetes")
+		console.log(obj);
+		console.log("Unprepared rovignetes")
+
+
 		for (var i = 0; i < this.state.itemsInCart.length; i++) {
 
 			preparedRovignettes[i]=
@@ -165,12 +171,58 @@ class Cart extends Component {
 
 	}
 
+	stringifyPreparedRovignettes(tag,token,device,profileID,preparedRovignettes)
+	{
+
+		result = "";
+
+		result += "tag=" + tag + 
+		"&token="+token + 
+		"&device="+device + 
+		"&profileID="+profileID;
+
+		for(x in preparedRovignettes)
+		{
+			for(y in preparedRovignettes[x])
+			{
+				result += "&" + y + "=" + preparedRovignettes[x][y];
+			}
+		}
+
+		return result;
+	}
+
 	generateInvoice(preparedRovignettes, userInformation) {
 		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
+		//url2 = "https://secure.payu.ro/order/lu.php";
 		console.log('ready to generate invoice with');
-		console.log( preparedRovignettes[0]);
+		console.log( preparedRovignettes);
+
 		
-		cart=preparedRovignettes;
+		parameters = "tag=emission&token=xGeYMO3sGXXOyJAgVwbwB7dLaif7pOIY&device=android&profileID=39955&cart%5B1%5D%5BcategoryID%5D=1&cart%5B1%5D%5BpriceID%5D=1&cart%5B1%5D%5BstartDate%5D=03-04-2017&cart%5B1%5D%5BvehicleNo%5D=GJ31ATM&cart%5B1%5D%5BchasisNo%5D=gwwfwqdfqw&cart%5B1%5D%5BvehicleCountry%5D=1";
+		stringifyResult = this.stringifyPreparedRovignettes(userInformation[0],
+		userInformation[1],
+		userInformation[2],
+		userInformation[3],
+		preparedRovignettes);
+
+
+		stringifyResult = querystring.stringify({
+		 		tag: userInformation[0],
+		 		token: userInformation[1],
+		 		device: userInformation[2],
+				profileID: userInformation[3],
+		 		preparedRovignettes});
+
+		console.log("parameters:");
+		console.log(parameters);
+		console.log("parameters:");
+		
+		console.log("stringifyPreparedRovignettes");
+		console.log(stringifyResult);
+		console.log("stringifyPreparedRovignettes");
+
+		cart = preparedRovignettes;
 		// console.log(querystring.stringify({
 		// 		tag: userInformation[0],
 		// 		token: userInformation[1],
@@ -182,17 +234,19 @@ class Cart extends Component {
 		// 		'cart[1][vehicleNo]': preparedRovignettes[0].vehicleNo,
 		// 		'cart[1][chasisNo]': preparedRovignettes[0].chasisNo,
 		// 		'cart[1][vehicleCountry]': preparedRovignettes[0].vehicleCountry,
-
 		// 	}));
-		axios.post(url,
-			querystring.stringify({
-				tag: userInformation[0],
-				token: userInformation[1],
-				device: userInformation[2],
-				profileID: userInformation[3],
-			//	preparedRovignettes
+		axios.post(
+			url,
+			//url2,
+			parameters,
+			// querystring.stringify({
+			// 	tag: userInformation[0],
+			// 	token: userInformation[1],
+			// 	device: userInformation[2],
+			// 	profileID: userInformation[3],
+			// //	preparedRovignettes
 
-			}),
+			// }),
 			{
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -201,11 +255,23 @@ class Cart extends Component {
 
 		).then(function (response) {
 			console.log(response.data);
+
+			
+
+			// setTimeout(function(){
+				
+			// myURL = "https://secure.payu.ro/order/lu.php";
+			// Linking.openURL(myURL).catch(err => console.error('An error occurred', err));
+
+
+			// }, 1000);
+
 		}).catch(function (error) {
 			console.log(error);
 		});
 
 	}
+
 
 	showItemsToUser() {
 		var self = this;
@@ -222,6 +288,8 @@ class Cart extends Component {
 			);
 		//Displaying items in cart stored in AsyncStorage
 		return (
+
+			
 			<View style={styles.pageContainerStyle}>
 				<ScrollView >
 
@@ -265,7 +333,12 @@ class Cart extends Component {
 						</View>
 					</View>
 				</ScrollView >
+
+		
 			</View>
+		
+		
+
 		);
 
 	}

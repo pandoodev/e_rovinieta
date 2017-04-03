@@ -29,7 +29,7 @@ const scenes = Actions.create(
 			<Scene key="account_settings" component={AccountSettings} />
 			
 			<Scene key="buy" component={AddToCart} />
-			<Scene key="shop" component={RovignetteShopMain} />
+			<Scene key="shop" component={RovignetteShopMain} />		
 			<Scene key="bridge_ticket" component={BuyBridgeTicket} />
 			<Scene key="bridge_ticket_to_cart" component={Categories} />
 			
