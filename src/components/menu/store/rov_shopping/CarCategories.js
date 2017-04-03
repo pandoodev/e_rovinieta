@@ -159,7 +159,7 @@ class MyCars extends Component {
 const window = Dimensions.get('window');
 const styles = {
 	pageContainerStyle: {
-		height:window.height*0.7,
+		height:window.height,
 	},
 	containerStyle: {
 		flex: 1,

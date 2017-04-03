@@ -1,3 +1,6 @@
+
+
+
 import React, { Component } from 'react';
 import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../common';
@@ -14,8 +17,9 @@ const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 //menu
-
-class AddProfile extends Component {
+ 
+class EditProfile extends Component {
+    
     state = {
         profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
         companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
@@ -23,7 +27,7 @@ class AddProfile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
+            profileType: 1, country: this.props.profileToModify.country, county: this.props.profileToModify.county, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
             companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
         }
     }
@@ -61,12 +65,11 @@ class AddProfile extends Component {
     // !!!End side-menu functions!!!
 
 
-
-
-    componentWillMount() {
-
+    componentDidMount () {
         this.getCountries();
         this.getCounties();
+        this.initialiseWithExistingData();
+        console.log('tst');
     }
 
     renderButton() {
@@ -77,7 +80,7 @@ class AddProfile extends Component {
         return (
             //	<Button onPress = {this.onButtonPress.bind(this)}> 
             <Button onPress={this.submitChangesButton.bind(this)}>
-                Crează Profil
+                Salvează Modificările
 		</Button>
         );
 
@@ -119,19 +122,22 @@ class AddProfile extends Component {
 
     submitChangesButton() {
         this.setState({ loading: true });
-        if (this.state.profileType === 1) {
+        if (this.props.profileToModify.type == 1) {
 
             console.log("fizic")
-            this.createPhysProfile();
+            console.log(this.props.profileToModify)
+            
+            this.editPhysProfile();
         }
         else {
             console.log("juridic")
-            this.createJurProfile();
+            console.log(this.props.profileToModify)
+            this.editJurProfile();
         }
 
 
-    }      
-    createPhysProfile() {
+    }
+    editPhysProfile() {
 
         // @type = 1
         // @firstname
@@ -145,10 +151,10 @@ class AddProfile extends Component {
         // Daca userul este de tip persoana fizica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'Country' + self.state.country +'County' + self.state.county + 'CnP' + self.state.CNP);
+        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'sss' + self.state.country + self.state.county + 'ss' + self.state.CNP);
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
-                tag: 'profile_new',
+                tag: 'profile_modify',
                 device: 'android',
                 token: self.props.responseData.user.token,
                 type: 1,
@@ -159,6 +165,7 @@ class AddProfile extends Component {
                 country: self.state.country,
                 county: self.state.county,
                 personalCode: self.state.CNP,
+                 pid:self.state.userID
 
 
             }), {
@@ -190,9 +197,9 @@ class AddProfile extends Component {
 
 
     }
- createJurProfile () {
+    editJurProfile() {
 
-          // @type = 0
+        // @type = 0
         // @company
         // @address
         // @city
@@ -208,20 +215,21 @@ class AddProfile extends Component {
         // Daca userul este de tip persoana juridica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode);
+        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode+'id'+  self.state.userID);
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
-                tag: 'profile_new',
+                tag: 'profile_modify',
                 device: 'android',
                 token: self.props.responseData.user.token,
                 type: 0,
                 companyName: self.state.companyName,
-                address: self.state.address,
+                address: self.state.companyAddress,
                 city: self.state.companyCity,
                 county: self.state.county,
                 country: self.state.country,
                 fiscalCode: self.state.cuiCode,
                 regCom: self.state.jCode,
+                pid:self.state.userID
 
 
             }), {
@@ -266,8 +274,8 @@ class AddProfile extends Component {
             }).then(function (response) {
                 if (response.data.success) {
                     var arrCountries = [];
-                    response.data.countries.forEach(function (countrieInfo) {
-                        arrCountries.push([countrieInfo['name'],countrieInfo['id']]);
+                    response.data.countries.forEach(function (countryInfo) {
+                        arrCountries.push([countryInfo['name'],countryInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
                     self.setState({ error: '', loading: false });
@@ -291,8 +299,8 @@ class AddProfile extends Component {
             }).then(function (response) {
                 if (response.data.success) {
                     var arrCounties = [];
-                    response.data.counties.forEach(function (countrieInfo) {
-                        arrCounties.push([countrieInfo['name'],countrieInfo['id']]);
+                    response.data.counties.forEach(function (countryInfo) {
+                        arrCounties.push([countryInfo['name'], countryInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
                     self.setState({ error: '', loading: false });
@@ -308,7 +316,8 @@ class AddProfile extends Component {
 
     renderCountries() {
         if (this.state.loading || this.state.loading == undefined) {
-            return <Spinner size='small' />;
+            return( 
+            <Spinner size='small'/>);
         }
         return (
             <Picker
@@ -337,10 +346,37 @@ class AddProfile extends Component {
                 })}</Picker>
         );
     }
+    initialiseWithExistingData() {
+        if (this.props.profileToModify.type == 0) {
+              this.setState({
+          
+           companyName:this.props.profileToModify.companyName,
+           companyAddress:this.props.profileToModify.address,
+           companyCity:this.props.profileToModify.city,
+           cuiCode:this.props.profileToModify.fiscalCode,
+           jCode:this.props.profileToModify.regComCode,
+           userID:this.props.profileToModify.id
+        });
 
+            
+    }
+        else {
+                 this.setState({
+           firstName:this.props.profileToModify.firstName,
+           street:this.props.profileToModify.address,
+           city:this.props.profileToModify.city,
+           CNP:this.props.profileToModify.personalID,
+           lastName:this.props.profileToModify.lastName,
+           userID:this.props.profileToModify.id
+
+           
+           
+        });
+
+        }
+    }
     showForm() {
-
-        if (this.state.profileType == 0) {
+        if (this.props.profileToModify.type == 0) {
             return (
                 <View>
                     <CardSection >
@@ -370,12 +406,12 @@ class AddProfile extends Component {
                             onChangeText={companyCity => this.setState({ companyCity })}
                         />
                     </CardSection>
-                     <CardSection >
+                    <CardSection >
                         <Input
                             placeholder="Independenței 23"
                             label="Adresă"
-                            value={this.state.address}
-                            onChangeText={address => this.setState({ address })}
+                            value={this.state.companyAddress}
+                            onChangeText={companyAddress => this.setState({ companyAddress })}
                         />
                     </CardSection>
                     <CardSection >
@@ -456,7 +492,7 @@ class AddProfile extends Component {
                         <Input
                             placeholder="1730610155203"
                             label="CNP"
-                            value={this.state.CNP}
+                            value={String(this.state.CNP)}
                             onChangeText={CNP => this.setState({ CNP })}
                         />
                     </CardSection>
@@ -491,18 +527,7 @@ class AddProfile extends Component {
                     <ScrollView >
 
                         <Card >
-                            <CardSection>
-                                <Text style={styles.textStyle}> Tip Profil: </Text>
-                                <Picker
-                                    style={styles.pickerStyle}
-                                    selectedValue={this.state.profileType}
-                                    onValueChange={(type) => this.setState({ profileType: type })}>
-                                    <Picker.Item label="Persoană Fizică" value="1" />
-                                    <Picker.Item label="Persoană Juridică" value="0" />
 
-
-                                </Picker>
-                            </CardSection>
                             {this.showForm()}
                         </Card>
                     </ScrollView >
@@ -576,6 +601,6 @@ const styles = {
     }
 };
 
-export default AddProfile;
+export default EditProfile;
 
 

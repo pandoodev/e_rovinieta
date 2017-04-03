@@ -7,10 +7,12 @@ import { Actions } from 'react-native-router-flux';
 import { WebView } from 'react-native';
 
 
+inCartRovignetteKey = null;
 
 class Cart extends Component {
 
 	state = { selected: '', cart: false, history: false, itemsInCart: '' };
+
 
 	//Display pop-up message to the user
 	message(title, content) {
@@ -59,6 +61,8 @@ class Cart extends Component {
 			itemsInCart: null,
 			loading: true,
 		};
+
+		inCartRovignetteKey = this.props.responseData.user.token;
 	}
 
 	//Getting data from AsyncStorage into state variable
@@ -164,7 +168,6 @@ class Cart extends Component {
 			userInformation[1] = obj[0]['token'];
 			userInformation[2] = obj[0]['device'];
 			userInformation[3] = obj[0]['profileID'];
-
 		}
 		
 		this.generateInvoice(preparedRovignettes, userInformation);
@@ -180,12 +183,13 @@ class Cart extends Component {
 		"&token="+token + 
 		"&device="+device + 
 		"&profileID="+profileID;
-
-		for(x in preparedRovignettes)
+	
+		for(index in preparedRovignettes)
 		{
-			for(y in preparedRovignettes[x])
+			var currentRovignette = preparedRovignettes[index];
+			for(rovignetteElement in currentRovignette)
 			{
-				result += "&" + y + "=" + preparedRovignettes[x][y];
+				result += "&cart%5B" + index + "%5D%5B"+rovignetteElement+"%5D=" + currentRovignette[rovignetteElement];
 			}
 		}
 
@@ -194,95 +198,35 @@ class Cart extends Component {
 
 	generateInvoice(preparedRovignettes, userInformation) {
 		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
-		//url2 = "https://secure.payu.ro/order/lu.php";
-		console.log('ready to generate invoice with');
-		console.log( preparedRovignettes);
 
+		//STUBBED PARAMETERS TO TEST THE API CALL
+		//parameters = "tag=emission&token=xGeYMO3sGXXOyJAgVwbwB7dLaif7pOIY&device=android&profileID=39955&cart%5B1%5D%5BcategoryID%5D=1&cart%5B1%5D%5BpriceID%5D=1&cart%5B1%5D%5BstartDate%5D=03-04-2017&cart%5B1%5D%5BvehicleNo%5D=GJ31ATM&cart%5B1%5D%5BchasisNo%5D=gwwfwqdfqw&cart%5B1%5D%5BvehicleCountry%5D=1";
 		
-		parameters = "tag=emission&token=xGeYMO3sGXXOyJAgVwbwB7dLaif7pOIY&device=android&profileID=39955&cart%5B1%5D%5BcategoryID%5D=1&cart%5B1%5D%5BpriceID%5D=1&cart%5B1%5D%5BstartDate%5D=03-04-2017&cart%5B1%5D%5BvehicleNo%5D=GJ31ATM&cart%5B1%5D%5BchasisNo%5D=gwwfwqdfqw&cart%5B1%5D%5BvehicleCountry%5D=1";
-		stringifyResult = this.stringifyPreparedRovignettes(userInformation[0],
+		stringifyResult = this.stringifyPreparedRovignettes(
+		userInformation[0],
 		userInformation[1],
 		userInformation[2],
 		userInformation[3],
 		preparedRovignettes);
 
-
-		stringifyResult = querystring.stringify({
-		 		tag: userInformation[0],
-		 		token: userInformation[1],
-		 		device: userInformation[2],
-				profileID: userInformation[3],
-		 		cart:preparedRovignettes});
-
-
-		console.log("parameters:");
-		console.log(querystring.stringify({
-
-			cart:preparedRovignettes
-
-		}));
-		console.log("parameters:");
-		
-				
-
-		console.log("parameters:");
-		console.log(parameters);
-		console.log("parameters:");
-		
-		console.log("stringifyPreparedRovignettes");
-		console.log(stringifyResult);
-		console.log("stringifyPreparedRovignettes");
-
-		cart = preparedRovignettes;
-		// console.log(querystring.stringify({
-		// 		tag: userInformation[0],
-		// 		token: userInformation[1],
-		// 		device: userInformation[2],
-		// 		profileID: userInformation[3],
-		// 		'cart[1][categoryID]': preparedRovignettes[0].categoryID,
-		// 		'cart[1][priceID]': preparedRovignettes[0].priceID,
-		// 		'cart[1][startDate]': preparedRovignettes[0].startDate,
-		// 		'cart[1][vehicleNo]': preparedRovignettes[0].vehicleNo,
-		// 		'cart[1][chasisNo]': preparedRovignettes[0].chasisNo,
-		// 		'cart[1][vehicleCountry]': preparedRovignettes[0].vehicleCountry,
-		// 	}));
 		axios.post(
 			url,
-			//url2,
-			parameters,
-			// querystring.stringify({
-			// 	tag: userInformation[0],
-			// 	token: userInformation[1],
-			// 	device: userInformation[2],
-			// 	profileID: userInformation[3],
-			// //	preparedRovignettes
-
-			// }),
+			stringifyResult,		
 			{
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}
 			}
-
 		).then(function (response) {
-			//console.log(response.data);
+			console.log(response.data);
 
-			
-
-			// setTimeout(function(){
-				
-			// myURL = "https://secure.payu.ro/order/lu.php";
-			// Linking.openURL(myURL).catch(err => console.error('An error occurred', err));
-
-
-			// }, 1000);
+			linkToAccess = "http://e-rovinieta.ctrlf5.ro/ro/transaction/" + userInformation[3];
+			Linking.openURL(linkToAccess).catch(err => console.error('An error occurred', err));
 
 		}).catch(function (error) {
 			console.log(error);
 		});
-
 	}
-
 
 	showItemsToUser() {
 		var self = this;
@@ -295,7 +239,6 @@ class Cart extends Component {
 
 					</View>
 				</View>
-
 			);
 		//Displaying items in cart stored in AsyncStorage
 		return (
@@ -365,7 +308,7 @@ class Cart extends Component {
 };
 const window = Dimensions.get('window');
 // AsyncStorage key to in cart rovignetts
-const inCartRovignetteKey = '@inCartRovignetteKey:key';
+
 const styles = {
 
 	pageContainerStyle: {

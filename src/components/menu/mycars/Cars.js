@@ -43,7 +43,9 @@ class Cars extends Component {
   }
   renderCars() {
     if (this.state.loading || this.state.loading == undefined) {
-      return <Spinner style={{paddingTop:40}} size='small' />;
+      return (<View  style={{ marginTop: 50}} >
+			<Spinner size='small' />
+			</View>);
     }
 
     if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
