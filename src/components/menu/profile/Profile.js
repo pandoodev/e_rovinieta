@@ -107,6 +107,7 @@ class Profile extends Component {
 	}
 	editProfileButton(i) {
 		console.log('edit' + i);
+		Actions.edit_profile({ responseData: this.props.responseData, headerTitle: 'Editare Profil', profileToModify:this.state.profiles[i] });
 	}
 	deleteProfileButton(index) {
 		// 		@tag = ‘profile_delete’
