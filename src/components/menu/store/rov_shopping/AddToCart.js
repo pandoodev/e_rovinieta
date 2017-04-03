@@ -15,6 +15,10 @@ const Menu = require('../../../common/Menu');
 import MenuButton from '../../../common/MenuButton';
 //menu
 
+
+
+inCartRovignetteKey = null;
+
 class AddtoCart extends Component {
 	state = {
 		userType: '', profileID: '', vehicleNo: '',
@@ -32,6 +36,7 @@ class AddtoCart extends Component {
 	constructor(props) {
 		super(props)
 		this.state = { date: this.getCurerntDate() }
+		inCartRovignetteKey = this.props.responseData.user.token;
 	}
 
 	//Display pop-up message to the user
@@ -111,10 +116,10 @@ getValabilities() {
 											break;
 										}
 									}
-								}
-															
+								}															
 
 								self.state.pricesAndValabilities = valabilitiesWithPrices;
+								self.setState({priceID: valabilitiesWithPrices[0].priceID});
 								self.setState({ error: '', loadingPrices: false });
 
 							}
@@ -138,6 +143,11 @@ getValabilities() {
 		}
 		else
 		{
+
+			console.log("this.state.pricesAndValabilities");
+			console.log(this.state.priceID);
+			console.log("this.state.pricesAndValabilities");	
+			
 			return (
 			<Picker
 				style={styles.pickerStyle}
@@ -213,7 +223,7 @@ getValabilities() {
 	}
 
 	componentWillMount() {
-		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "95", error: "" });
+		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "1", error: "" });
 		this.getCountries();
 		this.getProfileID();		
 		this.getValabilities();
@@ -545,7 +555,7 @@ getValabilities() {
 		)
 	}
 };
-const inCartRovignetteKey = '@inCartRovignetteKey:key';
+
 const styles = {
 	containerStyle: {
 		flex: 1,
