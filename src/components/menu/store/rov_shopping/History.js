@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, ScrollView,Dimensions } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { Spinner } from '../../../common';
+
 import axios from 'axios';
 import querystring from 'query-string';
 
 class History extends Component {
 
-	state = { selected: '', cart: false, history: false };
+	state = { selected: '',  history: '', loading: true };
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: true,
+			history:''
+		};
 
+	}
 	componentDidMount() {
 		this.getOrderHistory();
-
 	}
 	getOrderHistory() {
 		console.log("--getOrderHistory--")
@@ -26,7 +34,7 @@ class History extends Component {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}
 			}).then(function (response) {
-
+				self.setState({ loading: false });
 				if (response.data.success) {
 
 					self.setState({ history: response.data.orders });
@@ -35,16 +43,30 @@ class History extends Component {
 				}
 				if (response.data.success === 0) {
 					console.log("unsuccess while getting profile id");
+
 					console.log(response.data);
 				}
 			});
 	}
-setPageHeight = function(options) {
-   return {
+	setPageHeight = function (options) {
+		return {
 
-    height: window.height*this.state.history.length/19
-   }
- }
+			height: window.height * this.state.history.length / 19
+		}
+	}
+	renderHistory() {
+		if (this.state.loading || this.state.loading == undefined) {
+			return (
+				<View style={{ marginTop: 50 }} >
+					<Spinner size='small' />
+				</View>);
+		}
+		else {
+			return (
+			this.showOrderHistory()
+			);
+		}
+	}
 
 	showOrderHistory() {
 
@@ -54,27 +76,27 @@ setPageHeight = function(options) {
 
 			return (
 				<View style={this.setPageHeight()}>
-				<ScrollView >
+					<ScrollView >
 
-					<View style={styles.containerStyle}>
-						<Text style={styles.nrCrtStyle}>Nr.</Text>
-						<Text style={styles.textStyle}>Nr. înmmatriculare:</Text>
-						<Text style={styles.textStyle}>Valabil până la:</Text>
-					</View>
+						<View style={styles.containerStyle}>
+							<Text style={styles.nrCrtStyle}>Nr.</Text>
+							<Text style={styles.textStyle}>Nr. înmmatriculare:</Text>
+							<Text style={styles.textStyle}>Valabil până la:</Text>
+						</View>
 
-					{this.state.history.map(function (o, i) {
-						return (
+						{this.state.history.map(function (o, i) {
+							return (
 
-							<View key={i} style={styles.elementStyle}>
-								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-								<Text style={styles.textStyle} key={1}>{o.vehicleNo}</Text>
-								<Text style={styles.textStyle} key={2}>{o.endDate}</Text>
+								<View key={i} style={styles.elementStyle}>
+									<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
+									<Text style={styles.textStyle} key={1}>{o.vehicleNo}</Text>
+									<Text style={styles.textStyle} key={2}>{o.endDate}</Text>
 
-							</View>
+								</View>
 
-						);
-					})}
-				</ScrollView >
+							);
+						})}
+					</ScrollView >
 
 
 				</View>
@@ -94,7 +116,7 @@ setPageHeight = function(options) {
 	render() {
 		return (
 			<View>
-				{this.showOrderHistory()}
+				{this.renderHistory()}
 			</View>
 
 		);
@@ -134,8 +156,8 @@ const styles = {
 		height: 50,
 		resizeMode: 'contain',
 	},
-	
-	
+
+
 	textStyle: {
 		color: 'black',
 		flex: 3,
@@ -151,7 +173,7 @@ const styles = {
 		alignItems: 'center',
 		width: 10,
 
-	},	elementStyle: {
+	}, elementStyle: {
 		flex: 1,
 		flexDirection: 'row',
 		marginTop: 5,

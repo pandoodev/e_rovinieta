@@ -51,7 +51,12 @@ class Profile extends Component {
 		var self = this;
 
 		if (this.state.loading || this.state.loading == undefined) {
-			return <Spinner size='small' />;
+			return (
+			
+			<View  style={{ marginTop: 50}} >
+			<Spinner size='small' />
+			</View>
+			);
 		}
 		return (<View style={{ marginTop: window.height * 0.01 }}>
 			<View style={styles.titleContainerStyle}>

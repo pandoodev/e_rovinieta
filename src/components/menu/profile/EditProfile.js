@@ -316,7 +316,8 @@ class EditProfile extends Component {
 
     renderCountries() {
         if (this.state.loading || this.state.loading == undefined) {
-            return <Spinner size='small' />;
+            return( 
+            <Spinner size='small'/>);
         }
         return (
             <Picker
@@ -491,7 +492,7 @@ class EditProfile extends Component {
                         <Input
                             placeholder="1730610155203"
                             label="CNP"
-                            value={this.state.CNP}
+                            value={String(this.state.CNP)}
                             onChangeText={CNP => this.setState({ CNP })}
                         />
                     </CardSection>
