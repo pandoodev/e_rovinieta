@@ -117,7 +117,7 @@ class Cart extends Component {
 	}
 	delelteButton() {
 		this.deleteItems();
-		this.message('Succes', 'Elementele au fost eliminate din cos.');
+		
 	}
 
 
@@ -198,10 +198,11 @@ class Cart extends Component {
 
 	generateInvoice(preparedRovignettes, userInformation) {
 		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
+			this.deleteItems();
 
 		//STUBBED PARAMETERS TO TEST THE API CALL
 		//parameters = "tag=emission&token=xGeYMO3sGXXOyJAgVwbwB7dLaif7pOIY&device=android&profileID=39955&cart%5B1%5D%5BcategoryID%5D=1&cart%5B1%5D%5BpriceID%5D=1&cart%5B1%5D%5BstartDate%5D=03-04-2017&cart%5B1%5D%5BvehicleNo%5D=GJ31ATM&cart%5B1%5D%5BchasisNo%5D=gwwfwqdfqw&cart%5B1%5D%5BvehicleCountry%5D=1";
-		
+		var self=this;
 		stringifyResult = this.stringifyPreparedRovignettes(
 		userInformation[0],
 		userInformation[1],
@@ -219,7 +220,6 @@ class Cart extends Component {
 			}
 		).then(function (response) {
 			console.log(response.data);
-
 			linkToAccess = "http://e-rovinieta.ctrlf5.ro/ro/transaction/" + userInformation[3];
 			Linking.openURL(linkToAccess).catch(err => console.error('An error occurred', err));
 
