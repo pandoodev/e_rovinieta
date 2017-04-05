@@ -23,7 +23,11 @@ class History extends Component {
 	getOrderHistory() {
 		console.log("--getOrderHistory--")
 		var self = this;
-		console.log(this.props.responseData)
+
+		
+		console.log(this.props.responseData);
+		
+
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'orders',
@@ -37,12 +41,27 @@ class History extends Component {
 				self.setState({ loading: false });
 				if (response.data.success) {
 
+					console.log("before");
+					console.log(response.data.orders);
+					console.log("before");
+					
+					response.data.orders.sort(function (a, b) {
+						var keyA = new Date(a.startDate),
+							keyB = new Date(b.startDate);
+						// Compare the 2 dates
+						if (keyA < keyB) return 1;
+						if (keyA > keyB) return -1;
+						return 0;
+					});
+
+					console.log("after");
+					console.log(response.data.orders);
+					console.log("after");
+
 					self.setState({ history: response.data.orders });
-
-
 				}
 				if (response.data.success === 0) {
-					console.log("unsuccess while getting profile id");
+					console.log("unsuccess while getting orders");
 
 					console.log(response.data);
 				}

@@ -142,10 +142,7 @@ getValabilities() {
 			return <Spinner size='small' />;
 		}
 		else
-		{
-
-			
-			
+		{					
 			return (
 			<Picker
 				style={styles.pickerStyle}
@@ -159,8 +156,7 @@ getValabilities() {
 																
 				</Picker>
 			);
-		}
-		
+		}		
 	}
 
 	getPrices() {
