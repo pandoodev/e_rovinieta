@@ -37,7 +37,7 @@ module.exports = class Menu extends Component {
             <Text
               onPress={() => {this.props.onItemSelected('dashboard'); Actions.dashboard({responseData: this.props.responseData})} }
               style={styles.item}>
-              Dashboard
+              Prima pagină
                     </Text>
               </View>
                     
@@ -52,7 +52,7 @@ module.exports = class Menu extends Component {
             <Text
               onPress={() => {this.props.onItemSelected('profiles'); Actions.profiles({responseData: this.props.responseData})}}
               style={styles.item}>
-              Profilele mele
+              Profilurile mele
               </Text>   
                </View>
           </View>
@@ -65,7 +65,7 @@ module.exports = class Menu extends Component {
             <Text
               onPress={() => {this.props.onItemSelected('cars'); Actions.cars({responseData: this.props.responseData})}}
               style={styles.item}>
-              Masinile mele
+              Mașinile mele
                 </Text>
           </View>
                 
@@ -78,7 +78,7 @@ module.exports = class Menu extends Component {
             <Text
               onPress={() => {this.props.onItemSelected('accountsettings'); Actions.account_settings({responseData: this.props.responseData})}}
               style={styles.item}>
-              Setari cont
+              Setări cont
                   </Text>
                   </View>
           </View>

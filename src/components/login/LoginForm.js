@@ -249,7 +249,7 @@ class LoginForm extends Component {
 				<View style={styles.footerStyle}>
 					<View style={styles.insideStyle} >
 						<Text
-							style={{ color: 'blue' }}
+							style={{ color: '#337ab7' }}
 							onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/contnou')}
 						>
 							Crează cont</Text>
@@ -257,7 +257,7 @@ class LoginForm extends Component {
 
 					<View style={styles.insideStyle} >
 						<Text
-							style={{ color: 'blue', paddingBottom: 10 }}
+							style={{ color: '#337ab7', paddingBottom: 10 }}
 							onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/reset')}
 						>Resetare parolă</Text>
 					</View>
@@ -293,9 +293,11 @@ const styles = {
 		justifyContent: 'center',
 	},
 	footerStyle: {
-		flex: .25,
-		justifyContent: 'flex-end',
+		flex: .3,
 		alignSelf: 'center',
+		justifyContent: 'flex-end',
+		paddingBottom:15
+		
 	},
 	headerStyle: {
 		flex: .25,

@@ -9,7 +9,8 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -42,13 +43,6 @@ componentWillMount(){
   }
   // !!!End side-menu functions!!!
 
-
-
-
-
-
-
-
   render() {
     //menu
     const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
@@ -66,9 +60,12 @@ componentWillMount(){
         }}>
           {/*Content start */}
           
-          <Header headerText={'Prima Pagină'} />
+          <Header headerText={'Prima pagină'} />
           
           <View style={styles.containerRov}>
+                <Text style={styles.asideText}> Cumpără roviniete online!  </Text>
+                <Text style={styles.smallText}> Plătești cu cardul și o primești instant prin SMS și e-mail </Text>
+                
 
               <TouchableOpacity
                 onPress={() => { Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }); }}
@@ -77,6 +74,11 @@ componentWillMount(){
                 <Text style={styles.welcomeText}> Cumpără rovinietă</Text>
 
               </TouchableOpacity>
+                <Text style={styles.smallText}> Serviciu oferit UNTRR - distribuitor autorizat de CNAIR pentru emitere de roviniete electronice</Text>
+              
+                </View>
+            <View style={{ flex:0.2, paddingBottom:20, marginLeft:-15}}>
+              <Image source={require('../../../../assets/untr.jpg')} style={styles.imgStyle} />
           </View>
         
           {/*!!!Content end!!! */}
@@ -87,18 +89,35 @@ componentWillMount(){
     );
   }
 }
+const window = Dimensions.get('window');
 
 const styles = {
   containerRov: {
     backgroundColor:'#FFFFFF',
     justifyContent: 'center',
-    flex: 0.5,
-    borderBottomWidth: 2.5,
+    flex: 1,
   },
   containerBridge: {
     justifyContent: 'center',
     flex: 0.5,
-    borderTopWidth: 2.5,
+  }, 
+   asideText: {
+    fontSize: 30,
+   textAlign: 'center',
+    color: '#000000',
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 10
+    
+  },
+  smallText: {
+    fontSize: 24,
+   textAlign: 'center',
+    color: '#000000',
+    fontWeight: '600',
+    paddingTop: 5,
+    paddingBottom: 10
+    
   },
   welcomeText: {
     fontSize: 35,
@@ -130,6 +149,12 @@ const styles = {
     marginRight: 5
     
   },
+  imgStyle:{
+    flex:1,
+    width:null,
+    resizeMode: 'contain',
+    height:null,
+  }
 };
 
 export default Dashboard;

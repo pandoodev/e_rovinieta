@@ -17,17 +17,17 @@ const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 //menu
- 
+
 class EditProfile extends Component {
-    
+
     state = {
-        profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
+        profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
         companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
     };
     constructor(props) {
         super(props)
         this.state = {
-            profileType: 1, country: this.props.profileToModify.country, county: this.props.profileToModify.county, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
+            profileType: 1, country: this.props.profileToModify.country, county: this.props.profileToModify.county, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', buttonLoading: false, CNP: null, error: "", loading: false,
             companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
         }
     }
@@ -65,7 +65,7 @@ class EditProfile extends Component {
     // !!!End side-menu functions!!!
 
 
-    componentDidMount () {
+    componentDidMount() {
         this.getCountries();
         this.getCounties();
         this.initialiseWithExistingData();
@@ -73,7 +73,7 @@ class EditProfile extends Component {
     }
 
     renderButton() {
-        if (this.state.loading) {
+        if (this.state.butttonLoading) {
             return <Spinner size='small' />;
         }
 
@@ -126,7 +126,7 @@ class EditProfile extends Component {
 
             console.log("fizic")
             console.log(this.props.profileToModify)
-            
+
             this.editPhysProfile();
         }
         else {
@@ -165,7 +165,7 @@ class EditProfile extends Component {
                 country: self.state.country,
                 county: self.state.county,
                 personalCode: self.state.CNP,
-                 pid:self.state.userID
+                pid: self.state.userID
 
 
             }), {
@@ -215,7 +215,7 @@ class EditProfile extends Component {
         // Daca userul este de tip persoana juridica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode+'id'+  self.state.userID);
+        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode + 'id' + self.state.userID);
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile_modify',
@@ -229,7 +229,7 @@ class EditProfile extends Component {
                 country: self.state.country,
                 fiscalCode: self.state.cuiCode,
                 regCom: self.state.jCode,
-                pid:self.state.userID
+                pid: self.state.userID
 
 
             }), {
@@ -275,7 +275,7 @@ class EditProfile extends Component {
                 if (response.data.success) {
                     var arrCountries = [];
                     response.data.countries.forEach(function (countryInfo) {
-                        arrCountries.push([countryInfo['name'],countryInfo['id']]);
+                        arrCountries.push([countryInfo['name'], countryInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
                     self.setState({ error: '', loading: false });
@@ -316,22 +316,21 @@ class EditProfile extends Component {
 
     renderCountries() {
         if (this.state.loading || this.state.loading == undefined) {
-            return( 
-            <Spinner size='small'/>);
+            return (
+                <Spinner size='small' />);
         }
         return (
-                                            <View style={styles.pickerContainerStyle}>
-
-            <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.country}
-                onValueChange={(loc) => this.setState({ country: loc })}>
-                {
-                    this.state.countries.map(function (o, i) {
-
-                        return <Picker.Item value={o[1]} label={o[0]} key={i} />
-                    })}</Picker>
-                    </View>
+            <View style={styles.pickerContainerStyle}>
+                <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.country}
+                    onValueChange={(loc) => this.setState({ country: loc })}>
+                    {
+                        this.state.countries.map(function (o, i) {
+                            return <Picker.Item value={o[1]} label={o[0]} key={i} />
+                        })
+                    }</Picker>
+            </View>
         );
     }
     renderCounties() {
@@ -339,46 +338,39 @@ class EditProfile extends Component {
             return <Spinner size='small' />;
         }
         return (
-                                            <View style={styles.pickerContainerStyle}>
+            <View style={styles.pickerContainerStyle}>
 
-            <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.county}
-                onValueChange={(loc) => this.setState({ county: loc })}>
-                {this.state.counties.map(function (o, i) {
+                <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.county}
+                    onValueChange={(loc) => this.setState({ county: loc })}>
+                    {this.state.counties.map(function (o, i) {
 
-                    return <Picker.Item value={o[1]} label={o[0]} key={i} />
-                })}</Picker>
-                </View>
+                        return <Picker.Item value={o[1]} label={o[0]} key={i} />
+                    })}</Picker>
+            </View>
         );
     }
     initialiseWithExistingData() {
         if (this.props.profileToModify.type == 0) {
-              this.setState({
-          
-           companyName:this.props.profileToModify.companyName,
-           companyAddress:this.props.profileToModify.address,
-           companyCity:this.props.profileToModify.city,
-           cuiCode:this.props.profileToModify.fiscalCode,
-           jCode:this.props.profileToModify.regComCode,
-           userID:this.props.profileToModify.id
-        });
-
-            
-    }
+            this.setState({
+                companyName: this.props.profileToModify.companyName,
+                companyAddress: this.props.profileToModify.address,
+                companyCity: this.props.profileToModify.city,
+                cuiCode: this.props.profileToModify.fiscalCode,
+                jCode: this.props.profileToModify.regComCode,
+                userID: this.props.profileToModify.id
+            });
+        }
         else {
-                 this.setState({
-           firstName:this.props.profileToModify.firstName,
-           street:this.props.profileToModify.address,
-           city:this.props.profileToModify.city,
-           CNP:this.props.profileToModify.personalID,
-           lastName:this.props.profileToModify.lastName,
-           userID:this.props.profileToModify.id
-
-           
-           
-        });
-
+            this.setState({
+                firstName: this.props.profileToModify.firstName,
+                street: this.props.profileToModify.address,
+                city: this.props.profileToModify.city,
+                CNP: this.props.profileToModify.personalID,
+                lastName: this.props.profileToModify.lastName,
+                userID: this.props.profileToModify.id
+            });
         }
     }
     showForm() {
@@ -388,19 +380,19 @@ class EditProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="Exemplu SRL"
-                            label="Denumire:"
+                            label="Denumire"
                             value={this.state.companyName}
                             onChangeText={companyName => this.setState({ companyName })}
                         />
                     </CardSection>
 
                     <CardSection>
-                        <Text style={styles.textStyle} > Țara: </Text>
+                        <Text style={styles.textStyle} > Țara </Text>
                         {this.renderCountries()}
 
                     </CardSection>
                     <CardSection>
-                        <Text style={styles.textStyle} > Județ: </Text>
+                        <Text style={styles.textStyle} > Județ </Text>
                         {this.renderCounties()}
 
                     </CardSection>
@@ -431,13 +423,13 @@ class EditProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="J24/2673/1994"
-                            label="R. Comert:"
+                            label="R. Comert"
                             value={this.state.jCode}
                             onChangeText={jCode => this.setState({ jCode })}
                         />
                     </CardSection>
 
-                        {this.renderButton()}
+                    {this.renderButton()}
                 </View>
 
             );
@@ -451,7 +443,7 @@ class EditProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="Ion"
-                            label="Prenume:"
+                            label="Prenume"
                             value={this.state.firstName}
                             onChangeText={firstName => this.setState({ firstName })}
                         />
@@ -459,19 +451,19 @@ class EditProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="Popescu"
-                            label="Nume:"
+                            label="Nume"
                             value={this.state.lastName}
                             onChangeText={lastName => this.setState({ lastName })}
                         />
                     </CardSection>
 
                     <CardSection>
-                        <Text style={styles.textStyle} > Țara: </Text>
+                        <Text style={styles.textStyle} > Țara </Text>
                         {this.renderCountries()}
 
                     </CardSection>
                     <CardSection>
-                        <Text style={styles.textStyle} > Județ: </Text>
+                        <Text style={styles.textStyle} > Județ </Text>
                         {this.renderCounties()}
 
 
@@ -502,7 +494,7 @@ class EditProfile extends Component {
                     </CardSection>
 
 
-                        {this.renderButton()}
+                    {this.renderButton()}
                 </View>
             );
         }
@@ -557,7 +549,8 @@ const styles = {
     ,
     pickerStyle: {
         color: 'black',
-        marginLeft:-7,
+        marginLeft: -7,
+
 
 
     },
@@ -565,6 +558,8 @@ const styles = {
         borderBottomColor: '#808080',
         borderBottomWidth: 1,
         marginLeft: 5,
+
+
         flex: 2
     },
     buttonStyle: {

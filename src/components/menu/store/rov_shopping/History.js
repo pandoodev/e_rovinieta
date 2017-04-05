@@ -7,13 +7,13 @@ import querystring from 'query-string';
 
 class History extends Component {
 
-	state = { selected: '',  history: '', loading: true };
+	state = { selected: '', history: '', loading: true };
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			loading: true,
-			history:''
+			history: ''
 		};
 
 	}
@@ -24,9 +24,9 @@ class History extends Component {
 		console.log("--getOrderHistory--")
 		var self = this;
 
-		
+
 		console.log(this.props.responseData);
-		
+
 
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -44,7 +44,7 @@ class History extends Component {
 					console.log("before");
 					console.log(response.data.orders);
 					console.log("before");
-					
+
 					response.data.orders.sort(function (a, b) {
 						var keyA = new Date(a.startDate),
 							keyB = new Date(b.startDate);
@@ -70,7 +70,7 @@ class History extends Component {
 	setPageHeight = function (options) {
 		return {
 
-			height: window.height * this.state.history.length / 19
+			height: 250+ this.state.history.length *30
 		}
 	}
 	renderHistory() {
@@ -82,7 +82,7 @@ class History extends Component {
 		}
 		else {
 			return (
-			this.showOrderHistory()
+				this.showOrderHistory()
 			);
 		}
 	}
@@ -98,17 +98,17 @@ class History extends Component {
 					<ScrollView >
 
 						<View style={styles.containerStyle}>
-							<Text style={styles.nrCrtStyle}>Nr.</Text>
-							<Text style={styles.textStyle}>Nr. înmmatriculare:</Text>
-							<Text style={styles.textStyle}>Valabil până la:</Text>
+							<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
+							<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
+							<Text style={styles.textHeaderStyle}>Valabil până la</Text>
 						</View>
 
 						{this.state.history.map(function (o, i) {
 							return (
 
-								<View key={i} style={styles.elementStyle}>
+								<View key={i} style={styles.itemContainerStyle}>
 									<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-									<Text style={styles.textStyle} key={1}>{o.vehicleNo}</Text>
+									<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
 									<Text style={styles.textStyle} key={2}>{o.endDate}</Text>
 
 								</View>
@@ -134,9 +134,12 @@ class History extends Component {
 
 	render() {
 		return (
+
 			<View>
 				{this.renderHistory()}
 			</View>
+									
+
 
 		);
 	}
@@ -145,13 +148,22 @@ const window = Dimensions.get('window');
 
 const styles = {
 	containerStyle: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		marginLeft: 10,
-		marginRight: 10,
+	    paddingTop: 3,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 5,
+    marginLeft: 10,
+    marginRight: 10,
 	}
 	,
+	 itemContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginLeft: 10,
+    marginRight: 10,
+  },
 	buttonStyle: {
 		flex: 1,
 		justifyContent: 'center',
@@ -177,20 +189,41 @@ const styles = {
 	},
 
 
-	textStyle: {
-		color: 'black',
+	autonrStyle: {
 		flex: 3,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 60,
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
+
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 	},
-	nrCrtStyle: {
-		color: 'black',
-		flex: 0.65,
+	textStyle: {
+		flex: 5,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 10,
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
+		borderColor: '#bbb',
+		borderWidth: 1,
+	},
+	nrCrtStyle: {
+		flex: 1,
+
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 	}, elementStyle: {
 		flex: 1,
@@ -199,6 +232,42 @@ const styles = {
 		marginLeft: 10,
 		marginRight: 10,
 	},
+  autonrHeaderStyle: {
+    flex: 3,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+  },
+  textHeaderStyle: {
+    flex: 5,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+
+
+  },
+  nrCrtHeaderStyle: {
+    flex: 1,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+
+  },
 };
 
 export default History;

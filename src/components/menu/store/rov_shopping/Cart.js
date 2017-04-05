@@ -241,7 +241,7 @@ class Cart extends Component {
 			return (
 				<View style={styles.emptyCartContainerStyle}>
 					<View style={styles.emptyCartTextStyle} >
-						<Text > Cosul este gol.</Text>
+						<Text > Coșul este gol.</Text>
 
 					</View>
 				</View>
@@ -254,10 +254,10 @@ class Cart extends Component {
 				<ScrollView >
 
 					<View style={styles.containerStyle}>
-						<Text style={styles.nrCrtStyle}>Nr.</Text>
-						<Text style={styles.textStyle}>Nr. înmatriculare:</Text>
-						<Text style={styles.textStyle}>  Incepe la:</Text>
-						<Text style={styles.textStyle}>Sterge din Cos</Text>
+						<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
+						<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
+						<Text style={styles.textHeaderStyle}>  Incepe la</Text>
+						<Text style={styles.textHeaderStyle}></Text>
 
 					</View>
 
@@ -266,9 +266,9 @@ class Cart extends Component {
 
 							<View key={i} style={styles.elementStyle}>
 								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-								<Text style={styles.textStyle} key={1}>{o.vehicleNo}</Text>
+								<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
 								<Text style={styles.textStyle} key={2}>{o.startDate}</Text>
-								<TouchableOpacity style={styles.deleteItemButtonContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
+								<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
 									<Image
 										style={styles.deleteItemButtonStyle}
 										source={require('../../../../../assets/delete.png')}
@@ -321,11 +321,11 @@ const styles = {
 		height: window.height * 0.7,
 	},
 	elementStyle: {
-		flex: 1,
-		flexDirection: 'row',
-		marginTop: 5,
-		marginLeft: 10,
-		marginRight: 10,
+	   flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginLeft: 10,
+    marginRight: 10,
 	},
 	containerStyle: {
 		flex: 1,
@@ -366,19 +366,28 @@ const styles = {
 		width: 5,
 	},
 	textStyle: {
-		color: 'black',
-		flex: 3,
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 60,
+		  flex: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'black',
+    height: 30,
+    paddingTop: 6,
+    borderColor: '#bbb',
+    borderWidth: 1,
 
 	},
 	nrCrtStyle: {
-		color: 'black',
-		flex: 0.65,
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 10,
+	flex: 1,
+
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'black',
+    height: 30,
+    paddingTop: 6,
+    borderColor: '#bbb',
+    borderWidth: 1,
 
 	},
 	emptyCartContainerStyle: {
@@ -403,6 +412,63 @@ const styles = {
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.1,
 		shadowRadius: 2,
+	},
+	  autonrHeaderStyle: {
+    flex: 5,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+  },
+  textHeaderStyle: {
+    flex: 5,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+
+
+  },
+  nrCrtHeaderStyle: {
+    flex: 1.6,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+
+  },autonrStyle: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'black',
+    height: 30,
+    paddingTop: 6,
+
+    borderColor: '#bbb',
+    borderWidth: 1,
+  },	iconContainerStyle: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		height: 30,
+		borderColor: '#bbb',
+		borderWidth: 1,
+
+
 	},
 };
 

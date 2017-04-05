@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity} from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions} from 'react-native';
 //menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
@@ -57,7 +57,7 @@ class AccountSettings extends Component {
           backgroundColor: '#FFFFFF',
         }}>
           {/*Content start */}
-		  <Header headerText={'Setari Cont'} />
+		  <Header headerText={'Setări cont'} />
 
 
 			<View style={styles.containerStyle}>
@@ -65,7 +65,14 @@ class AccountSettings extends Component {
 						<Text style={styles.textStyle} >Email: {this.props.responseData.user.email}</Text>
 						<Text style={styles.textStyle} >Telefon:  - </Text>
 				</View>
+						 <View style={styles.insideStyle} >
+              <Text
+                style={{ color: '#337ab7', paddingBottom: 10 }}
+                onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
+              >Modifică datele contului</Text>
+            </View>
 			</View>
+	
 
 
 
@@ -77,22 +84,31 @@ class AccountSettings extends Component {
 		);
 	}
 };
+const window = Dimensions.get('window');
 
 const styles = {
 	containerStyle: {
 		flex: 1,
-		flexDirection: 'row',
+		flexDirection: 'column',
 		justifyContent: 'space-around',
-		marginTop: 80,
 		marginLeft: 10,
 		marginRight: 10,
+		paddingTop:window.height*0.35,
+		paddingBottom:window.height*0.35,
 	}
 	,
+  insideStyle: {
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    position: 'relative',
+    alignSelf: 'center',
+  },
 	buttonStyle: {
 		flex: 1,
-		justifyContent: 'center',
+		flexDirection: 'column',
+		height:window.height*0.1,
+		justifyContent: 'space-around',
 		alignItems: 'center',
-		height: 80,
 		elevation: 1,
 		borderWidth: 1,
 		borderRadius: 2,
@@ -112,7 +128,6 @@ const styles = {
 		resizeMode: 'contain',
 	},
 	textStyle: {
-		paddingTop: -5,
 		marginBottom: 15,
 
 

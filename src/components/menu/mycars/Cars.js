@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking, ScrollView } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
 import { Spinner } from '../../common';
@@ -43,27 +43,35 @@ class Cars extends Component {
   }
   renderCars() {
     if (this.state.loading || this.state.loading == undefined) {
-      return (<View  style={{ marginTop: 50}} >
-			<Spinner size='small' />
-			</View>);
+      return (<View style={{ marginTop: 50 }} >
+        <Spinner size='small' />
+      </View>);
     }
 
     if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
       return <View style={styles.emptyContainerStyle}><View style={styles.buttonStyle}><Text > Nu exista masini inregistrate pe acest cont.</Text></View></View>
-    return (<View style={{ marginTop: window.height * 0.01 }}>
-      <View key={0} style={styles.containerStyle}>
-        <Text style={styles.nrCrtStyle}>Nr.</Text>
-        <Text style={[styles.textStyle,{flex:0.35}]}>Nr. înmatriculare</Text>
-        <Text style={[styles.textStyle,{flex:0.50}]}>Nr. șasiu</Text>
+    return (
+      <View style={this.setPageHeight()}>
+        <ScrollView >
+          <View key={0} style={styles.containerStyle}>
+            <Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
+            <Text style={[styles.autonrHeaderStyle]}>Nr. auto</Text>
+            <Text style={[styles.textHeaderStyle]}>Nr. șasiu</Text>
+          </View>
+
+          {this.state.vehicles.map(function (o, i) {
+
+            return (
+              <View key={i + 1} style={styles.itemContainerStyle}>
+                <Text style={styles.nrCrtStyle} key={0}> {i + 1}. </Text>
+                <Text style={[styles.autonrStyle]} key={1}>{o.plateNo}</Text>
+                <Text style={[styles.textStyle]} key={2}>{o.chasisNo}</Text>
+              </View>
+            )
+          })}
+        </ScrollView >
       </View>
-      {this.state.vehicles.map(function (o, i) {
-
-        return <View key={i + 1} style={styles.containerStyle}><Text style={styles.nrCrtStyle} key={0}> {i + 1}. </Text><Text style={[styles.textStyle,{flex:0.35}]} key={1}>{o.plateNo}</Text><Text style={[styles.textStyle,{flex:0.50}]} key={2}>{o.chasisNo}</Text></View>
-
-
-
-      })}
-    </View>);
+    );
   }
   getCars() {
     var self = this;
@@ -88,6 +96,12 @@ class Cars extends Component {
       });
 
   }
+  setPageHeight = function (options) {
+    return {
+
+      height: 100 + this.state.vehicles.length * 30
+    }
+  }
   componentWillMount() {
     this.getCars();
   }
@@ -107,17 +121,21 @@ class Cars extends Component {
           backgroundColor: '#FFFFFF',
         }}>
           {/*Content start */}
-          <Header headerText={'Masinile Mele'} />
+          <Header headerText={'Mașinile mele'} />
+          <ScrollView >
 
-          <View>
-            {this.renderCars()}
+            <View>
+              {this.renderCars()}
+            </View>
             <View style={styles.insideStyle} >
-						<Text 
-						style={{color: 'blue', paddingBottom: 10}}
-						onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
-						>Iti poti configura parcul auto de aici</Text>								
-					</View>
+            <Text
+              style={{ color: "#337ab7",  }}
+              onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
+            >Iti poti configura parcul auto de aici</Text>
           </View>
+          </ScrollView >
+
+          
           {/*!!!Content end!!! */}
         </View>
         <MenuButton onPress={() => this.toggle()} />
@@ -129,62 +147,123 @@ class Cars extends Component {
 const window = Dimensions.get('window');
 const styles = {
   containerStyle: {
+    paddingTop: 3,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 20,
+    marginTop: 30,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  itemContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     marginLeft: 10,
     marginRight: 10,
   },
   textStyle: {
-    color: 'black',    
+    flex: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 20,
-    borderWidth:1,
     paddingLeft: 5,
+    color: 'black',
+    height: 30,
+    paddingTop: 6,
+    borderColor: '#bbb',
+    borderWidth: 1,
+  },
+  autonrStyle: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'black',
+    height: 30,
+    paddingTop: 6,
+
+    borderColor: '#bbb',
+    borderWidth: 1,
   },
   nrCrtStyle: {
-    color: 'black',
-    flex: 0.15,
+    flex: 1,
+
     justifyContent: 'center',
     alignItems: 'center',
-    width: 10,
-    height: 20,
-    borderWidth:1,
     paddingLeft: 5,
+    color: 'black',
+    height: 30,
+    paddingTop: 6,
+    borderColor: '#bbb',
+    borderWidth: 1,
   },
-	insideStyle: {
-		padding: 50,
-		justifyContent: 'flex-start',
-		flexDirection: 'row',
-		position: 'relative',
-		alignSelf: 'center',
-	},
-  	emptyContainerStyle: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		marginTop: 80,
-		marginLeft: 10,
-		marginRight: 10,
-	}
-	,
-	buttonStyle: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: 80,
-		elevation: 1,
-		borderWidth: 1,
-		borderRadius: 2,
-		borderColor: '#ddd',
-		borderBottomWidth: 0,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 2,
-	},
+  autonrHeaderStyle: {
+    flex: 3,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+  },
+  textHeaderStyle: {
+    flex: 5,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+
+
+  },
+  nrCrtHeaderStyle: {
+    flex: 1,
+    paddingTop: 3,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'white',
+    height: 30,
+    fontSize: 18,
+
+  },
+  insideStyle: {
+    flex:3,
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    position: 'relative',
+    alignSelf: 'center',
+  },
+  emptyContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 80,
+    marginLeft: 10,
+    marginRight: 10,
+  }
+  ,
+  buttonStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80,
+    elevation: 1,
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: '#ddd',
+    borderBottomWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
 };
 
 export default Cars;

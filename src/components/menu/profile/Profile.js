@@ -52,46 +52,49 @@ class Profile extends Component {
 
 		if (this.state.loading || this.state.loading == undefined) {
 			return (
-			
-			<View  style={{ marginTop: 50}} >
-			<Spinner size='small' />
-			</View>
+
+				<View style={{ marginTop: 50 }} >
+					<Spinner size='small' />
+				</View>
 			);
 		}
 		return (<View style={{ marginTop: window.height * 0.01 }}>
 			<View style={styles.titleContainerStyle}>
-				<Text style={styles.textTitleContainerStyle}>Nume Profil:</Text>
-				<Text style={styles.iconTitleContainerStyle}>Tip:</Text>
-				<Text style={styles.iconTitleContainerStyle}>  Edit</Text>
-				<Text style={styles.iconTitleContainerStyle}> Sterge</Text>
+				<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
+				<Text style={styles.textTitleContainerStyle}>Nume profil</Text>
+				<Text style={styles.iconTitleContainerStyle}>Tip</Text>
+				<Text style={styles.iconTitleContainerStyle}>  </Text>
+				<Text style={styles.iconTitleContainerStyle}></Text>
 
 			</View>
 			{this.state.profiles.map(function (o, i) {
 
 
 				if (o.type == "0") {
-					var profileType = "Jur.";
+					var profileType = "Juridică";
 					var profileName = o.companyName;
 
 				} else {
-					var profileType = "Fiz.";
+					var profileType = "Fizică";
 					var profileName = o.lastName + ' ' + o.firstName;
 
 				}
 
 				return (
 					<View key={i} style={styles.containerStyle}>
-						<Text style={styles.textStyle} key={0}>{i + 1}. {profileName}</Text>
-						<Text style={styles.iconTitleStyle} key={1}>{profileType}</Text>
+						<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 
-						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.editProfileButton(i) }} key={2}>
+						<Text style={styles.textStyle} key={1}>{profileName}</Text>
+						<Text style={styles.profileTypeStyle} key={2}>{profileType}</Text>
+
+						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.editProfileButton(i) }} key={3}>
 							<Image
 								style={styles.deleteItemButtonStyle}
 								source={require('../../../../assets/edit.png')}
 							/>
 						</TouchableOpacity>
 
-						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteProfileButton(i) }} key={3}>
+						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteProfileButton(i) }} key={4}>
 							<Image
 								style={styles.deleteItemButtonStyle}
 								source={require('../../../../assets/delete.png')}
@@ -107,12 +110,12 @@ class Profile extends Component {
 	}
 	addProfileButton(i) {
 		console.log('add' + i);
-		Actions.add_profile({ responseData: this.props.responseData, headerTitle: 'Creare Profil' });
+		Actions.add_profile({ responseData: this.props.responseData, headerTitle: 'Creare profil' });
 
 	}
 	editProfileButton(i) {
 		console.log('edit' + i);
-		Actions.edit_profile({ responseData: this.props.responseData, headerTitle: 'Editare Profil', profileToModify:this.state.profiles[i] });
+		Actions.edit_profile({ responseData: this.props.responseData, headerTitle: 'Editare profil', profileToModify: this.state.profiles[i] });
 	}
 	deleteProfileButton(index) {
 		// 		@tag = ‘profile_delete’
@@ -208,7 +211,7 @@ class Profile extends Component {
 					backgroundColor: '#FFFFFF',
 				}}>
 					{/*Content start */}
-					<Header headerText={'Profilele Mele'} />
+					<Header headerText={'Profilurile mele'} />
 					<View>
 						{this.renderProfiles()}
 
@@ -239,45 +242,60 @@ const styles = {
 		marginRight: 10,
 	},
 	titleContainerStyle: {
+		paddingTop: 3,
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		marginTop: 30,
-		marginBottom: 10,
 		marginLeft: 10,
 		marginRight: 10,
 	},
 	textStyle: {
 		color: 'black',
-		flex: 3,
+		flex: 4,
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 10,
-		height: 20,
+		height: 30,
+		paddingTop: 5,
 		paddingLeft: 5,
-		borderBottomColor: '#bbb',
-		borderBottomWidth: 1,
+		
+		borderColor: '#bbb',
+		borderWidth: 1,
 	},
 	textTitleContainerStyle: {
-		flex: 3,
+		flex: 4,
+		paddingTop: 3,
+		backgroundColor: 'black',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
-		color: 'black',
-		height: 20,
-		fontSize: 16,
-		borderBottomColor: '#bbb',
-		borderBottomWidth: 2,
+		color: 'white',
+		height: 30,
+		fontSize: 18,
 	},
-	iconTitleStyle: {
+	iconTitleContainerStyle: {
+		paddingTop: 4,
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
+		height: 30,
+		fontSize: 18,
+		backgroundColor: 'black',
+		color: 'white',
+
+	},
+	profileTypeStyle: {
+		paddingTop: 5,
+		flex: 1.5,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
 		color: 'black',
-		height: 20,
-		borderBottomColor: '#bbb',
-		borderBottomWidth: 1,
+		height: 30,
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 
 	},
@@ -286,23 +304,13 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
-		height: 20,
-		borderBottomColor: '#bbb',
-		borderBottomWidth: 1,
+		height: 30,
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 
 	},
-	iconTitleContainerStyle: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingLeft: 5,
-		color: 'black',
-		height: 20,
-		fontSize: 16,
-		borderBottomColor: '#bbb',
-		borderBottomWidth: 2,
-	},
+
 	deleteItemButton: {
 		flex: 1,
 		width: null,
@@ -336,8 +344,31 @@ const styles = {
 	,
 	buttonStyle: {
 		flex: 1,
-		height: 40
+		height: 50
 
+	},
+	nrCrtHeaderStyle: {
+		flex: 1,
+		paddingTop: 3,
+		backgroundColor: 'black',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 18,
+
+	}, nrCrtStyle: {
+		flex: 1,
+
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
+		borderColor: '#bbb',
+		borderWidth: 1,
 	},
 };
 

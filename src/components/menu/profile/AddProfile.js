@@ -230,6 +230,7 @@ class AddProfile extends Component {
                 }
             }).then(function (response) {
                 self.setState({ loading: false });
+                    console.log(response.data);
 
                 if (response.data.success) {
 
@@ -238,15 +239,20 @@ class AddProfile extends Component {
 
 
                 }
-                if (response.data.success === 0) {
+                else{
+                if (response.data.success != undefined && response.data.success === 0) {
                     if (response.data.error_msg != undefined && response.data.error_msg != '') {
                         self.message('Eroare', response.data.error_msg);
                     }
-                    else {
-                        selfmessage('Eroare', 'Vă rugăm să verificați corectitudinea datelor introduse');
-                    }
-                    console.log(response.data);
+                  
 
+                }
+                else {
+                      console.log("response.data");
+                    
+                    console.log(response.data);
+                        self.message('Eroare', 'Vă rugăm să verificați corectitudinea datelor introduse');
+                    }
                 }
 
             });
