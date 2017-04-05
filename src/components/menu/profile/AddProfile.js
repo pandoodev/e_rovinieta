@@ -130,7 +130,7 @@ class AddProfile extends Component {
         }
 
 
-    }      
+    }
     createPhysProfile() {
 
         // @type = 1
@@ -145,7 +145,7 @@ class AddProfile extends Component {
         // Daca userul este de tip persoana fizica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'Country' + self.state.country +'County' + self.state.county + 'CnP' + self.state.CNP);
+        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'Country' + self.state.country + 'County' + self.state.county + 'CnP' + self.state.CNP);
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile_new',
@@ -190,9 +190,9 @@ class AddProfile extends Component {
 
 
     }
- createJurProfile () {
+    createJurProfile() {
 
-          // @type = 0
+        // @type = 0
         // @company
         // @address
         // @city
@@ -267,7 +267,7 @@ class AddProfile extends Component {
                 if (response.data.success) {
                     var arrCountries = [];
                     response.data.countries.forEach(function (countrieInfo) {
-                        arrCountries.push([countrieInfo['name'],countrieInfo['id']]);
+                        arrCountries.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
                     self.setState({ error: '', loading: false });
@@ -292,7 +292,7 @@ class AddProfile extends Component {
                 if (response.data.success) {
                     var arrCounties = [];
                     response.data.counties.forEach(function (countrieInfo) {
-                        arrCounties.push([countrieInfo['name'],countrieInfo['id']]);
+                        arrCounties.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
                     self.setState({ error: '', loading: false });
@@ -311,6 +311,8 @@ class AddProfile extends Component {
             return <Spinner size='small' />;
         }
         return (
+                                <View style={styles.pickerContainerStyle}>
+            
             <Picker
                 style={styles.pickerStyle}
                 selectedValue={this.state.country}
@@ -320,6 +322,7 @@ class AddProfile extends Component {
 
                         return <Picker.Item value={o[1]} label={o[0]} key={i} />
                     })}</Picker>
+                    </View>
         );
     }
     renderCounties() {
@@ -327,6 +330,8 @@ class AddProfile extends Component {
             return <Spinner size='small' />;
         }
         return (
+                                <View style={styles.pickerContainerStyle}>
+            
             <Picker
                 style={styles.pickerStyle}
                 selectedValue={this.state.county}
@@ -335,6 +340,7 @@ class AddProfile extends Component {
 
                     return <Picker.Item value={o[1]} label={o[0]} key={i} />
                 })}</Picker>
+                </View>
         );
     }
 
@@ -346,19 +352,19 @@ class AddProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="Exemplu SRL"
-                            label="Denumire:"
+                            label="Denumire"
                             value={this.state.companyName}
                             onChangeText={companyName => this.setState({ companyName })}
                         />
                     </CardSection>
 
                     <CardSection>
-                        <Text style={styles.textStyle} > Țara: </Text>
+                        <Text style={styles.textStyle} > Țara </Text>
                         {this.renderCountries()}
 
                     </CardSection>
                     <CardSection>
-                        <Text style={styles.textStyle} > Județ: </Text>
+                        <Text style={styles.textStyle} > Județ </Text>
                         {this.renderCounties()}
 
                     </CardSection>
@@ -370,7 +376,7 @@ class AddProfile extends Component {
                             onChangeText={companyCity => this.setState({ companyCity })}
                         />
                     </CardSection>
-                     <CardSection >
+                    <CardSection >
                         <Input
                             placeholder="Independenței 23"
                             label="Adresă"
@@ -389,15 +395,13 @@ class AddProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="J24/2673/1994"
-                            label="R. Comert:"
+                            label="R. Comerț"
                             value={this.state.jCode}
                             onChangeText={jCode => this.setState({ jCode })}
                         />
                     </CardSection>
 
-                    <CardSection>
                         {this.renderButton()}
-                    </CardSection>
                 </View>
 
             );
@@ -411,7 +415,7 @@ class AddProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="Ion"
-                            label="Prenume:"
+                            label="Prenume"
                             value={this.state.firstName}
                             onChangeText={firstName => this.setState({ firstName })}
                         />
@@ -419,19 +423,19 @@ class AddProfile extends Component {
                     <CardSection >
                         <Input
                             placeholder="Popescu"
-                            label="Nume:"
+                            label="Nume"
                             value={this.state.lastName}
                             onChangeText={lastName => this.setState({ lastName })}
                         />
                     </CardSection>
 
                     <CardSection>
-                        <Text style={styles.textStyle} > Țara: </Text>
+                        <Text style={styles.textStyle} > Țara </Text>
                         {this.renderCountries()}
 
                     </CardSection>
                     <CardSection>
-                        <Text style={styles.textStyle} > Județ: </Text>
+                        <Text style={styles.textStyle} > Județ </Text>
                         {this.renderCounties()}
 
 
@@ -462,9 +466,8 @@ class AddProfile extends Component {
                     </CardSection>
 
 
-                    <CardSection>
                         {this.renderButton()}
-                    </CardSection>
+                    
                 </View>
             );
         }
@@ -492,16 +495,16 @@ class AddProfile extends Component {
 
                         <Card >
                             <CardSection>
-                                <Text style={styles.textStyle}> Tip Profil: </Text>
-                                <Picker
-                                    style={styles.pickerStyle}
-                                    selectedValue={this.state.profileType}
-                                    onValueChange={(type) => this.setState({ profileType: type })}>
-                                    <Picker.Item label="Persoană Fizică" value="1" />
-                                    <Picker.Item label="Persoană Juridică" value="0" />
-
-
-                                </Picker>
+                                <Text style={styles.textStyle}> Tip Profil </Text>
+                                <View style={styles.pickerContainerStyle}>
+                                    <Picker
+                                        style={styles.pickerStyle}
+                                        selectedValue={this.state.profileType}
+                                        onValueChange={(type) => this.setState({ profileType: type })}>
+                                        <Picker.Item label="Persoană Fizică" value="1" />
+                                        <Picker.Item label="Persoană Juridică" value="0" />
+                                    </Picker>
+                                </View>
                             </CardSection>
                             {this.showForm()}
                         </Card>
@@ -529,8 +532,16 @@ const styles = {
     }
     ,
     pickerStyle: {
-        width: 200,
+        color: 'black',
+        marginLeft:-7,
 
+
+    },
+    pickerContainerStyle: {
+        borderBottomColor: '#808080',
+        borderBottomWidth: 1,
+        marginLeft: 5,
+        flex: 2
     },
     buttonStyle: {
         flex: 1,

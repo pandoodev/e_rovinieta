@@ -320,6 +320,8 @@ class EditProfile extends Component {
             <Spinner size='small'/>);
         }
         return (
+                                            <View style={styles.pickerContainerStyle}>
+
             <Picker
                 style={styles.pickerStyle}
                 selectedValue={this.state.country}
@@ -329,6 +331,7 @@ class EditProfile extends Component {
 
                         return <Picker.Item value={o[1]} label={o[0]} key={i} />
                     })}</Picker>
+                    </View>
         );
     }
     renderCounties() {
@@ -336,6 +339,8 @@ class EditProfile extends Component {
             return <Spinner size='small' />;
         }
         return (
+                                            <View style={styles.pickerContainerStyle}>
+
             <Picker
                 style={styles.pickerStyle}
                 selectedValue={this.state.county}
@@ -344,6 +349,7 @@ class EditProfile extends Component {
 
                     return <Picker.Item value={o[1]} label={o[0]} key={i} />
                 })}</Picker>
+                </View>
         );
     }
     initialiseWithExistingData() {
@@ -431,9 +437,7 @@ class EditProfile extends Component {
                         />
                     </CardSection>
 
-                    <CardSection>
                         {this.renderButton()}
-                    </CardSection>
                 </View>
 
             );
@@ -498,9 +502,7 @@ class EditProfile extends Component {
                     </CardSection>
 
 
-                    <CardSection>
                         {this.renderButton()}
-                    </CardSection>
                 </View>
             );
         }
@@ -554,8 +556,16 @@ const styles = {
     }
     ,
     pickerStyle: {
-        width: 200,
+        color: 'black',
+        marginLeft:-7,
 
+
+    },
+    pickerContainerStyle: {
+        borderBottomColor: '#808080',
+        borderBottomWidth: 1,
+        marginLeft: 5,
+        flex: 2
     },
     buttonStyle: {
         flex: 1,

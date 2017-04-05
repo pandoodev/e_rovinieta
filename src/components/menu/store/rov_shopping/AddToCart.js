@@ -22,14 +22,14 @@ inCartRovignetteKey = null;
 class AddtoCart extends Component {
 	state = {
 		userType: '', profileID: '', vehicleNo: '',
-		 chasisNo: '', startDate: '1', 
-		 loading: true,
-		 loadingPrices: true,
-		 country: 1, 
-		 nrDays: 1, 
-		 pricesAndValabilities: [],
-		 error: '', 
-		 countries: [], isOpen: false,
+		chasisNo: '', startDate: '1',
+		loading: true,
+		loadingPrices: true,
+		country: 1,
+		nrDays: 1,
+		pricesAndValabilities: [],
+		error: '',
+		countries: [], isOpen: false,
 
 		selectedItem: 'Dashboard',
 	};
@@ -71,7 +71,7 @@ class AddtoCart extends Component {
 	// !!!End side-menu functions!!!
 
 
-getValabilities() {
+	getValabilities() {
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -106,9 +106,9 @@ getValabilities() {
 									valab = valabilities[x];
 									for (idx in response.data.prices) {
 										var element = response.data.prices[idx];
-										
-										if (element.valability_id == valab.id && 
-										element.vehicle_id == self.props.categoryID) {
+
+										if (element.valability_id == valab.id &&
+											element.vehicle_id == self.props.categoryID) {
 											valabilityElement = new Object();
 											valabilityElement.priceID = element.id;
 											valabilityElement.description = valab.description + " - " + element.value + " " + element.currency;
@@ -116,10 +116,10 @@ getValabilities() {
 											break;
 										}
 									}
-								}															
+								}
 
 								self.state.pricesAndValabilities = valabilitiesWithPrices;
-								self.setState({priceID: valabilitiesWithPrices[0].priceID});
+								self.setState({ priceID: valabilitiesWithPrices[0].priceID });
 								self.setState({ error: '', loadingPrices: false });
 
 							}
@@ -141,22 +141,29 @@ getValabilities() {
 		if (this.state.loadingPrices || this.state.loadingPrices == undefined) {
 			return <Spinner size='small' />;
 		}
-		else
-		{					
-			return (
-			<Picker
-				style={styles.pickerStyle}
-				selectedValue={this.state.priceID}
-				onValueChange={(days) => this.setState({ priceID: days })}>
-							
-				{this.state.pricesAndValabilities.map(function (o, i) {
+				
+		else {
 
-					return <Picker.Item value={o.priceID} label={o.description} key={o.priceID} />
-				})}		
-																
-				</Picker>
+
+			return (
+				<View style={styles.pickerContainerStyle}>
+
+					<Picker
+						style={styles.pickerStyle}
+						selectedValue={this.state.priceID}
+						onValueChange={(days) => this.setState({ priceID: days })}>
+
+						{this.state.pricesAndValabilities.map(function (o, i) {
+
+							return <Picker.Item value={o.priceID} label={o.description} key={o.priceID} />
+						})}
+
+					</Picker>
+				</View>
 			);
-		}		
+
+		}
+
 	}
 
 	getPrices() {
@@ -219,7 +226,7 @@ getValabilities() {
 	componentWillMount() {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "1", error: "" });
 		this.getCountries();
-		this.getProfileID();		
+		this.getProfileID();
 		this.getValabilities();
 		//this.getPrices();
 		///	console.log("add to cart");
@@ -231,14 +238,17 @@ getValabilities() {
 			return <Spinner size='small' />;
 		}
 		return (
-			<Picker
-				style={styles.pickerStyle}
-				selectedValue={this.state.country}
-				onValueChange={(loc) => this.setState({ country: loc })}>
-				{this.state.countries.map(function (o, i) {
+			<View style={styles.pickerContainerStyle}>
 
-					return <Picker.Item value={i} label={o} key={i} />
-				})}</Picker>
+				<Picker
+					style={styles.pickerStyle}
+					selectedValue={this.state.country}
+					onValueChange={(loc) => this.setState({ country: loc })}>
+					{this.state.countries.map(function (o, i) {
+
+						return <Picker.Item value={i} label={o} key={i} />
+					})}</Picker>
+			</View>
 		);
 	}
 	renderButton() {
@@ -407,7 +417,7 @@ getValabilities() {
 		var self = this;
 		try {
 			var x = await AsyncStorage.setItem(STORAGE_KEY_ARG, objData).then((token) => {
-			//	console.log('The object has been added to storage:');
+				//	console.log('The object has been added to storage:');
 				//console.log(objData);
 				self.redirectToCart();
 			});
@@ -484,7 +494,7 @@ getValabilities() {
 							<CardSection >
 								<Input
 									placeholder="SM79BET"
-									label="Număr înm:"
+									label="Număr auto"
 									value={this.state.vehicleNo}
 									onChangeText={vehicleNo => this.setState({ vehicleNo })}
 								/>
@@ -492,13 +502,15 @@ getValabilities() {
 							<CardSection >
 								<Input
 									placeholder="WAULC68E92A140677"
-									label="Serie șasiu:"
+									label="Serie șasiu"
 									value={this.state.chasisNo}
 									onChangeText={chasisNo => this.setState({ chasisNo })}
 								/>
 							</CardSection>
 							<CardSection >
-								<Text style={styles.textStyle}> De la: </Text>
+								<Text style={styles.textStyle}> De la </Text>
+			                                <View style={styles.pickerContainerStyle}>
+
 								<DatePicker
 									style={{ width: 200 }}
 									date={this.state.date}
@@ -520,22 +532,21 @@ getValabilities() {
 									}}
 									onDateChange={(date) => { this.setState({ startDate: date }) }}
 								/>
+								</View>
 							</CardSection>
 
 							<CardSection>
-								<Text style={styles.textStyle} > Țara: </Text>
+								<Text style={styles.textStyle} > Țara </Text>
 								{this.renderCountries()}
 
 							</CardSection>
 							<CardSection>
-								<Text style={styles.textStyle}> Valabilitate: </Text>
+								<Text style={styles.textStyle}> Valabilitate </Text>
 								{this.renderValabilitiesAndPrices()}
 
 							</CardSection>
 
-							<CardSection>
-								{this.renderButton()}
-							</CardSection>
+							{this.renderButton()}
 						</Card>
 					</ScrollView >
 
@@ -561,8 +572,16 @@ const styles = {
 	}
 	,
 	pickerStyle: {
-		width: 200,
+		color: 'black',
+		marginLeft: -7,
 
+
+	},
+	pickerContainerStyle: {
+		borderBottomColor: '#808080',
+		borderBottomWidth: 1,
+		marginLeft: 5,
+		flex: 2
 	},
 	buttonStyle: {
 		flex: 1,

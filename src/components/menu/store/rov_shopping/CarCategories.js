@@ -170,12 +170,13 @@ const styles = {
 	}
 	,
 	buttonStyle: {
+		margin:5,
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		elevation: 1,
 		borderWidth: 1,
-		borderRadius: 2,
+		borderRadius: 3,
 		borderColor: '#ddd',
 		borderBottomWidth: 0,
 		shadowColor: '#000',
@@ -190,8 +191,8 @@ const styles = {
 		resizeMode: 'contain',
 	},
 	textStyle: {
-		paddingTop: -5,
-		marginBottom: 15,
+		paddingTop: -4,
+		marginBottom: 10,
 
 
 	}
