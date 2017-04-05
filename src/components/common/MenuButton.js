@@ -18,7 +18,7 @@ class MenuButton extends Component {
         style={styles.button}>
         <View>
               <Image
-            source={require('../../../assets/menu.png')} style={{width: 20, height: 20}} />
+            source={require('../../../assets/menu.png')} style={{width: 44, height: 44}} />
 
         </View>
       </TouchableOpacity>
@@ -29,8 +29,7 @@ class MenuButton extends Component {
 const styles = StyleSheet.create({
   button: {
     position: 'absolute',
-    top: 12,
-    padding: 10,
+    padding: 8,
     
 
   },

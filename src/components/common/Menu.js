@@ -32,7 +32,7 @@ module.exports = class Menu extends Component {
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
-              source={require('../../../assets/menu/store.png')} />
+              source={require('../../../assets/menu/home.png')} />
               <View>
             <Text
               onPress={() => {this.props.onItemSelected('dashboard'); Actions.dashboard({responseData: this.props.responseData})} }
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     width: null,
-    height: window.height * 0.2,
+    height: 60,
     backgroundColor: '#000000',
     alignItems: 'center'
 

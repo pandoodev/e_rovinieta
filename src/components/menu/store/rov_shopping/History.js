@@ -72,7 +72,7 @@ class History extends Component {
 
 		if (this.state.history.length >= 1) {
 			console.log('ok');
-			console.log(this.state.history);
+			console.table(this.state.history);
 
 			return (
 				<View style={this.setPageHeight()}>

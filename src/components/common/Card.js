@@ -18,9 +18,7 @@ const styles = {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
-    borderRadius: 8,
-    borderColor: '#000033',
-    borderWidth: 1,
+ 
   }
 };
 
