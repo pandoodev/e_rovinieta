@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions} from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions,Linking} from 'react-native';
 //menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
