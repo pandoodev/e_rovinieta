@@ -121,7 +121,7 @@ class EditProfile extends Component {
 
 
     submitChangesButton() {
-        this.setState({ loading: true });
+        this.setState({ buttonLoading: true });
         if (this.props.profileToModify.type == 1) {
 
             console.log("fizic")
@@ -173,7 +173,7 @@ class EditProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false });
+                self.setState({ buttonLoading: false });
 
                 if (response.data.success) {
 
@@ -237,7 +237,7 @@ class EditProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false });
+                self.setState({ buttonLoading: false });
 
                 if (response.data.success) {
 
@@ -278,7 +278,7 @@ class EditProfile extends Component {
                         arrCountries.push([countryInfo['name'], countryInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
-                    self.setState({ error: '', loading: false });
+                    self.setState({ error: '', loading: false, buttonLoading:false });
                 }
                 if (response.data.success === 0) {
                     console.log("unsuccess from getCountries");
@@ -303,7 +303,7 @@ class EditProfile extends Component {
                         arrCounties.push([countryInfo['name'], countryInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
-                    self.setState({ error: '', loading: false });
+                    self.setState({ error: '', loading: false, buttonLoading:false});
                     console.log(response.data);
                 }
                 if (response.data.success === 0) {
