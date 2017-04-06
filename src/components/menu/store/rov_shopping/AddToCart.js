@@ -30,12 +30,12 @@ class AddtoCart extends Component {
 		pricesAndValabilities: [],
 		error: '',
 		countries: [], isOpen: false,
-
+		buttonLoading: false ,
 		selectedItem: 'Dashboard',
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate() }
+		this.state = { date: this.getCurerntDate(), buttonLoading:true }
 		inCartRovignetteKey = this.props.responseData.user.token;
 	}
 
@@ -120,7 +120,7 @@ class AddtoCart extends Component {
 
 								self.state.pricesAndValabilities = valabilitiesWithPrices;
 								self.setState({ priceID: valabilitiesWithPrices[0].priceID });
-								self.setState({ error: '', loadingPrices: false });
+								self.setState({ error: '', loadingPrices: false, buttonLoading:false });
 
 							}
 							if (response.data.success === 0) {
@@ -143,7 +143,7 @@ class AddtoCart extends Component {
 		}
 				
 		else {
-
+			
 
 			return (
 				<View style={styles.pickerContainerStyle}>
@@ -252,7 +252,7 @@ class AddtoCart extends Component {
 		);
 	}
 	renderButton() {
-		if (this.state.loading) {
+		if (this.state.buttonLoading) {
 			return <Spinner size='small' />;
 		}
 
@@ -293,7 +293,7 @@ class AddtoCart extends Component {
 	}
 
 	addToCartButton() {
-		this.setState({ loading: true });
+		this.setState({  buttonLoading:true });
 
 		if (this.checkIfNotEmpty() == 1) {
 			this.validateRovignette(
@@ -307,7 +307,7 @@ class AddtoCart extends Component {
 				this.state.country);
 		}
 		else {
-			this.setState({ loading: false });
+			this.setState({  buttonLoading:false });
 			Alert.alert(
 				'Eroare',
 				this.checkIfNotEmpty(),

@@ -11,7 +11,7 @@ inCartRovignetteKey = null;
 
 class Cart extends Component {
 
-	state = { selected: '', cart: false, history: false, itemsInCart: '' };
+	state = { selected: '', cart: false, history: false, itemsInCart: '' , loadingForRedirect:false};
 
 
 	//Display pop-up message to the user
@@ -60,6 +60,7 @@ class Cart extends Component {
 		this.state = {
 			itemsInCart: null,
 			loading: true,
+			loadingForRedirect:false
 		};
 
 		inCartRovignetteKey = this.props.responseData.user.token;
@@ -131,7 +132,7 @@ class Cart extends Component {
 
 	//Called when buy items from cart button is pressed
 	buyItemsButton() {
-
+		this.setState({loadingForRedirect:true});
 		this.prepareData(this.state.itemsInCart);
 		//console.log("Items in cart state variable");
 
@@ -287,9 +288,8 @@ class Cart extends Component {
 
 						</View>
 						<View style={styles.buttonStyle}>
-							<Button onPress={this.buyItemsButton.bind(this)}>
-								Plasează Comanda
-		  </Button>
+							{this.renderButton()}
+						
 						</View>
 					</View>
 				</ScrollView >
@@ -299,6 +299,19 @@ class Cart extends Component {
 		
 		
 
+		);
+
+	}
+
+		renderButton() {
+		if (this.state.loadingForRedirect) {
+			return <Spinner size='small' />;
+		}
+
+		return (
+				<Button onPress={this.buyItemsButton.bind(this)}>
+								Plasează Comanda
+		  </Button>
 		);
 
 	}

@@ -17,13 +17,13 @@ import MenuButton from '../../common/MenuButton';
 
 class AddProfile extends Component {
     state = {
-        profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
+        profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,buttonLoading: false,
         companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
     };
     constructor(props) {
         super(props)
         this.state = {
-            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,
+            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,buttonLoading: false,
             companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
         }
     }
@@ -70,7 +70,8 @@ class AddProfile extends Component {
     }
 
     renderButton() {
-        if (this.state.loading) {
+
+        if (this.state.buttonLoading) {
             return <Spinner size='small' />;
         }
 
@@ -118,7 +119,7 @@ class AddProfile extends Component {
 
 
     submitChangesButton() {
-        this.setState({ loading: true });
+         this.setState({ buttonLoading: true });
         if (this.state.profileType === 1) {
 
             console.log("fizic")
@@ -166,7 +167,7 @@ class AddProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false });
+                self.setState({ loading: false,buttonLoading: false  });
 
                 if (response.data.success) {
 
@@ -229,7 +230,7 @@ class AddProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false });
+                self.setState({ loading: false, buttonLoading: false });
                     console.log(response.data);
 
                 if (response.data.success) {
@@ -261,6 +262,7 @@ class AddProfile extends Component {
     }
     getCountries() {
         var self = this;
+         this.setState({ loading: true });
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'countries',
@@ -276,7 +278,7 @@ class AddProfile extends Component {
                         arrCountries.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
-                    self.setState({ error: '', loading: false });
+                    self.setState({ error: '', loading: false, buttonLoading: false });
                 }
                 if (response.data.success === 0) {
                     console.log("unsuccess from getCountries");
@@ -286,6 +288,8 @@ class AddProfile extends Component {
     }
     getCounties() {
         var self = this;
+         this.setState({ loading: true });
+        
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'counties',
@@ -301,7 +305,7 @@ class AddProfile extends Component {
                         arrCounties.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
-                    self.setState({ error: '', loading: false });
+                    self.setState({ error: '', loading: false,buttonLoading: false });
                     console.log(response.data);
                 }
                 if (response.data.success === 0) {

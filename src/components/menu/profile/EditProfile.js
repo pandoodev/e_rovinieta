@@ -73,9 +73,12 @@ class EditProfile extends Component {
     }
 
     renderButton() {
-        if (this.state.butttonLoading) {
+        console.log('rendering button')
+        if (this.state.buttonLoading) {
+        console.log('inside rendering button')
             return <Spinner size='small' />;
         }
+        console.log(this.state.butttonLoading)
 
         return (
             //	<Button onPress = {this.onButtonPress.bind(this)}> 
@@ -263,6 +266,7 @@ class EditProfile extends Component {
     }
     getCountries() {
         var self = this;
+         self.setState({loading: true });
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'countries',
@@ -288,6 +292,8 @@ class EditProfile extends Component {
     }
     getCounties() {
         var self = this;
+         self.setState({loading: true });
+        
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'counties',
