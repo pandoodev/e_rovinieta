@@ -17,13 +17,13 @@ import MenuButton from '../../common/MenuButton';
 
 class AddProfile extends Component {
     state = {
-        profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,buttonLoading: false,
+        profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
         companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
     };
     constructor(props) {
         super(props)
         this.state = {
-            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false,buttonLoading: false,
+            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
             companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
         }
     }
@@ -119,7 +119,7 @@ class AddProfile extends Component {
 
 
     submitChangesButton() {
-         this.setState({ buttonLoading: true });
+        this.setState({ buttonLoading: true });
         if (this.state.profileType === 1) {
 
             console.log("fizic")
@@ -167,7 +167,7 @@ class AddProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false,buttonLoading: false  });
+                self.setState({ loading: false, buttonLoading: false });
 
                 if (response.data.success) {
 
@@ -231,30 +231,66 @@ class AddProfile extends Component {
                 }
             }).then(function (response) {
                 self.setState({ loading: false, buttonLoading: false });
-                    console.log(response.data);
+                console.log("juridic resoinse");
+                console.log(response.data);
+                console.log("1");
 
                 if (response.data.success) {
-
+                    console.log("success");
                     console.log(response.data);
                     Actions.profiles({ responseData: self.props.responseData, headerTitle: 'Profilele mele' });
-
-
-                }
-                else{
-                if (response.data.success != undefined && response.data.success === 0) {
-                    if (response.data.error_msg != undefined && response.data.error_msg != '') {
-                        self.message('Eroare', response.data.error_msg);
-                    }
-                  
+                    console.log("!success");
 
                 }
                 else {
-                      console.log("response.data");
-                    
+                    console.log("else");
                     console.log(response.data);
-                        self.message('Eroare', 'Vă rugăm să verificați corectitudinea datelor introduse');
+                    if (response.data.success != undefined && response.data.success === 0) {
+                        if (response.data.error_msg != undefined && response.data.error_msg != '') {
+                            self.message('Eroare', response.data.error_msg);
+                            console.log("error if");
+
+                        }
+
+                        console.log("!else");
+
+
                     }
+                    else {
+                        
+                      
+                        if (self.state.cuiCode == undefined || self.state.cuiCode == '') {
+                            self.message('Eroare', "Vă rugam să completați CUI");
+
+                         cuiOK=false;
+                         return
+                        }
+                        else{
+                        var cuiOK=true;
+                            
+                        }
+
+                        if (self.state.jCode == undefined || self.state.jCode == '') {
+                            self.message('Eroare', "Vă rugam să completați R.Comerț");
+                         jCode=false;
+                         return
+
+                        }
+                        else
+                        {
+                              var jCode=true;
+                        }
+                        if(jCode===true && cuiOK===true ){
+                        console.log("all ok");
+                             Actions.profiles({ responseData: self.props.responseData, headerTitle: 'Profilele mele' });
+                        }
+                        
+
+
+                    }
+
                 }
+                console.log("juridic resoinse end");
 
             });
 
@@ -262,7 +298,7 @@ class AddProfile extends Component {
     }
     getCountries() {
         var self = this;
-         this.setState({ loading: true });
+        this.setState({ loading: true });
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'countries',
@@ -288,8 +324,8 @@ class AddProfile extends Component {
     }
     getCounties() {
         var self = this;
-         this.setState({ loading: true });
-        
+        this.setState({ loading: true });
+
         axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'counties',
@@ -305,7 +341,7 @@ class AddProfile extends Component {
                         arrCounties.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
-                    self.setState({ error: '', loading: false,buttonLoading: false });
+                    self.setState({ error: '', loading: false, buttonLoading: false });
                     console.log(response.data);
                 }
                 if (response.data.success === 0) {
@@ -321,18 +357,18 @@ class AddProfile extends Component {
             return <Spinner size='small' />;
         }
         return (
-                                <View style={styles.pickerContainerStyle}>
-            
-            <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.country}
-                onValueChange={(loc) => this.setState({ country: loc })}>
-                {
-                    this.state.countries.map(function (o, i) {
+            <View style={styles.pickerContainerStyle}>
 
-                        return <Picker.Item value={o[1]} label={o[0]} key={i} />
-                    })}</Picker>
-                    </View>
+                <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.country}
+                    onValueChange={(loc) => this.setState({ country: loc })}>
+                    {
+                        this.state.countries.map(function (o, i) {
+
+                            return <Picker.Item value={o[1]} label={o[0]} key={i} />
+                        })}</Picker>
+            </View>
         );
     }
     renderCounties() {
@@ -340,17 +376,17 @@ class AddProfile extends Component {
             return <Spinner size='small' />;
         }
         return (
-                                <View style={styles.pickerContainerStyle}>
-            
-            <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.county}
-                onValueChange={(loc) => this.setState({ county: loc })}>
-                {this.state.counties.map(function (o, i) {
+            <View style={styles.pickerContainerStyle}>
 
-                    return <Picker.Item value={o[1]} label={o[0]} key={i} />
-                })}</Picker>
-                </View>
+                <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.county}
+                    onValueChange={(loc) => this.setState({ county: loc })}>
+                    {this.state.counties.map(function (o, i) {
+
+                        return <Picker.Item value={o[1]} label={o[0]} key={i} />
+                    })}</Picker>
+            </View>
         );
     }
 
@@ -411,7 +447,7 @@ class AddProfile extends Component {
                         />
                     </CardSection>
 
-                        {this.renderButton()}
+                    {this.renderButton()}
                 </View>
 
             );
@@ -476,8 +512,8 @@ class AddProfile extends Component {
                     </CardSection>
 
 
-                        {this.renderButton()}
-                    
+                    {this.renderButton()}
+
                 </View>
             );
         }
@@ -543,7 +579,7 @@ const styles = {
     ,
     pickerStyle: {
         color: 'black',
-        marginLeft:-7,
+        marginLeft: -7,
 
 
     },

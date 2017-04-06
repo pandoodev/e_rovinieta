@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { View, Image, Text, TouchableOpacity, Dimensions, Alert, ScrollView } from 'react-native';
 import { Spinner, Button, } from '../../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -58,7 +58,8 @@ class Profile extends Component {
 				</View>
 			);
 		}
-		return (<View style={{ marginTop: window.height * 0.01 }}>
+		return (<View style={this.setPageHeight()}>
+			<ScrollView >
 			<View style={styles.titleContainerStyle}>
 				<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
 				<Text style={styles.textTitleContainerStyle}>Nume profil</Text>
@@ -81,31 +82,35 @@ class Profile extends Component {
 				}
 
 				return (
-					<View key={i} style={styles.containerStyle}>
-						<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
+					
 
-						<Text style={styles.textStyle} key={1}>{profileName}</Text>
-						<Text style={styles.profileTypeStyle} key={2}>{profileType}</Text>
+						<View key={i} style={styles.itemContainerStyle}>
 
-						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.editProfileButton(i) }} key={3}>
-							<Image
-								style={styles.deleteItemButtonStyle}
-								source={require('../../../../assets/edit.png')}
-							/>
-						</TouchableOpacity>
+							<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 
-						<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteProfileButton(i) }} key={4}>
-							<Image
-								style={styles.deleteItemButtonStyle}
-								source={require('../../../../assets/delete.png')}
-							/>
-						</TouchableOpacity>
+							<Text style={styles.textStyle} key={1}>{profileName}</Text>
+							<Text style={styles.profileTypeStyle} key={2}>{profileType}</Text>
+
+							<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.editProfileButton(i) }} key={3}>
+								<Image
+									style={styles.deleteItemButtonStyle}
+									source={require('../../../../assets/edit.png')}
+								/>
+							</TouchableOpacity>
+
+							<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteProfileButton(i) }} key={4}>
+								<Image
+									style={styles.deleteItemButtonStyle}
+									source={require('../../../../assets/delete.png')}
+								/>
+							</TouchableOpacity>
+						</View>
+					);
 
 
-
-					</View>);
 
 			})}
+			</ScrollView >
 		</View>);
 	}
 	addProfileButton(i) {
@@ -192,6 +197,12 @@ class Profile extends Component {
 
 
 	}
+	 setPageHeight = function (options) {
+    return {
+
+      height: 100 + this.state.profiles.length * 30
+    }
+  }
 	componentWillMount() {
 		this.getProfiles();
 	}
@@ -212,10 +223,15 @@ class Profile extends Component {
 				}}>
 					{/*Content start */}
 					<Header headerText={'Profilurile mele'} />
+						<ScrollView>
+					
 					<View>
-						{this.renderProfiles()}
+							<View>
+								{this.renderProfiles()}
 
+							</View>
 					</View>
+
 					<View style={styles.buttonContainerStyle}>
 						<View style={styles.buttonStyle}>
 							<Button onPress={this.addProfileButton.bind(this)}>
@@ -223,6 +239,8 @@ class Profile extends Component {
 	 						 </Button>
 						</View>
 					</View>
+						</ScrollView>
+					
 					{/*!!!Content end!!! */}
 				</View>
 				<MenuButton onPress={() => this.toggle()} />
@@ -238,6 +256,13 @@ const styles = {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		marginTop: 30,
+		marginLeft: 10,
+		marginRight: 10,
+	},
+	itemContainerStyle: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
 		marginLeft: 10,
 		marginRight: 10,
 	},
@@ -259,7 +284,7 @@ const styles = {
 		height: 30,
 		paddingTop: 5,
 		paddingLeft: 5,
-		
+
 		borderColor: '#bbb',
 		borderWidth: 1,
 	},
@@ -338,7 +363,7 @@ const styles = {
 	buttonContainerStyle: {
 		flex: 1,
 		flexDirection: 'row',
-		marginTop: 30
+		paddingBottom:10
 
 	}
 	,
