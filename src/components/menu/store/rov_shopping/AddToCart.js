@@ -372,6 +372,7 @@ class AddtoCart extends Component {
 			}
 
 		).then(function (response) {
+				self.setState({ loading: false });
 
 			if (response.data.success) {
 
