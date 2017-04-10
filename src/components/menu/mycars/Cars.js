@@ -212,10 +212,10 @@ class Cars extends Component {
               <View key={i + 1} style={styles.entryContainerStyle}>
 
                 <View key={i + 2} style={styles.leftItemContainerStyle}>
-                  <Text style={[styles.textStyle]} key={0}>{o.plateNo}</Text>
-                  <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
-                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)}  </Text>
-                  <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)} </Text>
+                  <Text style={[styles.textStyle]} key={0}>{o.plateNo} (nr auto)</Text>
+                  <Text style={[styles.textStyle]} key={1}>{o.chasisNo} (serie șasiu)</Text>
+                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)} (categorie)</Text>
+                  <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)} (țara)</Text>
                 </View>
                 <View style={styles.rightItemContainerStyle}>
 
