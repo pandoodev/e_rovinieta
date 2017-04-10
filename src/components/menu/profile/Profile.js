@@ -61,7 +61,7 @@ class Profile extends Component {
 		return (<View style={this.setPageHeight()}>
 			<ScrollView >
 			<View style={styles.titleContainerStyle}>
-				<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
+				<Text style={styles.nrCrtHeaderStyle}>On</Text>
 				<Text style={styles.textTitleContainerStyle}>Nume profil</Text>
 				<Text style={styles.iconTitleContainerStyle}>Tip</Text>
 				<Text style={styles.iconTitleContainerStyle}>  </Text>
@@ -86,7 +86,11 @@ class Profile extends Component {
 
 						<View key={i} style={styles.itemContainerStyle}>
 
-							<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
+							<Text style={styles.nrCrtStyle} key={0}> 
+
+								{self.displayActiveContent(o)}
+
+							</Text>
 
 							<Text style={styles.textStyle} key={1}>{profileName}</Text>
 							<Text style={styles.profileTypeStyle} key={2}>{profileType}</Text>
@@ -107,12 +111,31 @@ class Profile extends Component {
 						</View>
 					);
 
-
-
 			})}
 			</ScrollView >
 		</View>);
 	}
+
+	displayActiveContent(profile) {
+		if (profile.default === "1") {
+			return (
+				<Image
+					style={styles.deleteItemButtonStyle}
+					source={require('../../../../assets/online.png')}
+				/>
+			);
+		}
+		else {
+			return (
+
+				<Image
+
+					source={require('../../../../assets/offline.png')}
+				/>
+			);
+		}
+	}
+
 	addProfileButton(i) {
 		console.log('add' + i);
 		Actions.add_profile({ responseData: this.props.responseData, headerTitle: 'Creare profil' });
@@ -128,6 +151,21 @@ class Profile extends Component {
 		// @token (Tokenul returnat prin metoda de login)
 		// @pid - id-ul profilului
 		console.log("--deleteProfileButton--");
+
+		// Works on both iOS and Android
+		Alert.alert(
+			'Stergere profil',
+			'Sigur doriți să stergeți profilul selectat?',
+			[
+				{ text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+				{ text: 'OK', onPress: () => {console.log('OK Pressed'); this.confirmDeleteProfile(index)} },
+			],
+			{ cancelable: false }
+		)	
+	}
+
+	confirmDeleteProfile(index)
+	{
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -164,10 +202,6 @@ class Profile extends Component {
 					}
 				}
 			});
-
-
-
-
 	}
 
 
@@ -194,8 +228,6 @@ class Profile extends Component {
 					console.log("Failed ");
 				}
 			});
-
-
 	}
 	 setPageHeight = function (options) {
     return {
