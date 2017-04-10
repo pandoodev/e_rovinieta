@@ -37,7 +37,7 @@ class History extends Component {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}
 			}).then(function (response) {
-				
+
 				if (response.data.success) {
 
 					response.data.orders.sort(function (a, b) {
@@ -61,7 +61,7 @@ class History extends Component {
 	setPageHeight = function (options) {
 		return {
 
-			height: 250+ this.state.history.length *30
+			height: 250 + this.state.history.length * 65
 		}
 	}
 	renderHistory() {
@@ -78,32 +78,30 @@ class History extends Component {
 		}
 	}
 
-	displayOrderStatus(order)
-	{
-		
-		switch(order.orderStatus)
-		{
-			case "1": return("Neplătită"); 
-			case "2": return("În procesare"); 
-			case "3": return("Respinsă"); 
-			case "4": return("Anulată"); 
-			case "5": return("Încasată"); 
-			case "6": return("Aprobată"); 
-			case "7": return("Fraudă"); 
-			case "8": return("V.Manuală"); 
-			case "9": return("Eșuată"); 
-			case "10": return("Validă"); 
-			case "11": return("Neinițiată"); 
-			case "12": return("Validare"); 
-			case "13": return("Salvată"); 
-			case "14": return("Emitere"); 
-			case "15": return("Finalizată"); 
-			case "16": return("Rambursată"); 
-			case "17": return("Parţial Emisă"); 
-			case "18": return("Re - Emitere"); 
-			case "19": return("I.Emitere"); 
+	displayOrderStatus(order) {
+
+		switch (order.orderStatus) {
+			case "1": return ("Neplătită");
+			case "2": return ("În procesare");
+			case "3": return ("Respinsă");
+			case "4": return ("Anulată");
+			case "5": return ("Încasată");
+			case "6": return ("Aprobată");
+			case "7": return ("Fraudă");
+			case "8": return ("V.Manuală");
+			case "9": return ("Eșuată");
+			case "10": return ("Validă");
+			case "11": return ("Neinițiată");
+			case "12": return ("Validare");
+			case "13": return ("Salvată");
+			case "14": return ("Emitere");
+			case "15": return ("Finalizată");
+			case "16": return ("Rambursată");
+			case "17": return ("Parţial Emisă");
+			case "18": return ("Re - Emitere");
+			case "19": return ("I.Emitere");
 		}
-	
+
 	}
 
 	showOrderHistory() {
@@ -119,36 +117,27 @@ class History extends Component {
 					<ScrollView >
 
 						<View style={styles.containerStyle}>
-							<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
-							<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
-							<Text style={styles.textHeaderStyle}>Valabil până la</Text>
-							<Text style={styles.textHeaderStyle}>Status</Text>
+							
+							<Text style={styles.textHeaderStyle}>Comanda</Text>
+							<Text style={styles.textHeaderStyle}>Rovinieta</Text>
 						</View>
 
 						{this.state.history.map(function (o, i) {
 							return (
+								<View key={i + 1} style={styles.entryContainerStyle}>
+									<View key={i + 2} style={styles.leftItemContainerStyle}>
+										<Text style={styles.textStyle} key={1}>{o.orderID} (id comandă)</Text>
+										<Text style={styles.textStyle} key={2}>{o.price} (preț)</Text>
+										<Text style={styles.textStyle} key={3}>{self.displayOrderStatus(o)} (status)</Text>
+										
+									</View>
 
-								<View key={i} style={styles.itemContainerStyle}>
-									<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-									<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
-									<Text style={styles.textStyle} key={2}>
-										{
-											
-											o.endDate											
-											
-										}
-									</Text>
-									<Text style={styles.textStyle} key={3}>
-										{
-											
-											//o.endDate
-											self.displayOrderStatus(o)
-											
-										}
-									</Text>
+									<View style={styles.rightItemContainerStyle}>
+										<Text style={styles.textStyle} key={4}>{o.vehicleNo} (nr auto)</Text>
+										<Text style={styles.textStyle} key={5}>{o.endDate} (start)</Text>
+										<Text style={styles.textStyle} key={6}>{o.startDate} (stop)</Text>
 
-									
-
+									</View>
 								</View>
 
 							);
@@ -176,7 +165,7 @@ class History extends Component {
 			<View>
 				{this.renderHistory()}
 			</View>
-									
+
 
 
 		);
@@ -186,22 +175,22 @@ const window = Dimensions.get('window');
 
 const styles = {
 	containerStyle: {
-	    paddingTop: 3,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 5,
-    marginLeft: 10,
-    marginRight: 10,
+		paddingTop: 3,
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginTop: 5,
+		marginLeft: 10,
+		marginRight: 10,
 	}
 	,
-	 itemContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginLeft: 10,
-    marginRight: 10,
-  },
+	itemContainerStyle: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginLeft: 10,
+		marginRight: 10,
+	},
 	buttonStyle: {
 		flex: 1,
 		justifyContent: 'center',
@@ -241,15 +230,11 @@ const styles = {
 
 	},
 	textStyle: {
-		flex: 5,
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingLeft: 5,
-		color: 'black',
-		height: 30,
-		paddingTop: 6,
-		borderColor: '#bbb',
-		borderWidth: 1,
+	   justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'black',
+    paddingTop: 4,
 	},
 	nrCrtStyle: {
 		flex: 1,
@@ -270,40 +255,66 @@ const styles = {
 		marginLeft: 10,
 		marginRight: 10,
 	},
-  autonrHeaderStyle: {
-    flex: 3,
-    paddingTop: 3,
-     backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
-  },
-  textHeaderStyle: {
-    flex: 5,
-    paddingTop: 3,
-     backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
+	autonrHeaderStyle: {
+		flex: 3,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
+	},
+	textHeaderStyle: {
+		flex: 5,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
 
 
-  },
-  nrCrtHeaderStyle: {
+	},
+	 entryContainerStyle: {
     flex: 1,
-    paddingTop: 3,
-     backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+
+  },
+	nrCrtHeaderStyle: {
+		flex: 1,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
+
+	},
+	 leftItemContainerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    marginLeft: 10,
+    borderColor: '#bbb',
+    borderWidth: 1,
     paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
+    borderRightWidth: 0
+
+  },
+  rightItemContainerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    marginRight: 10,
+    borderColor: '#bbb',
+    borderWidth: 1,
 
   },
 };
