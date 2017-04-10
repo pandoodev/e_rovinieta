@@ -384,9 +384,7 @@ class AddtoCart extends Component {
 			}
 
 		).then(function (response) {
-
 			if (response.data.success) {
-
 
 				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);
 				return 1;
