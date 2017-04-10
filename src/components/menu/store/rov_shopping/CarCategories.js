@@ -14,6 +14,8 @@ class MyCars extends Component {
 		return (
 
 			<View style={styles.pageContainerStyle}>
+										<Text style={styles.pageTitleStyle}> Alege categoria mașinii </Text>
+
 											<ScrollView >
 
 					<View style={styles.containerStyle}>
@@ -195,6 +197,14 @@ const styles = {
 		marginBottom: 10,
 
 
+	},
+	pageTitleStyle: {
+		fontSize: 24,
+		textAlign: 'center',
+		color: '#000000',
+		fontWeight: '600',
+		paddingBottom: 10,
+		paddingTop: -5
 	}
 };
 

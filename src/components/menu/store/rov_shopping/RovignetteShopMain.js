@@ -181,9 +181,8 @@ class RovignetteShopMain extends Component {
 
 							</View>
 						</View>
-						<Text style={styles.pageTitleStyle}> Alege categoria mașinii </Text>
 						<ScrollView >
-
+						<Text > {'\n'}</Text>
 							{this.displayModule()}
 						</ScrollView >
 
@@ -249,14 +248,6 @@ const styles = {
 		marginBottom: 15,
 		marginLeft: 7
 
-	},
-	pageTitleStyle: {
-		fontSize: 24,
-		textAlign: 'center',
-		color: '#000000',
-		fontWeight: '600',
-		paddingBottom: 10,
-		paddingTop: 15
 	}
 };
 
