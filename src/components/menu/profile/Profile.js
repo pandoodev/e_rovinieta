@@ -323,13 +323,13 @@ const styles = {
 	textTitleContainerStyle: {
 		flex: 4,
 		paddingTop: 3,
-		backgroundColor: 'black',
+		 backgroundColor: '#222222',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'white',
 		height: 30,
-		fontSize: 18,
+		fontSize: 16,
 	},
 	iconTitleContainerStyle: {
 		paddingTop: 4,
@@ -338,8 +338,8 @@ const styles = {
 		alignItems: 'center',
 		paddingLeft: 5,
 		height: 30,
-		fontSize: 18,
-		backgroundColor: 'black',
+		fontSize: 16,
+		 backgroundColor: '#222222',
 		color: 'white',
 
 	},
@@ -407,13 +407,13 @@ const styles = {
 	nrCrtHeaderStyle: {
 		flex: 1,
 		paddingTop: 3,
-		backgroundColor: 'black',
+		 backgroundColor: '#222222',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'white',
 		height: 30,
-		fontSize: 18,
+		fontSize: 16,
 
 	}, nrCrtStyle: {
 		flex: 1,

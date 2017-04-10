@@ -385,7 +385,6 @@ class EditProfile extends Component {
                 <View>
                     <CardSection >
                         <Input
-                            placeholder="Exemplu SRL"
                             label="Denumire"
                             value={this.state.companyName}
                             onChangeText={companyName => this.setState({ companyName })}
@@ -404,7 +403,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="București"
                             label="Oraș"
                             value={this.state.companyCity}
                             onChangeText={companyCity => this.setState({ companyCity })}
@@ -412,7 +410,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="Independenței 23"
                             label="Adresă"
                             value={this.state.companyAddress}
                             onChangeText={companyAddress => this.setState({ companyAddress })}
@@ -420,7 +417,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="6859662"
                             label="CUI"
                             value={this.state.cuiCode}
                             onChangeText={cuiCode => this.setState({ cuiCode })}
@@ -428,7 +424,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="J24/2673/1994"
                             label="R. Comert"
                             value={this.state.jCode}
                             onChangeText={jCode => this.setState({ jCode })}
@@ -448,7 +443,6 @@ class EditProfile extends Component {
                 <View>
                     <CardSection >
                         <Input
-                            placeholder="Ion"
                             label="Prenume"
                             value={this.state.firstName}
                             onChangeText={firstName => this.setState({ firstName })}
@@ -456,7 +450,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="Popescu"
                             label="Nume"
                             value={this.state.lastName}
                             onChangeText={lastName => this.setState({ lastName })}
@@ -476,7 +469,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="București"
                             label="Oraș"
                             value={this.state.city}
                             onChangeText={city => this.setState({ city })}
@@ -484,7 +476,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="Independenței 23"
                             label="Adresă"
                             value={this.state.street}
                             onChangeText={street => this.setState({ street })}
@@ -492,7 +483,6 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            placeholder="1730610155203"
                             label="CNP"
                             value={String(this.state.CNP)}
                             onChangeText={CNP => this.setState({ CNP })}

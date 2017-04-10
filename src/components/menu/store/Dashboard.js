@@ -64,7 +64,7 @@ componentWillMount(){
           
           <View style={styles.containerRov}>
                 <Text style={styles.asideText}> Cumpără roviniete online!  </Text>
-                <Text style={styles.smallText}> Plătești cu cardul și o primești instant prin SMS și e-mail </Text>
+                <Text style={styles.smallText}> Plătești cu cardul și primești instant prin SMS și e-mail </Text>
                 
 
               <TouchableOpacity
@@ -143,7 +143,7 @@ const styles = {
   },
   buttonStyle: {
     alignSelf: 'stretch',
-    backgroundColor: '#cc0000',
+    backgroundColor: '#ed2124',
     borderRadius: 5,
     marginLeft: 5,
     marginRight: 5

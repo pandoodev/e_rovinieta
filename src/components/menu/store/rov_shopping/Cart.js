@@ -429,37 +429,37 @@ const styles = {
 	  autonrHeaderStyle: {
     flex: 5,
     paddingTop: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
     color: 'white',
     height: 30,
-    fontSize: 18,
+    fontSize: 16,
   },
   textHeaderStyle: {
     flex: 5,
     paddingTop: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
     color: 'white',
     height: 30,
-    fontSize: 18,
+    fontSize: 16,
 
 
   },
   nrCrtHeaderStyle: {
     flex: 1.6,
     paddingTop: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
     color: 'white',
     height: 30,
-    fontSize: 18,
+    fontSize: 16,
 
   },autonrStyle: {
     flex: 3,
