@@ -21,8 +21,11 @@ inCartRovignetteKey = null;
 
 class AddtoCart extends Component {
 	state = {
-		userType: '', profileID: '', vehicleNo: '',
-		chasisNo: '', startDate: '1',
+		userType: '',
+		profileID: '',
+		vehicleNo: '',
+		chasisNo: '',
+		startDate: '1',
 		loading: true,
 		loadingPrices: true,
 		country: 1,
@@ -30,14 +33,34 @@ class AddtoCart extends Component {
 		pricesAndValabilities: [],
 		error: '',
 		countries: [], isOpen: false,
-		buttonLoading: false ,
+		buttonLoading: false,
 		selectedItem: 'Dashboard',
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate(), buttonLoading:true }
+		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()  }
 		inCartRovignetteKey = this.props.responseData.user.token;
+
 	}
+getVehicleNo()
+{
+		console.log("getVehicleNo")
+	
+	if(this.props.plateNo!=undefined&&this.props.plateNo!='')
+	{
+		console.log("getVehicleNo"+this.props.plateNo)
+		return this.props.plateNo
+	}
+	return '';
+}
+getChasisNo()
+{
+	if(this.props.chasisNo!=undefined&&this.props.chasisNo!='')
+	{
+		return this.props.chasisNo
+	}
+	return '';
+}
 
 	//Display pop-up message to the user
 	message(title, content) {
@@ -120,7 +143,7 @@ class AddtoCart extends Component {
 
 								self.state.pricesAndValabilities = valabilitiesWithPrices;
 								self.setState({ priceID: valabilitiesWithPrices[0].priceID });
-								self.setState({ error: '', loadingPrices: false, buttonLoading:false });
+								self.setState({ error: '', loadingPrices: false, buttonLoading: false });
 
 							}
 							if (response.data.success === 0) {
@@ -141,9 +164,9 @@ class AddtoCart extends Component {
 		if (this.state.loadingPrices || this.state.loadingPrices == undefined) {
 			return <Spinner size='small' />;
 		}
-				
+
 		else {
-			
+
 
 			return (
 				<View style={styles.pickerContainerStyle}>
@@ -283,7 +306,19 @@ class AddtoCart extends Component {
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-					self.setState({ profileID: response.data.profiles[0]['id'] });
+
+					if (response.data.profiles.length > 0) {
+						var activeProfile = response.data.profiles[0];
+
+						for (profileidx in response.data.profiles) {
+							var currentProfile = response.data.profiles[profileidx];
+							if (currentProfile.default === "1") {
+								activeProfile = currentProfile;
+							}
+						}
+
+						self.setState({ profileID: activeProfile['id'] });
+					}
 				}
 				if (response.data.success === 0) {
 					console.log("unsuccess while getting profile id");
@@ -293,7 +328,7 @@ class AddtoCart extends Component {
 	}
 
 	addToCartButton() {
-		this.setState({  buttonLoading:true });
+		this.setState({ buttonLoading: true });
 
 		if (this.checkIfNotEmpty() == 1) {
 			this.validateRovignette(
@@ -307,7 +342,7 @@ class AddtoCart extends Component {
 				this.state.country);
 		}
 		else {
-			this.setState({  buttonLoading:false });
+			this.setState({ buttonLoading: false });
 			Alert.alert(
 				'Eroare',
 				this.checkIfNotEmpty(),
@@ -372,10 +407,11 @@ class AddtoCart extends Component {
 			}
 
 		).then(function (response) {
-				self.setState({ loading: false });
+
+			self.setState({ buttonLoading: false });
+
 
 			if (response.data.success) {
-
 
 				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);
 				return 1;
@@ -508,29 +544,29 @@ class AddtoCart extends Component {
 							</CardSection>
 							<CardSection >
 								<Text style={styles.textStyle}> De la </Text>
-			                                <View style={styles.pickerContainerStyle}>
+								<View style={styles.pickerContainerStyle}>
 
-								<DatePicker
-									style={{ width: 200 }}
-									date={this.state.date}
-									mode="date"
-									format="DD-MM-YYYY"
-									minDate={this.getCurerntDate()}
-									confirmBtnText="Confirm"
-									cancelBtnText="Cancel"
-									customStyles={{
-										dateIcon: {
-											position: 'absolute',
-											left: 0,
-											top: 4,
-											marginLeft: 0
-										},
-										dateInput: {
-											marginLeft: 36
-										}
-									}}
-									onDateChange={(date) => { this.setState({ startDate: date }) }}
-								/>
+									<DatePicker
+										style={{ width: 200 }}
+										date={this.state.date}
+										mode="date"
+										format="DD-MM-YYYY"
+										minDate={this.getCurerntDate()}
+										confirmBtnText="Confirm"
+										cancelBtnText="Cancel"
+										customStyles={{
+											dateIcon: {
+												position: 'absolute',
+												left: 0,
+												top: 4,
+												marginLeft: 0
+											},
+											dateInput: {
+												marginLeft: 36
+											}
+										}}
+										onDateChange={(date) => { this.setState({ startDate: date }) }}
+									/>
 								</View>
 							</CardSection>
 

@@ -43,7 +43,7 @@ class Cars extends Component {
     super(props)
     this.state = { vehicles: [], loading: true, countries: [], categories: [] }
   }
- 
+
   getCountryById(countryId) {
     console.log("start getCountryById ")
 
@@ -60,7 +60,8 @@ class Cars extends Component {
     for (var key in this.state.categories) {
 
       if (this.state.categories[key].id == categoyId) {
-        return (this.state.categories[key].name);
+        var category=this.state.categories[key].name.replace("Categoria ", '')
+        return (category);
       }
     }
     console.log("end getCategoryById ")
@@ -189,7 +190,7 @@ class Cars extends Component {
       // !!!Side menu end!!!
     );
   }
-   renderCars() {
+  renderCars() {
     if (this.state.loading || this.state.loading == undefined) {
       return (<View style={{ marginTop: 50 }} >
         <Spinner size='small' />
@@ -208,34 +209,35 @@ class Cars extends Component {
           {this.state.vehicles.map(function (o, i) {
 
             return (
-          <View  key={i + 1} style={styles.entryContainerStyle}>
-              
-              <View key={i + 2} style={styles.leftItemContainerStyle}>
-                <Text style={[styles.textStyle]} key={0}>{o.plateNo}</Text>
-                <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
-                <Text style={[styles.textStyle]} key={2}>{self.getCategoryById(o.category)}  </Text>
-                <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)} </Text>
-              </View>
-              <View  style={styles.rightItemContainerStyle}>
-               
-               	<TouchableOpacity
-							onPress={() => {
-								Actions.buy({
-									responseData: self.props.responseData, category: self.getCategoryById(o.category),
-									categoryID: o.category
-								})
-							}}
-						 key={4} 
-             style={{flex:1, height:30,
-    width:30,}}>
-								<Image
-									source={require('../../../../assets/add.png')} style={styles.imgStyle} key={5}/>
-						</TouchableOpacity>
-             
-                 
+              <View key={i + 1} style={styles.entryContainerStyle}>
+
+                <View key={i + 2} style={styles.leftItemContainerStyle}>
+                  <Text style={[styles.textStyle]} key={0}>{o.plateNo}</Text>
+                  <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
+                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)}  </Text>
+                  <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)} </Text>
                 </View>
-          </View>
-                
+                <View style={styles.rightItemContainerStyle}>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      Actions.buy({
+                        responseData: self.props.responseData, category: self.getCategoryById(o.category),
+                        categoryID: o.category,  chasisNo:o.chasisNo, plateNo:o.plateNo
+                      })
+                    }}
+                    key={4}
+                    style={{
+                      flex: 1, height: 30, width: 30,
+                    }}>
+                    <Image
+                      source={require('../../../../assets/add.png')} style={styles.imgStyle} key={5} />
+                  </TouchableOpacity>
+
+
+                </View>
+              </View>
+
             )
           })}
         </ScrollView >
@@ -245,8 +247,8 @@ class Cars extends Component {
 };
 const window = Dimensions.get('window');
 const styles = {
-  entryContainerStyle:{
- flex: 1,
+  entryContainerStyle: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
 
@@ -268,35 +270,35 @@ const styles = {
     borderColor: '#bbb',
     borderWidth: 1,
     paddingLeft: 5,
-    borderRightWidth:0
-    
+    borderRightWidth: 0
+
   },
-   rightItemContainerStyle: {
+  rightItemContainerStyle: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
     marginRight: 10,
     borderColor: '#bbb',
     borderWidth: 1,
-    borderLeftWidth:0
-    
+    borderLeftWidth: 0
+
   },
   imgStyle: {
-		flex: 3,
-		justifyContent: 'center',
-		alignItems: 'center',
-    height:null,
-    width:null,
-		resizeMode: 'contain',
-	},
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: null,
+    width: null,
+    resizeMode: 'contain',
+  },
   textStyle: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
     color: 'black',
     paddingTop: 4,
-  },  
- 
+  },
+
   nrCrtStyle: {
     flex: 1,
 
