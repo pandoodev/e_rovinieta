@@ -228,7 +228,7 @@ class Cars extends Component {
                     }}
                     key={4}
                     style={{
-                      flex: 1, height: 30, width: 30,
+                      flex: 1, height: 50, width: 50,
                     }}>
                     <Image
                       source={require('../../../../assets/add.png')} style={styles.imgStyle} key={5} />
@@ -263,7 +263,7 @@ const styles = {
     marginRight: 10,
   },
   leftItemContainerStyle: {
-    flex: 6,
+    flex: 5,
     flexDirection: 'column',
     justifyContent: 'space-around',
     marginLeft: 10,
