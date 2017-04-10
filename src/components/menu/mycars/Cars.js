@@ -8,6 +8,8 @@ const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
+import { Actions } from 'react-native-router-flux';
+
 
 //!menu!!
 class Cars extends Component {
@@ -39,39 +41,30 @@ class Cars extends Component {
   };
   constructor(props) {
     super(props)
-    this.state = { vehicles: [], loading: true }
+    this.state = { vehicles: [], loading: true, countries: [], categories: [] }
   }
-  renderCars() {
-    if (this.state.loading || this.state.loading == undefined) {
-      return (<View style={{ marginTop: 50 }} >
-        <Spinner size='small' />
-      </View>);
+
+  getCountryById(countryId) {
+    console.log("start getCountryById ")
+
+    for (var key in this.state.countries) {
+      if (this.state.countries[key].id == countryId) {
+        return (this.state.countries[key].code);
+      }
     }
+    console.log("end getCountryById ")
+  }
+  getCategoryById(categoyId) {
+    console.log("start getCategoryById ")
 
-    if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
-      return <View style={styles.emptyContainerStyle}><View style={styles.buttonStyle}><Text > Nu exista masini inregistrate pe acest cont.</Text></View></View>
-    return (
-      <View style={this.setPageHeight()}>
-        <ScrollView >
-          <View key={0} style={styles.containerStyle}>
-            <Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
-            <Text style={[styles.autonrHeaderStyle]}>Nr. auto</Text>
-            <Text style={[styles.textHeaderStyle]}>Nr. șasiu</Text>
-          </View>
+    for (var key in this.state.categories) {
 
-          {this.state.vehicles.map(function (o, i) {
-
-            return (
-              <View key={i + 1} style={styles.itemContainerStyle}>
-                <Text style={styles.nrCrtStyle} key={0}> {i + 1}. </Text>
-                <Text style={[styles.autonrStyle]} key={1}>{o.plateNo}</Text>
-                <Text style={[styles.textStyle]} key={2}>{o.chasisNo}</Text>
-              </View>
-            )
-          })}
-        </ScrollView >
-      </View>
-    );
+      if (this.state.categories[key].id == categoyId) {
+        var category=this.state.categories[key].name.replace("Categoria ", '')
+        return (category);
+      }
+    }
+    console.log("end getCategoryById ")
   }
   getCars() {
     var self = this;
@@ -87,8 +80,9 @@ class Cars extends Component {
         }
       }).then(function (response) {
         if (response.data.success) {
-          self.state.vehicles = response.data.vehicles;
-          self.setState({ loading: false });
+          self.setState({ vehicles: response.data.vehicles });
+          console.table(self.state.vehicles);
+
         }
         if (response.data.success === 0) {
           console.log("Failed ");
@@ -96,14 +90,67 @@ class Cars extends Component {
       });
 
   }
+  getCountries() {
+    var self = this;
+    console.log("--getCountries--");
+    axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+      querystring.stringify({
+        tag: 'countries',
+        device: 'android',
+      }), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      }).then(function (response) {
+
+        if (response.data.success) {
+          self.setState({ countries: response.data.countries });
+
+          console.table(self.state.countries);
+
+        }
+        if (response.data.success === 0) {
+          console.log("Failed getCountries ");
+        }
+      });
+
+  }
+  getCategories() {
+    var self = this;
+    console.log("--getCategories--");
+    axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+      querystring.stringify({
+        tag: 'categories',
+        device: 'android',
+      }), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      }).then(function (response) {
+        self.setState({ loading: false });
+
+        if (response.data.success) {
+          self.setState({ categories: response.data.categories });
+
+          console.table(self.state.categories);
+
+        }
+        if (response.data.success === 0) {
+          console.log("Failed getCategories ");
+        }
+      });
+
+  }
   setPageHeight = function (options) {
     return {
 
-      height: 100 + this.state.vehicles.length * 30
+      height: 100 + this.state.vehicles.length * 85
     }
   }
   componentWillMount() {
+    this.getCountries();
     this.getCars();
+    this.getCategories();
   }
   render() {
     //menu
@@ -128,14 +175,14 @@ class Cars extends Component {
               {this.renderCars()}
             </View>
             <View style={styles.insideStyle} >
-            <Text
-              style={{ color: "#337ab7",  }}
-              onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
-            >Iti poti configura parcul auto de aici</Text>
-          </View>
+              <Text
+                style={{ color: "#337ab7", }}
+                onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
+              >Iti poti configura parcul auto de aici</Text>
+            </View>
           </ScrollView >
 
-          
+
           {/*!!!Content end!!! */}
         </View>
         <MenuButton onPress={() => this.toggle()} />
@@ -143,48 +190,115 @@ class Cars extends Component {
       // !!!Side menu end!!!
     );
   }
+  renderCars() {
+    if (this.state.loading || this.state.loading == undefined) {
+      return (<View style={{ marginTop: 50 }} >
+        <Spinner size='small' />
+      </View>);
+    }
+    var self = this;
+    if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
+      return <View style={styles.emptyContainerStyle}><View style={styles.buttonStyle}><Text > Nu exista masini inregistrate pe acest cont.</Text></View></View>
+    return (
+      <View style={this.setPageHeight()}>
+        <ScrollView >
+          <View key={0} style={styles.containerStyle}>
+
+            <Text style={[styles.textHeaderStyle]}>Informații Mașină</Text>
+          </View>
+          {this.state.vehicles.map(function (o, i) {
+
+            return (
+              <View key={i + 1} style={styles.entryContainerStyle}>
+
+                <View key={i + 2} style={styles.leftItemContainerStyle}>
+                  <Text style={[styles.textStyle]} key={0}>{o.plateNo}</Text>
+                  <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
+                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)}  </Text>
+                  <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)} </Text>
+                </View>
+                <View style={styles.rightItemContainerStyle}>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      Actions.buy({
+                        responseData: self.props.responseData, category: self.getCategoryById(o.category),
+                        categoryID: o.category,  chasisNo:o.chasisNo, plateNo:o.plateNo
+                      })
+                    }}
+                    key={4}
+                    style={{
+                      flex: 1, height: 30, width: 30,
+                    }}>
+                    <Image
+                      source={require('../../../../assets/add.png')} style={styles.imgStyle} key={5} />
+                  </TouchableOpacity>
+
+
+                </View>
+              </View>
+
+            )
+          })}
+        </ScrollView >
+      </View>
+    );
+  }
 };
 const window = Dimensions.get('window');
 const styles = {
+  entryContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+
+  },
   containerStyle: {
     paddingTop: 3,
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-around',
     marginTop: 30,
     marginLeft: 10,
     marginRight: 10,
   },
-  itemContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
+  leftItemContainerStyle: {
+    flex: 6,
+    flexDirection: 'column',
     justifyContent: 'space-around',
     marginLeft: 10,
-    marginRight: 10,
-  },
-  textStyle: {
-    flex: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'black',
-    height: 30,
-    paddingTop: 6,
     borderColor: '#bbb',
     borderWidth: 1,
+    paddingLeft: 5,
+    borderRightWidth: 0
+
   },
-  autonrStyle: {
+  rightItemContainerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    marginRight: 10,
+    borderColor: '#bbb',
+    borderWidth: 1,
+    borderLeftWidth: 0
+
+  },
+  imgStyle: {
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
+    height: null,
+    width: null,
+    resizeMode: 'contain',
+  },
+  textStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingLeft: 5,
     color: 'black',
-    height: 30,
-    paddingTop: 6,
-
-    borderColor: '#bbb',
-    borderWidth: 1,
+    paddingTop: 4,
   },
+
   nrCrtStyle: {
     flex: 1,
 
@@ -200,7 +314,7 @@ const styles = {
   autonrHeaderStyle: {
     flex: 3,
     paddingTop: 3,
-     backgroundColor: '#222222',
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
@@ -211,7 +325,7 @@ const styles = {
   textHeaderStyle: {
     flex: 5,
     paddingTop: 3,
-     backgroundColor: '#222222',
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
@@ -224,7 +338,7 @@ const styles = {
   nrCrtHeaderStyle: {
     flex: 1,
     paddingTop: 3,
-     backgroundColor: '#222222',
+    backgroundColor: '#222222',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
@@ -234,7 +348,7 @@ const styles = {
 
   },
   insideStyle: {
-    flex:3,
+    flex: 3,
     justifyContent: 'flex-start',
     flexDirection: 'row',
     position: 'relative',

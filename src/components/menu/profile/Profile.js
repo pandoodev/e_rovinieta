@@ -60,33 +60,33 @@ class Profile extends Component {
 		}
 		return (<View style={this.setPageHeight()}>
 			<ScrollView >
-			<View style={styles.titleContainerStyle}>
-				<Text style={styles.nrCrtHeaderStyle}>On</Text>
-				<Text style={styles.textTitleContainerStyle}>Nume profil</Text>
-				<Text style={styles.iconTitleContainerStyle}>Tip</Text>
-				<Text style={styles.iconTitleContainerStyle}>  </Text>
-				<Text style={styles.iconTitleContainerStyle}></Text>
+				<View style={styles.titleContainerStyle}>
+					<Text style={styles.nrCrtHeaderStyle}>Activ</Text>
+					<Text style={styles.textTitleContainerStyle}>Nume profil</Text>
+					<Text style={styles.iconTitleContainerStyle}>Tip</Text>
+					<Text style={styles.iconTitleContainerStyle}>  </Text>
+					<Text style={styles.iconTitleContainerStyle}></Text>
 
-			</View>
-			{this.state.profiles.map(function (o, i) {
+				</View>
+				{this.state.profiles.map(function (o, i) {
 
 
-				if (o.type == "0") {
-					var profileType = "Juridică";
-					var profileName = o.companyName;
+					if (o.type == "0") {
+						var profileType = "Juridică";
+						var profileName = o.companyName;
 
-				} else {
-					var profileType = "Fizică";
-					var profileName = o.lastName + ' ' + o.firstName;
+					} else {
+						var profileType = "Fizică";
+						var profileName = o.lastName + ' ' + o.firstName;
 
-				}
+					}
 
-				return (
-					
+					return (
+
 
 						<View key={i} style={styles.itemContainerStyle}>
 
-							<Text style={styles.nrCrtStyle} key={0}> 
+							<Text style={styles.nrCrtStyle} key={0}>
 
 								{self.displayActiveContent(o)}
 
@@ -111,7 +111,7 @@ class Profile extends Component {
 						</View>
 					);
 
-			})}
+				})}
 			</ScrollView >
 		</View>);
 	}
@@ -120,7 +120,7 @@ class Profile extends Component {
 		if (profile.default === "1") {
 			return (
 				<Image
-					style={styles.deleteItemButtonStyle}
+					style={styles.activityButtonStyle}
 					source={require('../../../../assets/online.png')}
 				/>
 			);
@@ -129,7 +129,7 @@ class Profile extends Component {
 			return (
 
 				<Image
-
+					style={styles.activityButtonStyle}
 					source={require('../../../../assets/offline.png')}
 				/>
 			);
@@ -158,14 +158,13 @@ class Profile extends Component {
 			'Sigur doriți să stergeți profilul selectat?',
 			[
 				{ text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-				{ text: 'OK', onPress: () => {console.log('OK Pressed'); this.confirmDeleteProfile(index)} },
+				{ text: 'OK', onPress: () => { console.log('OK Pressed'); this.confirmDeleteProfile(index) } },
 			],
 			{ cancelable: false }
-		)	
+		)
 	}
 
-	confirmDeleteProfile(index)
-	{
+	confirmDeleteProfile(index) {
 		var self = this;
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -231,12 +230,12 @@ class Profile extends Component {
 				}
 			});
 	}
-	 setPageHeight = function (options) {
-    return {
+	setPageHeight = function (options) {
+		return {
 
-      height: 100 + this.state.profiles.length * 30
-    }
-  }
+			height: 100 + this.state.profiles.length * 30
+		}
+	}
 	componentWillMount() {
 		this.getProfiles();
 	}
@@ -257,24 +256,24 @@ class Profile extends Component {
 				}}>
 					{/*Content start */}
 					<Header headerText={'Profilurile mele'} />
-						<ScrollView>
-					
-					<View>
+					<ScrollView>
+
+						<View>
 							<View>
 								{this.renderProfiles()}
 
 							</View>
-					</View>
-
-					<View style={styles.buttonContainerStyle}>
-						<View style={styles.buttonStyle}>
-							<Button onPress={this.addProfileButton.bind(this)}>
-								Adaugă Profil
-	 						 </Button>
 						</View>
-					</View>
-						</ScrollView>
-					
+
+						<View style={styles.buttonContainerStyle}>
+							<View style={styles.buttonStyle}>
+								<Button onPress={this.addProfileButton.bind(this)}>
+									Adaugă Profil
+	 						 </Button>
+							</View>
+						</View>
+					</ScrollView>
+
 					{/*!!!Content end!!! */}
 				</View>
 				<MenuButton onPress={() => this.toggle()} />
@@ -325,7 +324,7 @@ const styles = {
 	textTitleContainerStyle: {
 		flex: 4,
 		paddingTop: 3,
-		 backgroundColor: '#222222',
+		backgroundColor: '#222222',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
@@ -341,7 +340,7 @@ const styles = {
 		paddingLeft: 5,
 		height: 30,
 		fontSize: 16,
-		 backgroundColor: '#222222',
+		backgroundColor: '#222222',
 		color: 'white',
 
 	},
@@ -369,7 +368,6 @@ const styles = {
 
 
 	},
-
 	deleteItemButton: {
 		flex: 1,
 		width: null,
@@ -394,10 +392,16 @@ const styles = {
 		resizeMode: 'contain',
 		justifyContent: 'center',
 	},
+	activityButtonStyle: {
+		flex: 1,
+		resizeMode: 'contain',
+		justifyContent: 'space-around',
+		flexDirection: 'row',
+	},
 	buttonContainerStyle: {
 		flex: 1,
 		flexDirection: 'row',
-		paddingBottom:10
+		paddingBottom: 10
 
 	}
 	,
@@ -407,9 +411,9 @@ const styles = {
 
 	},
 	nrCrtHeaderStyle: {
-		flex: 1,
+		flex: 1.5,
 		paddingTop: 3,
-		 backgroundColor: '#222222',
+		backgroundColor: '#222222',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
@@ -418,9 +422,9 @@ const styles = {
 		fontSize: 16,
 
 	}, nrCrtStyle: {
-		flex: 1,
-
-		justifyContent: 'center',
+		flex: 1.5,
+		justifyContent: 'space-around',
+		
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',

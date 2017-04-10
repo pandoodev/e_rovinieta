@@ -21,8 +21,11 @@ inCartRovignetteKey = null;
 
 class AddtoCart extends Component {
 	state = {
-		userType: '', profileID: '', vehicleNo: '',
-		chasisNo: '', startDate: '1',
+		userType: '',
+		profileID: '',
+		vehicleNo: '',
+		chasisNo: '',
+		startDate: '1',
 		loading: true,
 		loadingPrices: true,
 		country: 1,
@@ -35,9 +38,29 @@ class AddtoCart extends Component {
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate(), buttonLoading: true }
+		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()  }
 		inCartRovignetteKey = this.props.responseData.user.token;
+
 	}
+getVehicleNo()
+{
+		console.log("getVehicleNo")
+	
+	if(this.props.plateNo!=undefined&&this.props.plateNo!='')
+	{
+		console.log("getVehicleNo"+this.props.plateNo)
+		return this.props.plateNo
+	}
+	return '';
+}
+getChasisNo()
+{
+	if(this.props.chasisNo!=undefined&&this.props.chasisNo!='')
+	{
+		return this.props.chasisNo
+	}
+	return '';
+}
 
 	//Display pop-up message to the user
 	message(title, content) {
@@ -384,7 +407,15 @@ class AddtoCart extends Component {
 			}
 
 		).then(function (response) {
+<<<<<<< HEAD
 			self.setState({ loading: false });
+=======
+
+			self.setState({ buttonLoading: false });
+
+
+			if (response.data.success) {
+>>>>>>> 02d2591a8723cb28ffe0b4d802cbc0b0c2a6f7b0
 
 			if (response.data.success) {
 				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);
