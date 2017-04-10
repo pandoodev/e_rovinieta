@@ -25,9 +25,7 @@ class History extends Component {
 		console.log("--getOrderHistory--")
 		var self = this;
 
-
 		console.log(this.props.responseData);
-
 
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -56,7 +54,6 @@ class History extends Component {
 				}
 				if (response.data.success === 0) {
 					console.log("unsuccess while getting orders");
-
 					console.log(response.data);
 				}
 			});

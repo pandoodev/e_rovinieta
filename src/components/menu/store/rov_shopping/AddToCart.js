@@ -384,15 +384,14 @@ class AddtoCart extends Component {
 			}
 
 		).then(function (response) {
-			if (response.data.success) {
+			self.setState({ loading: false });
 
+			if (response.data.success) {
 				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);
 				return 1;
-
 			}
 
 			if (response.data.success === 0) {
-				self.setState({ loading: false });
 				if (response.data.errors != undefined && response.data.errors != '') {
 					if (response.data.errors[0] != undefined && response.data.errors[0] != '') {
 						self.message('Eroare', response.data.errors[0]);

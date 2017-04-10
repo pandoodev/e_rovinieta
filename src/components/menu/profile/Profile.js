@@ -222,7 +222,9 @@ class Profile extends Component {
 				if (response.data.success) {
 					self.state.profiles = response.data.profiles;
 					self.setState({ loading: false });
+
 					console.log(response.data)
+
 				}
 				if (response.data.success === 0) {
 					console.log("Failed ");
