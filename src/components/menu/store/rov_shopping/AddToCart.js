@@ -407,15 +407,8 @@ getChasisNo()
 			}
 
 		).then(function (response) {
-<<<<<<< HEAD
-			self.setState({ loading: false });
-=======
 
 			self.setState({ buttonLoading: false });
-
-
-			if (response.data.success) {
->>>>>>> 02d2591a8723cb28ffe0b4d802cbc0b0c2a6f7b0
 
 			if (response.data.success) {
 				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);

@@ -25,7 +25,7 @@ class History extends Component {
 		console.log("--getOrderHistory--")
 		var self = this;
 
-		console.log(this.props.responseData);
+
 
 		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
@@ -78,11 +78,41 @@ class History extends Component {
 		}
 	}
 
+	displayOrderStatus(order)
+	{
+		
+		switch(order.orderStatus)
+		{
+			case "1": return("Neplătită"); 
+			case "2": return("În procesare"); 
+			case "3": return("Respinsă"); 
+			case "4": return("Anulată"); 
+			case "5": return("Încasată"); 
+			case "6": return("Aprobată"); 
+			case "7": return("Fraudă"); 
+			case "8": return("V.Manuală"); 
+			case "9": return("Eșuată"); 
+			case "10": return("Validă"); 
+			case "11": return("Neinițiată"); 
+			case "12": return("Validare"); 
+			case "13": return("Salvată"); 
+			case "14": return("Emitere"); 
+			case "15": return("Finalizată"); 
+			case "16": return("Rambursată"); 
+			case "17": return("Parţial Emisă"); 
+			case "18": return("Re - Emitere"); 
+			case "19": return("I.Emitere"); 
+		}
+	
+	}
+
 	showOrderHistory() {
 
 		if (this.state.history.length >= 1) {
 			console.log('ok');
 			console.table(this.state.history);
+
+			var self = this;
 
 			return (
 				<View style={this.setPageHeight()}>
@@ -92,6 +122,7 @@ class History extends Component {
 							<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
 							<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
 							<Text style={styles.textHeaderStyle}>Valabil până la</Text>
+							<Text style={styles.textHeaderStyle}>Status</Text>
 						</View>
 
 						{this.state.history.map(function (o, i) {
@@ -100,7 +131,23 @@ class History extends Component {
 								<View key={i} style={styles.itemContainerStyle}>
 									<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 									<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
-									<Text style={styles.textStyle} key={2}>{o.endDate}</Text>
+									<Text style={styles.textStyle} key={2}>
+										{
+											
+											o.endDate											
+											
+										}
+									</Text>
+									<Text style={styles.textStyle} key={3}>
+										{
+											
+											//o.endDate
+											self.displayOrderStatus(o)
+											
+										}
+									</Text>
+
+									
 
 								</View>
 
