@@ -132,18 +132,18 @@ class History extends Component {
 									<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 									<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
 									<Text style={styles.textStyle} key={2}>
-										{
 											
-											o.endDate											
+										{	
+
+												o.endDate
+
 											
-										}
+										}	
+										
 									</Text>
 									<Text style={styles.textStyle} key={3}>
-										{
-											
-											//o.endDate
-											self.displayOrderStatus(o)
-											
+										{											
+											self.displayOrderStatus(o)	
 										}
 									</Text>
 
