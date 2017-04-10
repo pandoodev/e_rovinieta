@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import CarCategories from './CarCategories';
 import Header from '../../../common/Header';
 import Cart from './Cart';
@@ -9,9 +9,43 @@ const SideMenu = require('react-native-side-menu');
 const Menu = require('../../../common/Menu');
 import MenuButton from '../../../common/MenuButton';
 //menu
+inCartRovignetteKey = null;
 class RovignetteShopMain extends Component {
 
-	state = { selected: 'categories', componentToDisplay: '' };
+	state = { selected: 'categories', componentToDisplay: '', itemsInCart: {} };
+
+	//Getting data from AsyncStorage into state variable
+	addCartItemsToState() {
+		console.log(inCartRovignetteKey);
+
+		var self = this;
+		try {
+			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+			if (itemsInCart !== null) {
+				itemsInCart.then(function (value) {
+					if (value != null || value != undefined) {
+						var itemsInCartJson = JSON.parse(value);
+						self.setState({ itemsInCart: itemsInCartJson });
+						self.setState({ loading: false });
+					}
+					else {
+						self.setState({ itemsInCart: '' });
+						self.setState({ loading: false });
+					}
+				});
+			}
+		} catch (error) {
+			console.log(error);
+
+			self.setState({ loading: false });
+		}
+
+	}
+	itemsInCart() {
+		if (this.state.itemsInCart.length > 0) {
+			return ('(' + this.state.itemsInCart.length + ')');
+		}
+	}
 	displayModule() {
 
 		switch (this.state.selected) {
@@ -24,12 +58,14 @@ class RovignetteShopMain extends Component {
 		}
 	}
 	componentWillMount() {
+		inCartRovignetteKey = this.props.responseData.user.token;
 		if (this.props.componentToDisplay != undefined) {
 			this.setState({ selected: this.props.componentToDisplay });
 		}
 		if (this.state.componentToDisplay != '') {
 			this.setState({ selected: this.state.componentToDisplay })
 		}
+		this.addCartItemsToState();
 
 	}
 	changeStateFromCart(event) {
@@ -114,7 +150,7 @@ class RovignetteShopMain extends Component {
 										{this.imageType('categories')}
 									</View>
 
-									<Text style={styles.textStyle}>Categorii  {'\n'}</Text>
+									<Text style={styles.textStyle}>Cumpără  {'\n'}</Text>
 								</TouchableOpacity>
 
 								<TouchableOpacity
@@ -126,7 +162,7 @@ class RovignetteShopMain extends Component {
 										{this.imageType('cart')}
 									</View>
 
-									<Text style={styles.textStyle}>Coș   {'\n'}</Text>
+									<Text style={styles.textStyle}>Coș {this.itemsInCart()}   {'\n'}</Text>
 								</TouchableOpacity>
 
 
@@ -137,15 +173,15 @@ class RovignetteShopMain extends Component {
 									<View >
 										<Text > {'\n'}</Text>
 										{this.imageType('history')}
-									
+
 									</View>
-									<Text style={styles.textStyle}> Istoric  {'\n'}</Text>
+									<Text style={styles.textStyle}> Comenzile Mele  {'\n'}</Text>
 
 								</TouchableOpacity>
 
 							</View>
 						</View>
-						<Text > {'\n'}</Text>
+						<Text style={styles.pageTitleStyle}> Alege categoria mașinii </Text>
 						<ScrollView >
 
 							{this.displayModule()}
@@ -213,6 +249,14 @@ const styles = {
 		marginBottom: 15,
 		marginLeft: 7
 
+	},
+	pageTitleStyle: {
+		fontSize: 24,
+		textAlign: 'center',
+		color: '#000000',
+		fontWeight: '600',
+		paddingBottom: 10,
+		paddingTop: 15
 	}
 };
 

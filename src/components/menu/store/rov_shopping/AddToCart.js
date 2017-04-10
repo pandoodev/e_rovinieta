@@ -493,7 +493,6 @@ class AddtoCart extends Component {
 						<Card >
 							<CardSection >
 								<Input
-									placeholder="SM79BET"
 									label="Număr auto"
 									value={this.state.vehicleNo}
 									onChangeText={vehicleNo => this.setState({ vehicleNo })}
@@ -501,7 +500,6 @@ class AddtoCart extends Component {
 							</CardSection>
 							<CardSection >
 								<Input
-									placeholder="WAULC68E92A140677"
 									label="Serie șasiu"
 									value={this.state.chasisNo}
 									onChangeText={chasisNo => this.setState({ chasisNo })}

@@ -3,20 +3,59 @@ const { Dimensions, StyleSheet, ScrollView, View, Image, Text, TouchableOpacity,
 const { Component } = React;
 import { Actions } from 'react-native-router-flux';
 
-
+inCartRovignetteKey = null;
 module.exports = class Menu extends Component {
   static propTypes = {
     onItemSelected: React.PropTypes.func.isRequired,
   };
   _logoutUser = async () => {
-		try {
-			await AsyncStorage.removeItem('@LgInfStore:key');
-		console.log('Selection removed from disk.');
+    try {
+      await AsyncStorage.removeItem('@LgInfStore:key');
+      console.log('Selection removed from disk.');
       Actions.auth();
-		} catch (error) {
-			console.log('AsyncStorage error: ' + error.message);
-		}
-	};
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  };
+
+  state = {  itemsInCart: {}, loading:false };
+  //Getting data from AsyncStorage into state variable
+  	componentWillMount() {
+		inCartRovignetteKey = this.props.responseData.user.token;
+    this.addCartItemsToState();
+    }
+
+  addCartItemsToState() {
+    console.log(inCartRovignetteKey);
+
+    var self = this;
+    try {
+      var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+      if (itemsInCart !== null) {
+        itemsInCart.then(function (value) {
+          if (value != null || value != undefined) {
+            var itemsInCartJson = JSON.parse(value);
+            self.setState({ itemsInCart: itemsInCartJson });
+            self.setState({ loading: false });
+          }
+          else {
+            self.setState({ itemsInCart: '' });
+            self.setState({ loading: false });
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+
+      self.setState({ loading: false });
+    }
+
+  }
+  itemsInCart() {
+    if (this.state.itemsInCart.length > 0) {
+      return ('(' + this.state.itemsInCart.length + ' in coș)');
+    }
+  }
   render() {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
@@ -33,67 +72,80 @@ module.exports = class Menu extends Component {
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/home.png')} />
-              <View>
-            <Text
-              onPress={() => {this.props.onItemSelected('dashboard'); Actions.dashboard({responseData: this.props.responseData})} }
-              style={styles.item}>
-              Prima pagină
+            <View>
+              <Text
+                onPress={() => { this.props.onItemSelected('dashboard'); Actions.dashboard({ responseData: this.props.responseData }) }}
+                style={styles.item}>
+                Prima pagină
                     </Text>
-              </View>
-                    
+            </View>
+
+          </View>
+          <View style={styles.rowItem}>
+            <Image
+              style={styles.smallIcon}
+              source={require('../../../assets/menu/rovignette.png')} />
+            <View>
+              <Text
+                onPress={() => { this.props.onItemSelected('dashboard'); Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }) }}
+                style={styles.item}>
+                Roviniete {this.itemsInCart()}
+                    </Text>
+            </View>
+
           </View>
 
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/profiles.png')} />
-              <View>
-              
-            <Text
-              onPress={() => {this.props.onItemSelected('profiles'); Actions.profiles({responseData: this.props.responseData})}}
-              style={styles.item}>
-              Profilurile mele
-              </Text>   
-               </View>
+            <View>
+
+              <Text
+                onPress={() => { this.props.onItemSelected('profiles'); Actions.profiles({ responseData: this.props.responseData }) }}
+                style={styles.item}>
+                Profilurile mele
+              </Text>
+            </View>
           </View>
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/car.png')} />
-              <View>
-              
-            <Text
-              onPress={() => {this.props.onItemSelected('cars'); Actions.cars({responseData: this.props.responseData})}}
-              style={styles.item}>
-              Mașinile mele
+            <View>
+
+              <Text
+                onPress={() => { this.props.onItemSelected('cars'); Actions.cars({ responseData: this.props.responseData }) }}
+                style={styles.item}>
+                Mașinile mele
                 </Text>
-          </View>
-                
+            </View>
+
           </View>
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/accountsettings.png')} />
-              <View>
-            <Text
-              onPress={() => {this.props.onItemSelected('accountsettings'); Actions.account_settings({responseData: this.props.responseData})}}
-              style={styles.item}>
-              Setări cont
+            <View>
+              <Text
+                onPress={() => { this.props.onItemSelected('accountsettings'); Actions.account_settings({ responseData: this.props.responseData }) }}
+                style={styles.item}>
+                Setări cont
                   </Text>
-                  </View>
+            </View>
           </View>
           <View style={styles.rowItem}>
             <Image
               style={styles.smallIcon}
               source={require('../../../assets/menu/logout.png')} />
-              <View>
-            <Text
-              onPress={() => {this.props.onItemSelected('logout');  this._logoutUser()}}
-              style={styles.item}>
-              Delogare
+            <View>
+              <Text
+                onPress={() => { this.props.onItemSelected('logout'); this._logoutUser() }}
+                style={styles.item}>
+                Delogare
                   </Text>
+            </View>
           </View>
- </View>
         </View>
       </ScrollView>
     );
@@ -114,7 +166,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     width: null,
     height: 60,
-    backgroundColor: '#000000',
+    backgroundColor: '#222222',
     alignItems: 'center'
 
   },
