@@ -86,11 +86,12 @@ class Profile extends Component {
 
 						<View key={i} style={styles.itemContainerStyle}>
 
-							<Text style={styles.nrCrtStyle} key={0}>
-
+							<View style={styles.nrCrtStyle} key={0}>
+							
+								
 								{self.displayActiveContent(o)}
 
-							</Text>
+							</View>
 
 							<Text style={styles.textStyle} key={1}>{profileName}</Text>
 							<Text style={styles.profileTypeStyle} key={2}>{profileType}</Text>
@@ -393,10 +394,12 @@ const styles = {
 		justifyContent: 'center',
 	},
 	activityButtonStyle: {
-		flex: 1,
-		resizeMode: 'contain',
-		justifyContent: 'space-around',
-		flexDirection: 'row',
+		 flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 20,
+    width: 20	,
+    resizeMode: 'contain',
 	},
 	buttonContainerStyle: {
 		flex: 1,
@@ -422,14 +425,13 @@ const styles = {
 		fontSize: 16,
 
 	}, nrCrtStyle: {
+		
 		flex: 1.5,
 		justifyContent: 'space-around',
 		
 		alignItems: 'center',
 		paddingLeft: 5,
-		color: 'black',
 		height: 30,
-		paddingTop: 6,
 		borderColor: '#bbb',
 		borderWidth: 1,
 	},

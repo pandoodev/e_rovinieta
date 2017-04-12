@@ -114,6 +114,8 @@ class Cart extends Component {
 		this.setState({ itemsInCart: currentItemsInCart });
 		this._removeStorage(inCartRovignetteKey);
 		this._addToStorage(inCartRovignetteKey, JSON.stringify(currentItemsInCart));
+		this.props.deleteFromCart();
+		
 
 	}
 	delelteButton() {

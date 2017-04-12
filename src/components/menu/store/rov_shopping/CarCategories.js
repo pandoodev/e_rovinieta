@@ -187,7 +187,7 @@ const styles = {
 		shadowRadius: 2,
 	},
 	imgStyle: {
-		marginTop:10,
+		marginTop:5,
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -205,7 +205,7 @@ const styles = {
 		color: '#000000',
 		fontWeight: '600',
 		paddingBottom: 10,
-		paddingTop: -5
+		marginTop: -15
 	}
 };
 
