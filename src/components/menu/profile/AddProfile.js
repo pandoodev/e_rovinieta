@@ -159,7 +159,7 @@ class AddProfile extends Component {
                 city: self.state.city,
                 country: self.state.country,
                 county: self.state.county,
-              //  personalCode: self.state.CNP,
+                personalCode: self.state.CNP,
 
 
             }), {
@@ -493,13 +493,13 @@ class AddProfile extends Component {
                             onChangeText={street => this.setState({ street })}
                         />
                     </CardSection>
-                    {/*<CardSection >
+                    <CardSection >
                         <Input
                             label="CNP"
                             value={this.state.CNP}
                             onChangeText={CNP => this.setState({ CNP })}
                         />
-                    </CardSection>*/}
+                    </CardSection>
 
 
                     {this.renderButton()}

@@ -52,6 +52,9 @@ module.exports = class Menu extends Component {
 
   }
   itemsInCart() {
+    if(this.props.rovignettesInCart!=undefined){
+      return this.props.rovignettesInCart
+    }
     if (this.state.itemsInCart.length > 0) {
       return ('(' + this.state.itemsInCart.length + ' in coș)');
     }

@@ -45,6 +45,16 @@ class RovignetteShopMain extends Component {
 		if (this.state.itemsInCart.length > 0) {
 			return ('(' + this.state.itemsInCart.length + ')');
 		}
+
+	}
+
+	itemsInCartMenuFormated() {
+		if (this.state.itemsInCart.length > 0) {
+			return ('(' + this.state.itemsInCart.length + ' în coș)');
+		}
+		else{
+			return '';
+		}
 	}
 	displayModule() {
 
@@ -72,7 +82,7 @@ class RovignetteShopMain extends Component {
 		this.setState({ selected: 'categories' })
 	}
 	deleteFromCart(event) {
-	this.addCartItemsToState();
+		this.addCartItemsToState();
 	}
 	// Start side-menu functions
 	toggle() {
@@ -124,7 +134,7 @@ class RovignetteShopMain extends Component {
 	render() {
 
 		//menu
-		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
+		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} rovignettesInCart={this.itemsInCartMenuFormated()} />;
 		//!!menu!!
 
 		return (
@@ -178,14 +188,14 @@ class RovignetteShopMain extends Component {
 										{this.imageType('history')}
 
 									</View>
-									<Text style={styles.textStyle}> Comenzile mele  {'\n'}</Text>
+									<Text style={styles.textStyle}>Comenzile mele  {'\n'}</Text>
 
 								</TouchableOpacity>
 
 							</View>
 						</View>
 						<ScrollView >
-						<Text > {'\n'}</Text>
+							<Text > {'\n'}</Text>
 							{this.displayModule()}
 						</ScrollView >
 
