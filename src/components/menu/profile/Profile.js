@@ -239,7 +239,15 @@ class Profile extends Component {
 	}
 	componentWillMount() {
 		this.getProfiles();
+
+		console.log("get categories");
+		this.getCategories();
+		console.log("get categories");
 	}
+
+	
+
+
 	render() {
 		//menu
 		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;

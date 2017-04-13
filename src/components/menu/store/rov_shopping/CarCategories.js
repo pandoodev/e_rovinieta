@@ -1,24 +1,240 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, ScrollView ,Dimensions} from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Spinner} from '../../../common';
 
+
+import axios from 'axios';
+import querystring from 'query-string';
 
 class MyCars extends Component {
 
-	state = { responseData: this.props.responseData, category: '' };
+	state = { responseData: this.props.responseData, category: '', categories: [], isContentLoaded: false };
+
+	componentWillMount() {
+		
+		this.getCategories();
+		
+	}
+
+	getCategories() {
+		var self = this;
+		console.log("--getCategories--");
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'categories',
+				device: 'android',
+			}), {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function (response) {
+				if (response.data.success) {
+
+					self.setState({ categories: response.data });
+					self.setState({isContentLoaded:true});					
+
+				}
+				if (response.data.success === 0) {
+					console.log("Failed ");
+				}
+			});
+	}
+
+	renderCategories()
+	{
 
 
+		if (!this.state.isContentLoaded || this.state.isContentLoaded == undefined) {
+			return (
+
+				<View style={{ marginTop: 50 }} >
+					<Spinner size='small' />
+				</View>
+			);
+		}
+
+		
+		
+		return (
+
+			
+			<ScrollView >
+
+				<View style={styles.containerStyle}>
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[0].name,
+									categoryID: this.state.categories.categories[0].id, 
+									categoryDescription: this.state.categories.categories[0].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/a.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle} > { this.state.categories.categories[0].name }</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[4].name,
+									categoryID: this.state.categories.categories[4].id, 
+									categoryDescription: this.state.categories.categories[4].description
+								})
+							}}
+
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/e.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle}>{ this.state.categories.categories[4].name } </Text>
+						</TouchableOpacity>
+
+					</View>
+
+					<View style={styles.containerStyle}>
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[1].name,
+									categoryID: this.state.categories.categories[1].id, 
+									categoryDescription: this.state.categories.categories[1].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/b.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle} > {this.state.categories.categories[1].name} </Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[5].name,
+									categoryID: this.state.categories.categories[5].id, 
+									categoryDescription: this.state.categories.categories[5].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/f.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle}> { this.state.categories.categories[5].name } </Text>
+						</TouchableOpacity>
+
+
+					</View>
+					<View style={styles.containerStyle}>
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[2].name,
+									categoryID: this.state.categories.categories[2].id, 
+									categoryDescription: this.state.categories.categories[2].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/c.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle} >{ this.state.categories.categories[2].name } </Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[6].name,
+									categoryID: this.state.categories.categories[6].id, 
+									categoryDescription: this.state.categories.categories[6].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/g.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle}> { this.state.categories.categories[6].name } </Text>
+						</TouchableOpacity>
+
+
+					</View>
+					<View style={styles.containerStyle}>
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[3].name,
+									categoryID: this.state.categories.categories[3].id, 
+									categoryDescription: this.state.categories.categories[3].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/d.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle} >{ this.state.categories.categories[3].name }</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={() => {
+								Actions.buy({
+									responseData: this.props.responseData, 
+									category: this.state.categories.categories[7].name,
+									categoryID: this.state.categories.categories[7].id, 
+									categoryDescription: this.state.categories.categories[7].description
+								})
+							}}
+							style={styles.buttonStyle}>
+							<View>
+								<Image
+									source={require('../../../../../assets/h.png')} style={styles.imgStyle} />
+							</View>
+							<Text style={styles.textStyle}> { this.state.categories.categories[7].name } </Text>
+						</TouchableOpacity>
+
+
+					</View>
+
+			
+			
+				</ScrollView >
+
+		);
+
+		
+	}
 
 	render() {
 
 		return (
 
 			<View style={styles.pageContainerStyle}>
-										<Text style={styles.pageTitleStyle}> Alege categoria mașinii </Text>
+				<Text style={styles.pageTitleStyle}> Alege categoria mașinii </Text>
 
-											<ScrollView >
+				
 
-					<View style={styles.containerStyle}>
+
+					{this.renderCategories()}					
+
+
+
+					{/*<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
 								Actions.buy({
@@ -50,8 +266,8 @@ class MyCars extends Component {
 							<Text style={styles.textStyle}>Categoria E  </Text>
 						</TouchableOpacity>
 
-
 					</View>
+
 					<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
@@ -150,8 +366,7 @@ class MyCars extends Component {
 						</TouchableOpacity>
 
 
-					</View>
-											</ScrollView >
+					</View>*/}
 
 			</View>
 
@@ -161,7 +376,7 @@ class MyCars extends Component {
 const window = Dimensions.get('window');
 const styles = {
 	pageContainerStyle: {
-		height:window.height-100,
+		height: window.height - 100,
 	},
 	containerStyle: {
 		flex: 1,
@@ -172,7 +387,7 @@ const styles = {
 	}
 	,
 	buttonStyle: {
-		margin:5,
+		margin: 5,
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -187,7 +402,7 @@ const styles = {
 		shadowRadius: 2,
 	},
 	imgStyle: {
-		marginTop:5,
+		marginTop: 5,
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',

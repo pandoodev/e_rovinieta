@@ -102,7 +102,6 @@ class History extends Component {
 			case "18": return ("Re - Emitere");
 			case "19": return ("I.Emitere");
 		}
-
 	}
 
 	showOrderHistory() {

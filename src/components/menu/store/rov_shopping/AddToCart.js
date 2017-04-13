@@ -44,7 +44,7 @@ class AddtoCart extends Component {
 	}
 getVehicleNo()
 {
-		console.log("getVehicleNo")
+	console.log("getVehicleNo")
 	
 	if(this.props.plateNo!=undefined&&this.props.plateNo!='')
 	{
@@ -251,6 +251,10 @@ getChasisNo()
 		this.getCountries();
 		this.getProfileID();
 		this.getValabilities();
+
+
+		//this.getCategories();
+
 		//this.getPrices();
 		///	console.log("add to cart");
 
@@ -500,6 +504,32 @@ getChasisNo()
 
 		}
 
+	}
+
+	getCategories() {
+
+		var self = this;
+		console.log("--getCategories--");
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({
+				tag: 'categories',
+				device: 'android',				
+			}), {
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
+			}).then(function (response) {
+				if (response.data.success) {	
+
+					console.log("categories");			
+					console.log(response.data);
+					console.log("categories");
+
+				}
+				if (response.data.success === 0) {
+					console.log("Failed ");
+				}
+			});
 	}
 
 

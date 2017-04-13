@@ -4,11 +4,18 @@ import CarCategories from './CarCategories';
 import Header from '../../../common/Header';
 import Cart from './Cart';
 import History from './History';
+
+
 //menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../../common/Menu');
 import MenuButton from '../../../common/MenuButton';
 //menu
+
+
+
+
+
 inCartRovignetteKey = null;
 class RovignetteShopMain extends Component {
 
@@ -91,6 +98,7 @@ class RovignetteShopMain extends Component {
 			selectedItem: item,
 		});
 	}
+
 	// !!!End side-menu functions!!!
 	imageType(category) {
 		switch (category) {
