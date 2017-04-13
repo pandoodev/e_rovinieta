@@ -694,6 +694,7 @@ const styles = {
 		color: '#000000',
 		fontWeight: '600',
 		paddingLeft: 10,
+		marginBottom: -8,
 		paddingRight: 10,
 		
 	}
