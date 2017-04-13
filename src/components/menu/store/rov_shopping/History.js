@@ -124,30 +124,7 @@ class History extends Component {
 
 						{this.state.history.map(function (o, i) {
 							return (
-<<<<<<< HEAD
 
-								<View key={i} style={styles.itemContainerStyle}>
-									<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-									<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
-									<Text style={styles.textStyle} key={2}>
-											
-										{	
-
-												o.endDate
-
-											
-										}	
-										
-									</Text>
-									<Text style={styles.textStyle} key={3}>
-										{											
-											self.displayOrderStatus(o)	
-										}
-									</Text>
-
-									
-
-=======
 								<View key={i + 1} style={styles.entryContainerStyle}>
 									<View key={i + 2} style={styles.leftItemContainerStyle}>
 										<Text style={styles.textStyle} key={1}>{o.orderID} (id comandă)</Text>
@@ -162,7 +139,7 @@ class History extends Component {
 										<Text style={styles.textStyle} key={6}>{o.startDate} (stop)</Text>
 
 									</View>
->>>>>>> d437409e64915d5a43dd721449b30d04d3ea537e
+
 								</View>
 
 							);
