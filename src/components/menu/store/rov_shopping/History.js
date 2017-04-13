@@ -59,9 +59,10 @@ class History extends Component {
 			});
 	}
 	setPageHeight = function (options) {
+		console.log(window.height)
 		return {
 
-			height: 250 + this.state.history.length * 65
+			height: 200 + this.state.history.length * 71.5
 		}
 	}
 	renderHistory() {
@@ -127,16 +128,16 @@ class History extends Component {
 
 								<View key={i + 1} style={styles.entryContainerStyle}>
 									<View key={i + 2} style={styles.leftItemContainerStyle}>
-										<Text style={styles.textStyle} key={1}>{o.orderID} (id comandă)</Text>
-										<Text style={styles.textStyle} key={2}>{o.price} (preț)</Text>
-										<Text style={styles.textStyle} key={3}>{self.displayOrderStatus(o)} (status)</Text>
+										<Text style={styles.textStyle} key={1}>#{o.orderID}</Text>
+										<Text style={styles.textStyle} key={2}>{o.price} lei</Text>
+										<Text style={styles.textStyle} key={3}>{self.displayOrderStatus(o)}</Text>
 										
 									</View>
 
 									<View style={styles.rightItemContainerStyle}>
-										<Text style={styles.textStyle} key={4}>{o.vehicleNo} (nr auto)</Text>
-										<Text style={styles.textStyle} key={5}>{o.endDate} (start)</Text>
-										<Text style={styles.textStyle} key={6}>{o.startDate} (stop)</Text>
+										<Text style={styles.vehicleNoStyle} key={4}>{o.vehicleNo}</Text>
+										<Text style={styles.textStyle} key={5}>{o.endDate}</Text>
+										<Text style={styles.textStyle} key={6}>{o.startDate}</Text>
 
 									</View>
 
@@ -232,6 +233,14 @@ const styles = {
 
 	},
 	textStyle: {
+	   justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    color: 'black',
+    paddingTop: 4,
+	},
+	vehicleNoStyle: {
+		fontWeight:'bold',
 	   justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,

@@ -60,7 +60,7 @@ class Cars extends Component {
     for (var key in this.state.categories) {
 
       if (this.state.categories[key].id == categoyId) {
-        var category=this.state.categories[key].name.replace("Categoria ", '')
+        var category = this.state.categories[key].name.replace("Categoria ", '')
         return (category);
       }
     }
@@ -144,7 +144,7 @@ class Cars extends Component {
   setPageHeight = function (options) {
     return {
 
-      height: 100 + this.state.vehicles.length * 85
+      height: 210 + this.state.vehicles.length * 90
     }
   }
   componentWillMount() {
@@ -174,12 +174,7 @@ class Cars extends Component {
             <View>
               {this.renderCars()}
             </View>
-            <View style={styles.insideStyle} >
-              <Text
-                style={{ color: "#337ab7", }}
-                onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
-              >Iti poti configura parcul auto de aici</Text>
-            </View>
+
           </ScrollView >
 
 
@@ -198,13 +193,28 @@ class Cars extends Component {
     }
     var self = this;
     if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
-      return <View style={styles.emptyContainerStyle}><View style={styles.buttonStyle}><Text > Nu exista masini inregistrate pe acest cont.</Text></View></View>
+      return (
+        <View>
+          <View style={styles.emptyContainerStyle}>
+            <View style={styles.buttonStyle}>
+              <Text > Nu exista masini inregistrate pe acest cont.</Text>
+            </View>
+
+          </View>
+          <View style={styles.insideStyle} >
+            <Text
+              style={{ color: "#337ab7", }}
+              onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
+            >Iti poti configura parcul auto de aici</Text>
+          </View>
+        </View>
+      );
     return (
       <View style={this.setPageHeight()}>
         <ScrollView >
           <View key={0} style={styles.containerStyle}>
 
-            <Text style={[styles.textHeaderStyle]}>Informații Mașină</Text>
+            <Text style={[styles.textHeaderStyle]}>Informații mașină</Text>
           </View>
           {this.state.vehicles.map(function (o, i) {
 
@@ -212,10 +222,10 @@ class Cars extends Component {
               <View key={i + 1} style={styles.entryContainerStyle}>
 
                 <View key={i + 2} style={styles.leftItemContainerStyle}>
-                  <Text style={[styles.textStyle]} key={0}>{o.plateNo} (nr auto)</Text>
-                  <Text style={[styles.textStyle]} key={1}>{o.chasisNo} (serie șasiu)</Text>
-                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)} (categorie)</Text>
-                  <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)} (țara)</Text>
+                  <Text style={[styles.textStyle]} key={0}>{o.plateNo}</Text>
+                  <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
+                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)}</Text>
+                  <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)}</Text>
                 </View>
                 <View style={styles.rightItemContainerStyle}>
 
@@ -223,12 +233,12 @@ class Cars extends Component {
                     onPress={() => {
                       Actions.buy({
                         responseData: self.props.responseData, category: self.getCategoryById(o.category),
-                        categoryID: o.category,  chasisNo:o.chasisNo, plateNo:o.plateNo
+                        categoryID: o.category, chasisNo: o.chasisNo, plateNo: o.plateNo
                       })
                     }}
                     key={4}
                     style={{
-                      flex: 1, height: 30, width: 30,
+                      flex: 1, height: 50, width: 50,
                     }}>
                     <Image
                       source={require('../../../../assets/add.png')} style={styles.imgStyle} key={5} />
@@ -240,6 +250,12 @@ class Cars extends Component {
 
             )
           })}
+          <View style={styles.insideStyle} >
+            <Text
+              style={{ color: "#337ab7", }}
+              onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
+            >Iti poti configura parcul auto de aici</Text>
+          </View>
         </ScrollView >
       </View>
     );
@@ -263,7 +279,7 @@ const styles = {
     marginRight: 10,
   },
   leftItemContainerStyle: {
-    flex: 6,
+    flex: 5,
     flexDirection: 'column',
     justifyContent: 'space-around',
     marginLeft: 10,
@@ -348,6 +364,7 @@ const styles = {
 
   },
   insideStyle: {
+    marginTop: 30,
     flex: 3,
     justifyContent: 'flex-start',
     flexDirection: 'row',

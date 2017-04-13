@@ -52,7 +52,7 @@ class RovignetteShopMain extends Component {
 			case 'categories':
 				return (<CarCategories responseData={this.props.responseData} />);
 			case 'cart':
-				return (<Cart responseData={this.props.responseData} changeParentState={this.changeStateFromCart.bind(this)} />);
+				return (<Cart responseData={this.props.responseData} changeParentState={this.changeStateFromCart.bind(this)} deleteFromCart={this.deleteFromCart.bind(this)} />);
 			case 'history':
 				return (<History responseData={this.props.responseData} />);
 		}
@@ -70,6 +70,9 @@ class RovignetteShopMain extends Component {
 	}
 	changeStateFromCart(event) {
 		this.setState({ selected: 'categories' })
+	}
+	deleteFromCart(event) {
+	this.addCartItemsToState();
 	}
 	// Start side-menu functions
 	toggle() {
@@ -162,7 +165,7 @@ class RovignetteShopMain extends Component {
 										{this.imageType('cart')}
 									</View>
 
-									<Text style={styles.textStyle}>Coș {this.itemsInCart()}   {'\n'}</Text>
+									<Text style={styles.textStyle}>Coș {this.itemsInCart()} {'\n'}</Text>
 								</TouchableOpacity>
 
 
@@ -175,7 +178,7 @@ class RovignetteShopMain extends Component {
 										{this.imageType('history')}
 
 									</View>
-									<Text style={styles.textStyle}> Comenzile Mele  {'\n'}</Text>
+									<Text style={styles.textStyle}> Comenzile mele  {'\n'}</Text>
 
 								</TouchableOpacity>
 
