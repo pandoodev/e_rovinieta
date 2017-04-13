@@ -367,13 +367,13 @@ getChasisNo()
 			return "Vă rugăm să introduceți numărul de înmatriculare al vehiculului !";
 		}
 
-		//Chasis number validation
-		if (this.state.chasisNo === undefined
-			|| this.state.chasisNo == ""
+		// //Chasis number validation
+		// if (this.state.chasisNo === undefined
+		// 	|| this.state.chasisNo == ""
 
-		) {
-			return "Vă rugăm să introduceți numărul șasiului vehiculului !";
-		}
+		// ) {
+		// 	return "Vă rugăm să introduceți numărul șasiului vehiculului !";
+		// }
 
 
 		return 1;

@@ -62,7 +62,7 @@ class History extends Component {
 		console.log(window.height)
 		return {
 
-			height: 200 + this.state.history.length * 71.5
+			height: 200 + this.state.history.length * 80
 		}
 	}
 	renderHistory() {
@@ -117,7 +117,7 @@ class History extends Component {
 					<ScrollView >
 
 						<View style={styles.containerStyle}>
-							
+
 							<Text style={styles.textHeaderStyle}>Comanda</Text>
 							<Text style={styles.textHeaderStyle}>Rovinieta</Text>
 						</View>
@@ -130,7 +130,7 @@ class History extends Component {
 										<Text style={styles.textStyle} key={1}>#{o.orderID}</Text>
 										<Text style={styles.textStyle} key={2}>{o.price} lei</Text>
 										<Text style={styles.textStyle} key={3}>{self.displayOrderStatus(o)}</Text>
-										
+
 									</View>
 
 									<View style={styles.rightItemContainerStyle}>
@@ -184,8 +184,7 @@ const styles = {
 		marginTop: 5,
 		marginLeft: 10,
 		marginRight: 10,
-	}
-	,
+	},
 	itemContainerStyle: {
 		flex: 1,
 		flexDirection: 'row',
@@ -208,73 +207,20 @@ const styles = {
 		shadowOpacity: 0.1,
 		shadowRadius: 2,
 	},
-	imgStyle: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 50,
-		height: 50,
-		resizeMode: 'contain',
-	},
-
-
-	autonrStyle: {
-		flex: 3,
+	textStyle: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',
-		height: 30,
-		paddingTop: 6,
-
-		borderColor: '#bbb',
-		borderWidth: 1,
-
-	},
-	textStyle: {
-	   justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'black',
-    paddingTop: 4,
+		paddingTop: 4,
 	},
 	vehicleNoStyle: {
-		fontWeight:'bold',
-	   justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'black',
-    paddingTop: 4,
-	},
-	nrCrtStyle: {
-		flex: 1,
-
+		fontWeight: 'bold',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',
-		height: 30,
-		paddingTop: 6,
-		borderColor: '#bbb',
-		borderWidth: 1,
-
-	}, elementStyle: {
-		flex: 1,
-		flexDirection: 'row',
-		marginTop: 5,
-		marginLeft: 10,
-		marginRight: 10,
-	},
-	autonrHeaderStyle: {
-		flex: 3,
-		paddingTop: 3,
-		backgroundColor: '#222222',
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingLeft: 5,
-		color: 'white',
-		height: 30,
-		fontSize: 16,
+		paddingTop: 4,
 	},
 	textHeaderStyle: {
 		flex: 5,
@@ -286,47 +232,32 @@ const styles = {
 		color: 'white',
 		height: 30,
 		fontSize: 16,
-
-
 	},
-	 entryContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-
-  },
-	nrCrtHeaderStyle: {
+	entryContainerStyle: {
 		flex: 1,
-		paddingTop: 3,
-		backgroundColor: '#222222',
-		justifyContent: 'center',
-		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		height: 80
+	},
+	leftItemContainerStyle: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around',
+		marginLeft: 10,
+		borderColor: '#bbb',
+		borderWidth: 1,
 		paddingLeft: 5,
-		color: 'white',
-		height: 30,
-		fontSize: 16,
+		borderRightWidth: 0
+	},
+	rightItemContainerStyle: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around',
+		marginRight: 10,
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 	},
-	 leftItemContainerStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    marginLeft: 10,
-    borderColor: '#bbb',
-    borderWidth: 1,
-    paddingLeft: 5,
-    borderRightWidth: 0
-
-  },
-  rightItemContainerStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    marginRight: 10,
-    borderColor: '#bbb',
-    borderWidth: 1,
-
-  },
 };
 
 export default History;
