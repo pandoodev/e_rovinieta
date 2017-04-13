@@ -550,10 +550,11 @@ getChasisNo()
 					backgroundColor: '#FFFFFF',
 				}}>
 					{/*Content start */}
-					<Header headerText={"Categoria " + this.props.category} />
+					<Header headerText={this.props.category} />
 					<ScrollView >
-
+					
 						<Card >
+							<Text style={styles.pageTitleStyle}> {this.props.categoryDescription}</Text>
 							<CardSection >
 								<Input
 									label="Număr auto"
@@ -685,6 +686,16 @@ const styles = {
 		alignItems: 'center',
 		marginLeft: 30,
 		marginRight: 30,
+	}
+	,
+	pageTitleStyle: {
+		fontSize: 17,
+		textAlign: 'center',
+		color: '#000000',
+		fontWeight: '600',
+		paddingLeft: 10,
+		paddingRight: 10,
+		
 	}
 };
 

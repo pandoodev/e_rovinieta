@@ -60,7 +60,7 @@ class Cars extends Component {
     for (var key in this.state.categories) {
 
       if (this.state.categories[key].id == categoyId) {
-        var category = this.state.categories[key].name.replace("Categoria ", '')
+        var category = this.state.categories[key].name;
         return (category);
       }
     }
