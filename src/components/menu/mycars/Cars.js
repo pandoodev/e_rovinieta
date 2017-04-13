@@ -144,7 +144,7 @@ class Cars extends Component {
   setPageHeight = function (options) {
     return {
 
-      height: 210 + this.state.vehicles.length * 90
+      height: 140 + this.state.vehicles.length * 85
     }
   }
   componentWillMount() {
@@ -222,7 +222,7 @@ class Cars extends Component {
               <View key={i + 1} style={styles.entryContainerStyle}>
 
                 <View key={i + 2} style={styles.leftItemContainerStyle}>
-                  <Text style={[styles.textStyle]} key={0}>{o.plateNo}</Text>
+                  <Text style={[styles.vehicleNoStyle]} key={0}>{o.plateNo}</Text>
                   <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
                   <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)}</Text>
                   <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)}</Text>
@@ -267,6 +267,7 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    height: 85
 
   },
   containerStyle: {
@@ -314,29 +315,13 @@ const styles = {
     color: 'black',
     paddingTop: 4,
   },
-
-  nrCrtStyle: {
-    flex: 1,
-
+  vehicleNoStyle: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 5,
     color: 'black',
-    height: 30,
-    paddingTop: 6,
-    borderColor: '#bbb',
-    borderWidth: 1,
-  },
-  autonrHeaderStyle: {
-    flex: 3,
-    paddingTop: 3,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
+    paddingTop: 4,
+    fontWeight: 'bold',
   },
   textHeaderStyle: {
     flex: 5,
@@ -348,20 +333,6 @@ const styles = {
     color: 'white',
     height: 30,
     fontSize: 16,
-
-
-  },
-  nrCrtHeaderStyle: {
-    flex: 1,
-    paddingTop: 3,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
-
   },
   insideStyle: {
     marginTop: 30,
