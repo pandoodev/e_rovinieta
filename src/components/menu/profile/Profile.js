@@ -239,10 +239,6 @@ class Profile extends Component {
 	}
 	componentWillMount() {
 		this.getProfiles();
-
-		console.log("get categories");
-		this.getCategories();
-		console.log("get categories");
 	}
 
 	
