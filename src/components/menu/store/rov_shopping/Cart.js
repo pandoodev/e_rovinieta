@@ -200,7 +200,11 @@ class Cart extends Component {
 	}
 
 	generateInvoice(preparedRovignettes, userInformation) {
-		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
+		url = 'https://www.e-rovinieta.ro/ro/apps/payment';
+
+		console.log("payment URL: ");
+		console.log(url);
+		console.log("payment URL: ");
 			//this.deleteItems();
 
 		//STUBBED PARAMETERS TO TEST THE API CALL
@@ -225,7 +229,13 @@ class Cart extends Component {
 			
 			self.deleteItems();
 
-			linkToAccess = "http://e-rovinieta.ctrlf5.ro/ro/transaction/" + userInformation[3];			
+
+			linkToAccess = "https://www.e-rovinieta.ro/ro/transaction/" + userInformation[3];			
+			console.log("profileID url");
+			console.log(linkToAccess);
+			console.log("profileID url");
+
+			
 			Actions.payment({
 				linkToAccess:linkToAccess, 
 				responseData: self.props.responseData

@@ -167,7 +167,7 @@ class Profile extends Component {
 
 	confirmDeleteProfile(index) {
 		var self = this;
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile_delete',
 				device: 'android',
@@ -209,7 +209,7 @@ class Profile extends Component {
 
 		var self = this;
 		console.log("--getProfiles--");
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',

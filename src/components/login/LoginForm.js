@@ -100,7 +100,7 @@ class LoginForm extends Component {
 		let hashedPass = md5.hex_md5(password);
 		var self = this;
 		this.setState({ error: '', loading: true });
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'login',
 				device: 'android',
@@ -152,7 +152,7 @@ class LoginForm extends Component {
 		)
 	}
 
-	onLoginSuccess(response) {
+		onLoginSuccess(response) {
 
 		this.setState({
 			username: '',
@@ -184,13 +184,31 @@ class LoginForm extends Component {
 
 			},
 			// ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-			senderID: "728550501011",
+			senderID: "145264640175",
 
 			// IOS ONLY (optional): default: all - Permissions to register.
 			permissions: {
 				alert: true,
 				badge: true,
 				sound: true
+			},
+
+			onRegister: function(token) {
+				console.log( 'TOKEN:', token );
+
+				//TODO: replace the post url to the provided api
+				axios.post('http://coiot.xyz/test.php',
+					querystring.stringify({
+						token_firebase: token.token,
+					}), {
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded"
+						}
+					}).then(function (response) {
+						console.log("response");
+						console.log(response);
+						console.log("response");
+					});
 			},
 
 			// Should the initial notification be popped automatically
