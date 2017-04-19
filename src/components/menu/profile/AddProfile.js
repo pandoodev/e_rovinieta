@@ -493,13 +493,13 @@ class AddProfile extends Component {
                             onChangeText={street => this.setState({ street })}
                         />
                     </CardSection>
-                    <CardSection >
+                    {/*<CardSection >
                         <Input
                             label="CNP"
                             value={this.state.CNP}
                             onChangeText={CNP => this.setState({ CNP })}
                         />
-                    </CardSection>
+                    </CardSection>*/}
 
 
                     {this.renderButton()}
