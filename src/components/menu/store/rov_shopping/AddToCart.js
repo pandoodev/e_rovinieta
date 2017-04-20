@@ -668,9 +668,9 @@ const styles = {
 	},
 	textStyle: {
 		flex: 1,
-		paddingTop: 8,
+		paddingTop: 10,
 		fontSize: 18,
-		marginBottom: 15,
+		marginBottom: 8,
 		marginLeft: 15,
 		color: 'black',
 	},

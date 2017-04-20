@@ -122,10 +122,7 @@ class LoginForm extends Component {
 				if (response.data.success === 0) {
 					self.onLoginFail(response);
 				}
-
-
 			});
-
 	}
 
 	renderButton() {
@@ -181,7 +178,6 @@ class LoginForm extends Component {
 						}
 					});
 				}
-
 			},
 			// ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
 			senderID: "145264640175",
