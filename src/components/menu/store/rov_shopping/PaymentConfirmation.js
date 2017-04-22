@@ -65,9 +65,18 @@ class PaymentConfirmation extends Component {
   }
 
   _onNavigationStateChange(webViewState) {
-    console.log("Current handled url");
-    console.log(webViewState.url);
-    console.log("Current handled url");
+
+    if(webViewState.url.indexOf("/apps/success") >= 0 || 
+    webViewState.url.indexOf("/apps/failed") >= 0 || 
+    webViewState.url.indexOf("/apps/pending") >= 0)
+    {
+      console.log("Redirecting...");  
+      Actions.shop({
+        componentToDisplay: 'history',
+        responseData: this.props.responseData
+      });
+    }
+
   }
 
 
