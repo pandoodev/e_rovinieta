@@ -193,18 +193,18 @@ class LoginForm extends Component {
 				console.log( 'TOKEN:', token );
 
 				//TODO: replace the post url to the provided api
-				axios.post('http://coiot.xyz/test.php',
-					querystring.stringify({
-						token_firebase: token.token,
-					}), {
-						headers: {
-							"Content-Type": "application/x-www-form-urlencoded"
-						}
-					}).then(function (response) {
-						console.log("response");
-						console.log(response);
-						console.log("response");
-					});
+				// axios.post('http://coiot.xyz/test.php',
+				// 	querystring.stringify({
+				// 		token_firebase: token.token,
+				// 	}), {
+				// 		headers: {
+				// 			"Content-Type": "application/x-www-form-urlencoded"
+				// 		}
+				// 	}).then(function (response) {
+				// 		console.log("response");
+				// 		console.log(response);
+				// 		console.log("response");
+				// 	});
 			},
 
 			// Should the initial notification be popped automatically
