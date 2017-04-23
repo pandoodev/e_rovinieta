@@ -62,7 +62,7 @@ class History extends Component {
 		console.log(window.height)
 		return {
 
-			height: 200 + this.state.history.length * 80
+			height: 200 + this.state.history.length * 80.5
 		}
 	}
 	renderHistory() {

@@ -123,6 +123,15 @@ class Cart extends Component {
 		
 	}
 
+	removeFromCartAfterBuy()
+	{
+		this.setState({ itemsInCart: '' });
+		var currentItemsInCart='';
+		this._removeStorage(inCartRovignetteKey);
+		this._addToStorage(inCartRovignetteKey, JSON.stringify(currentItemsInCart));
+		this.props.deleteFromCart();
+		
+	}
 
 	//Removes stored cart items from AsyncStorage
 	deleteItems() {
@@ -135,6 +144,8 @@ class Cart extends Component {
 	//Called when buy items from cart button is pressed
 	buyItemsButton() {
 		this.setState({loadingForRedirect:true});
+		this.setState({itemsInCart:''});
+		this.removeFromCartAfterBuy();
 		this.prepareData(this.state.itemsInCart);
 		//console.log("Items in cart state variable");
 
