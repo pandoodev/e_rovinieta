@@ -6,8 +6,6 @@ class Cart extends  Component {
 
 state = { selected:'', cart:false, history:false };
 
-
-
 	render(){
 		return (
 			<View style={styles.containerStyle}>

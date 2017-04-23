@@ -10,24 +10,27 @@ const Menu = require('../../../common/Menu');
 import MenuButton from '../../../common/MenuButton';
 //menu
 
-import {  Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 
 import { WebView } from 'react-native';
 
 class PaymentConfirmation extends Component {
 
-	state = {noRedirects:0};
+  state = { noRedirects: 0, uri: "" };
 
 
-    //initiate state items with constructor
-	constructor(props) {
-		super(props);
-	}
+  //initiate state items with constructor
+  constructor(props) {
+    super(props);
+    this.state = {
+      uri:this.props.linkToAccess
+    };
+  }
 
-componentWillMount(){
+  componentWillMount() {
 
-}
+  }
 
   // Start side-menu functions
   toggle() {
@@ -48,34 +51,48 @@ componentWillMount(){
   }
   // !!!End side-menu functions!!!
 
-onLoadEndFunction()
-{
-    
+  onLoadEndFunction() {
+
     this.state.noRedirects++;
-    
-    if(this.state.noRedirects > 1)
-    {
-        console.log(this.props.responseData);
-        Actions.shop({
-            componentToDisplay: 'history',
-            responseData: this.props.responseData
-        });        
+
+    if (this.state.noRedirects > 1) {
+      console.log(this.props.responseData);
+      Actions.shop({
+        componentToDisplay: 'history',
+        responseData: this.props.responseData
+      });
     }
-}
+  }
+
+  _onNavigationStateChange(webViewState) {
+
+    if(webViewState.url.indexOf("/apps/success") >= 0 || 
+    webViewState.url.indexOf("/apps/failed") >= 0 || 
+    webViewState.url.indexOf("/apps/pending") >= 0)
+    {
+      console.log("Redirecting...");  
+      Actions.shop({
+        componentToDisplay: 'history',
+        responseData: this.props.responseData
+      });
+    }
+
+  }
 
 
-	render() {
+  render() {
 
     return (
       <WebView
-        source={{uri: this.props.linkToAccess}}
+        source={{ uri: this.state.uri }}
         onLoadEnd={this.onLoadEndFunction.bind(this)}
+        onNavigationStateChange={this._onNavigationStateChange.bind(this)}
       />
     );
 
 
 
-    }
+  }
 };
 
 

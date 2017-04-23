@@ -196,11 +196,15 @@ class Cart extends Component {
 			}
 		}
 
+		//make a random parameter to avoid caching the accessed link
+		result += "&a=" + Math.random();
+
 		return result;
 	}
 
 	generateInvoice(preparedRovignettes, userInformation) {
-		url = 'http://e-rovinieta.ctrlf5.ro/ro/apps/payment';
+		url = 'https://www.e-rovinieta.ro/ro/apps/payment';
+
 			//this.deleteItems();
 
 		//STUBBED PARAMETERS TO TEST THE API CALL
@@ -212,6 +216,12 @@ class Cart extends Component {
 		userInformation[2],
 		userInformation[3],
 		preparedRovignettes);
+
+
+		
+		console.log("payment URL: ");
+		console.log(url + stringifyResult);
+		console.log("payment URL: ");
 
 		axios.post(
 			url,
@@ -225,7 +235,14 @@ class Cart extends Component {
 			
 			self.deleteItems();
 
-			linkToAccess = "http://e-rovinieta.ctrlf5.ro/ro/transaction/" + userInformation[3];			
+
+			linkToAccess = "https://www.e-rovinieta.ro/ro/transaction/" + userInformation[3];
+			linkToAccess += "?a=" + Math.random();			
+			console.log("profileID url");
+			console.log(linkToAccess);
+			console.log("profileID url");
+
+			
 			Actions.payment({
 				linkToAccess:linkToAccess, 
 				responseData: self.props.responseData

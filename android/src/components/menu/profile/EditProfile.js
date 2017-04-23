@@ -1,3 +1,6 @@
+
+
+
 import React, { Component } from 'react';
 import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../common';
@@ -15,7 +18,8 @@ const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 //menu
 
-class AddProfile extends Component {
+class EditProfile extends Component {
+
     state = {
         profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
         companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
@@ -23,7 +27,7 @@ class AddProfile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
+            profileType: 1, country: this.props.profileToModify.country, county: this.props.profileToModify.county, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', buttonLoading: false, CNP: null, error: "", loading: false,
             companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
         }
     }
@@ -61,24 +65,25 @@ class AddProfile extends Component {
     // !!!End side-menu functions!!!
 
 
-
-
-    componentWillMount() {
-
+    componentDidMount() {
         this.getCountries();
         this.getCounties();
+        this.initialiseWithExistingData();
+        console.log('tst');
     }
 
     renderButton() {
-
+        console.log('rendering button')
         if (this.state.buttonLoading) {
+        console.log('inside rendering button')
             return <Spinner size='small' />;
         }
+        console.log(this.state.butttonLoading)
 
         return (
             //	<Button onPress = {this.onButtonPress.bind(this)}> 
             <Button onPress={this.submitChangesButton.bind(this)}>
-                Crează Profil
+                Salvează Modificările
 		</Button>
         );
 
@@ -92,7 +97,7 @@ class AddProfile extends Component {
         console.log("this.props.responseData")
         var self = this;
         console.log(this.props.responseData)
-        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile',
                 device: 'android',
@@ -120,19 +125,22 @@ class AddProfile extends Component {
 
     submitChangesButton() {
         this.setState({ buttonLoading: true });
-        if (this.state.profileType === 1) {
+        if (this.props.profileToModify.type == 1) {
 
             console.log("fizic")
-            this.createPhysProfile();
+            console.log(this.props.profileToModify)
+
+            this.editPhysProfile();
         }
         else {
             console.log("juridic")
-            this.createJurProfile();
+            console.log(this.props.profileToModify)
+            this.editJurProfile();
         }
 
 
     }
-    createPhysProfile() {
+    editPhysProfile() {
 
         // @type = 1
         // @firstname
@@ -146,10 +154,10 @@ class AddProfile extends Component {
         // Daca userul este de tip persoana fizica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'Country' + self.state.country + 'County' + self.state.county + 'CnP' + self.state.CNP);
-        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'sss' + self.state.country + self.state.county + 'ss' + self.state.CNP);
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
-                tag: 'profile_new',
+                tag: 'profile_modify',
                 device: 'android',
                 token: self.props.responseData.user.token,
                 type: 1,
@@ -160,6 +168,7 @@ class AddProfile extends Component {
                 country: self.state.country,
                 county: self.state.county,
                 personalCode: self.state.CNP,
+                pid: self.state.userID
 
 
             }), {
@@ -167,7 +176,7 @@ class AddProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false, buttonLoading: false });
+                self.setState({ buttonLoading: false });
 
                 if (response.data.success) {
 
@@ -191,7 +200,7 @@ class AddProfile extends Component {
 
 
     }
-    createJurProfile() {
+    editJurProfile() {
 
         // @type = 0
         // @company
@@ -209,20 +218,21 @@ class AddProfile extends Component {
         // Daca userul este de tip persoana juridica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode);
-        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode + 'id' + self.state.userID);
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
-                tag: 'profile_new',
+                tag: 'profile_modify',
                 device: 'android',
                 token: self.props.responseData.user.token,
                 type: 0,
                 companyName: self.state.companyName,
-                address: self.state.address,
+                address: self.state.companyAddress,
                 city: self.state.companyCity,
                 county: self.state.county,
                 country: self.state.country,
                 fiscalCode: self.state.cuiCode,
                 regCom: self.state.jCode,
+                pid: self.state.userID
 
 
             }), {
@@ -230,67 +240,25 @@ class AddProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ loading: false, buttonLoading: false });
-                console.log("juridic resoinse");
-                console.log(response.data);
-                console.log("1");
+                self.setState({ buttonLoading: false });
 
                 if (response.data.success) {
-                    console.log("success");
+
                     console.log(response.data);
                     Actions.profiles({ responseData: self.props.responseData, headerTitle: 'Profilele mele' });
-                    console.log("!success");
+
 
                 }
-                else {
-                    console.log("else");
-                    console.log(response.data);
-                    if (response.data.success != undefined && response.data.success === 0) {
-                        if (response.data.error_msg != undefined && response.data.error_msg != '') {
-                            self.message('Eroare', response.data.error_msg);
-                            console.log("error if");
-
-                        }
-
-                        console.log("!else");
-
-
+                if (response.data.success === 0) {
+                    if (response.data.error_msg != undefined && response.data.error_msg != '') {
+                        self.message('Eroare', response.data.error_msg);
                     }
                     else {
-                        
-                      
-                        if (self.state.cuiCode == undefined || self.state.cuiCode == '') {
-                            self.message('Eroare', "Vă rugam să completați CUI");
-
-                         cuiOK=false;
-                         return
-                        }
-                        else{
-                        var cuiOK=true;
-                            
-                        }
-
-                        if (self.state.jCode == undefined || self.state.jCode == '') {
-                            self.message('Eroare', "Vă rugam să completați R.Comerț");
-                         jCode=false;
-                         return
-
-                        }
-                        else
-                        {
-                              var jCode=true;
-                        }
-                        if(jCode===true && cuiOK===true ){
-                        console.log("all ok");
-                             Actions.profiles({ responseData: self.props.responseData, headerTitle: 'Profilele mele' });
-                        }
-                        
-
-
+                        selfmessage('Eroare', 'Vă rugăm să verificați corectitudinea datelor introduse');
                     }
+                    console.log(response.data);
 
                 }
-                console.log("juridic resoinse end");
 
             });
 
@@ -298,8 +266,8 @@ class AddProfile extends Component {
     }
     getCountries() {
         var self = this;
-        this.setState({ loading: true });
-        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+         self.setState({loading: true });
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'countries',
                 device: 'android'
@@ -310,11 +278,11 @@ class AddProfile extends Component {
             }).then(function (response) {
                 if (response.data.success) {
                     var arrCountries = [];
-                    response.data.countries.forEach(function (countrieInfo) {
-                        arrCountries.push([countrieInfo['name'], countrieInfo['id']]);
+                    response.data.countries.forEach(function (countryInfo) {
+                        arrCountries.push([countryInfo['name'], countryInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
-                    self.setState({ error: '', loading: false, buttonLoading: false });
+                    self.setState({ error: '', loading: false, buttonLoading:false });
                 }
                 if (response.data.success === 0) {
                     console.log("unsuccess from getCountries");
@@ -324,9 +292,9 @@ class AddProfile extends Component {
     }
     getCounties() {
         var self = this;
-        this.setState({ loading: true });
-
-        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+         self.setState({loading: true });
+        
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'counties',
                 device: 'android'
@@ -337,11 +305,11 @@ class AddProfile extends Component {
             }).then(function (response) {
                 if (response.data.success) {
                     var arrCounties = [];
-                    response.data.counties.forEach(function (countrieInfo) {
-                        arrCounties.push([countrieInfo['name'], countrieInfo['id']]);
+                    response.data.counties.forEach(function (countryInfo) {
+                        arrCounties.push([countryInfo['name'], countryInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
-                    self.setState({ error: '', loading: false, buttonLoading: false });
+                    self.setState({ error: '', loading: false, buttonLoading:false});
                     console.log(response.data);
                 }
                 if (response.data.success === 0) {
@@ -354,20 +322,20 @@ class AddProfile extends Component {
 
     renderCountries() {
         if (this.state.loading || this.state.loading == undefined) {
-            return <Spinner size='small' />;
+            return (
+                <Spinner size='small' />);
         }
         return (
             <View style={styles.pickerContainerStyle}>
-
                 <Picker
                     style={styles.pickerStyle}
                     selectedValue={this.state.country}
                     onValueChange={(loc) => this.setState({ country: loc })}>
                     {
                         this.state.countries.map(function (o, i) {
-
                             return <Picker.Item value={o[1]} label={o[0]} key={i} />
-                        })}</Picker>
+                        })
+                    }</Picker>
             </View>
         );
     }
@@ -389,10 +357,30 @@ class AddProfile extends Component {
             </View>
         );
     }
-
+    initialiseWithExistingData() {
+        if (this.props.profileToModify.type == 0) {
+            this.setState({
+                companyName: this.props.profileToModify.companyName,
+                companyAddress: this.props.profileToModify.address,
+                companyCity: this.props.profileToModify.city,
+                cuiCode: this.props.profileToModify.fiscalCode,
+                jCode: this.props.profileToModify.regComCode,
+                userID: this.props.profileToModify.id
+            });
+        }
+        else {
+            this.setState({
+                firstName: this.props.profileToModify.firstName,
+                street: this.props.profileToModify.address,
+                city: this.props.profileToModify.city,
+                CNP: this.props.profileToModify.personalID,
+                lastName: this.props.profileToModify.lastName,
+                userID: this.props.profileToModify.id
+            });
+        }
+    }
     showForm() {
-
-        if (this.state.profileType == 0) {
+        if (this.props.profileToModify.type == 0) {
             return (
                 <View>
                     <CardSection >
@@ -423,8 +411,8 @@ class AddProfile extends Component {
                     <CardSection >
                         <Input
                             label="Adresă"
-                            value={this.state.address}
-                            onChangeText={address => this.setState({ address })}
+                            value={this.state.companyAddress}
+                            onChangeText={companyAddress => this.setState({ companyAddress })}
                         />
                     </CardSection>
                     <CardSection >
@@ -436,7 +424,7 @@ class AddProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            label="R. Comerț"
+                            label="R. Comert"
                             value={this.state.jCode}
                             onChangeText={jCode => this.setState({ jCode })}
                         />
@@ -496,14 +484,13 @@ class AddProfile extends Component {
                     <CardSection >
                         <Input
                             label="CNP"
-                            value={this.state.CNP}
+                            value={String(this.state.CNP)}
                             onChangeText={CNP => this.setState({ CNP })}
                         />
                     </CardSection>
 
 
                     {this.renderButton()}
-
                 </View>
             );
         }
@@ -530,18 +517,7 @@ class AddProfile extends Component {
                     <ScrollView >
 
                         <Card >
-                            <CardSection>
-                                <Text style={styles.textStyle}> Tip Profil </Text>
-                                <View style={styles.pickerContainerStyle}>
-                                    <Picker
-                                        style={styles.pickerStyle}
-                                        selectedValue={this.state.profileType}
-                                        onValueChange={(type) => this.setState({ profileType: type })}>
-                                        <Picker.Item label="Persoană Fizică" value="1" />
-                                        <Picker.Item label="Persoană Juridică" value="0" />
-                                    </Picker>
-                                </View>
-                            </CardSection>
+
                             {this.showForm()}
                         </Card>
                     </ScrollView >
@@ -572,11 +548,14 @@ const styles = {
         marginLeft: -7,
 
 
+
     },
     pickerContainerStyle: {
         borderBottomColor: '#808080',
         borderBottomWidth: 1,
         marginLeft: 5,
+
+
         flex: 2
     },
     buttonStyle: {
@@ -623,6 +602,6 @@ const styles = {
     }
 };
 
-export default AddProfile;
+export default EditProfile;
 
 

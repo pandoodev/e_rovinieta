@@ -1,6 +1,3 @@
-
-
-
 import React, { Component } from 'react';
 import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../common';
@@ -18,8 +15,7 @@ const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 //menu
 
-class EditProfile extends Component {
-
+class AddProfile extends Component {
     state = {
         profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
         companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
@@ -27,7 +23,7 @@ class EditProfile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            profileType: 1, country: this.props.profileToModify.country, county: this.props.profileToModify.county, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', buttonLoading: false, CNP: null, error: "", loading: false,
+            profileType: 1, country: 1, county: 1, counties: [], countries: [], firstName: '', lastName: '', city: '', street: '', CNP: null, error: "", loading: false, buttonLoading: false,
             companyName: '', companyCity: '', cuiCode: null, jCode: null, companyAddress: ''
         }
     }
@@ -65,25 +61,24 @@ class EditProfile extends Component {
     // !!!End side-menu functions!!!
 
 
-    componentDidMount() {
+
+
+    componentWillMount() {
+
         this.getCountries();
         this.getCounties();
-        this.initialiseWithExistingData();
-        console.log('tst');
     }
 
     renderButton() {
-        console.log('rendering button')
+
         if (this.state.buttonLoading) {
-        console.log('inside rendering button')
             return <Spinner size='small' />;
         }
-        console.log(this.state.butttonLoading)
 
         return (
             //	<Button onPress = {this.onButtonPress.bind(this)}> 
             <Button onPress={this.submitChangesButton.bind(this)}>
-                Salvează Modificările
+                Crează Profil
 		</Button>
         );
 
@@ -97,7 +92,7 @@ class EditProfile extends Component {
         console.log("this.props.responseData")
         var self = this;
         console.log(this.props.responseData)
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile',
                 device: 'android',
@@ -120,27 +115,21 @@ class EditProfile extends Component {
             });
     }
 
-
-
-
     submitChangesButton() {
         this.setState({ buttonLoading: true });
-        if (this.props.profileToModify.type == 1) {
+        if (this.state.profileType === 1) {
 
             console.log("fizic")
-            console.log(this.props.profileToModify)
-
-            this.editPhysProfile();
+            this.createPhysProfile();
         }
         else {
             console.log("juridic")
-            console.log(this.props.profileToModify)
-            this.editJurProfile();
+            this.createJurProfile();
         }
 
 
     }
-    editPhysProfile() {
+    createPhysProfile() {
 
         // @type = 1
         // @firstname
@@ -154,10 +143,10 @@ class EditProfile extends Component {
         // Daca userul este de tip persoana fizica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'sss' + self.state.country + self.state.county + 'ss' + self.state.CNP);
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'Country' + self.state.country + 'County' + self.state.county + 'CnP' + self.state.CNP);
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
-                tag: 'profile_modify',
+                tag: 'profile_new',
                 device: 'android',
                 token: self.props.responseData.user.token,
                 type: 1,
@@ -167,8 +156,7 @@ class EditProfile extends Component {
                 city: self.state.city,
                 country: self.state.country,
                 county: self.state.county,
-                personalCode: self.state.CNP,
-                pid: self.state.userID
+                //personalCode: self.state.CNP,
 
 
             }), {
@@ -176,7 +164,7 @@ class EditProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ buttonLoading: false });
+                self.setState({ loading: false, buttonLoading: false });
 
                 if (response.data.success) {
 
@@ -200,7 +188,7 @@ class EditProfile extends Component {
 
 
     }
-    editJurProfile() {
+    createJurProfile() {
 
         // @type = 0
         // @company
@@ -218,21 +206,20 @@ class EditProfile extends Component {
         // Daca userul este de tip persoana juridica:
         console.log("-createProfile--")
         var self = this;
-        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode + 'id' + self.state.userID);
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode);
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
-                tag: 'profile_modify',
+                tag: 'profile_new',
                 device: 'android',
                 token: self.props.responseData.user.token,
                 type: 0,
                 companyName: self.state.companyName,
-                address: self.state.companyAddress,
+                address: self.state.address,
                 city: self.state.companyCity,
                 county: self.state.county,
                 country: self.state.country,
                 fiscalCode: self.state.cuiCode,
                 regCom: self.state.jCode,
-                pid: self.state.userID
 
 
             }), {
@@ -240,25 +227,66 @@ class EditProfile extends Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function (response) {
-                self.setState({ buttonLoading: false });
+                self.setState({ loading: false, buttonLoading: false });
+                console.log("juridic resoinse");
+                console.log(response.data);
+                console.log("1");
 
                 if (response.data.success) {
-
+                    console.log("success");
                     console.log(response.data);
                     Actions.profiles({ responseData: self.props.responseData, headerTitle: 'Profilele mele' });
-
+                    console.log("!success");
 
                 }
-                if (response.data.success === 0) {
-                    if (response.data.error_msg != undefined && response.data.error_msg != '') {
-                        self.message('Eroare', response.data.error_msg);
+                else {
+                    console.log("else");
+                    console.log(response.data);
+                    if (response.data.success != undefined && response.data.success === 0) {
+                        if (response.data.error_msg != undefined && response.data.error_msg != '') {
+                            self.message('Eroare', response.data.error_msg);
+                            console.log("error if");
+
+                        }
+
+                        console.log("!else");
+
                     }
                     else {
-                        selfmessage('Eroare', 'Vă rugăm să verificați corectitudinea datelor introduse');
+                        
+                      
+                        if (self.state.cuiCode == undefined || self.state.cuiCode == '') {
+                            self.message('Eroare', "Vă rugam să completați CUI");
+
+                         cuiOK=false;
+                         return
+                        }
+                        else{
+                        var cuiOK=true;
+                            
+                        }
+
+                        if (self.state.jCode == undefined || self.state.jCode == '') {
+                            self.message('Eroare', "Vă rugam să completați R.Comerț");
+                         jCode=false;
+                         return
+
+                        }
+                        else
+                        {
+                              var jCode=true;
+                        }
+                        if(jCode===true && cuiOK===true ){
+                        console.log("all ok");
+                             Actions.profiles({ responseData: self.props.responseData, headerTitle: 'Profilele mele' });
+                        }
+                        
+
+
                     }
-                    console.log(response.data);
 
                 }
+                console.log("juridic resoinse end");
 
             });
 
@@ -266,8 +294,8 @@ class EditProfile extends Component {
     }
     getCountries() {
         var self = this;
-         self.setState({loading: true });
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        this.setState({ loading: true });
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'countries',
                 device: 'android'
@@ -278,11 +306,11 @@ class EditProfile extends Component {
             }).then(function (response) {
                 if (response.data.success) {
                     var arrCountries = [];
-                    response.data.countries.forEach(function (countryInfo) {
-                        arrCountries.push([countryInfo['name'], countryInfo['id']]);
+                    response.data.countries.forEach(function (countrieInfo) {
+                        arrCountries.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.countries = arrCountries;
-                    self.setState({ error: '', loading: false, buttonLoading:false });
+                    self.setState({ error: '', loading: false, buttonLoading: false });
                 }
                 if (response.data.success === 0) {
                     console.log("unsuccess from getCountries");
@@ -292,9 +320,9 @@ class EditProfile extends Component {
     }
     getCounties() {
         var self = this;
-         self.setState({loading: true });
-        
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        this.setState({ loading: true });
+
+        axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'counties',
                 device: 'android'
@@ -305,11 +333,11 @@ class EditProfile extends Component {
             }).then(function (response) {
                 if (response.data.success) {
                     var arrCounties = [];
-                    response.data.counties.forEach(function (countryInfo) {
-                        arrCounties.push([countryInfo['name'], countryInfo['id']]);
+                    response.data.counties.forEach(function (countrieInfo) {
+                        arrCounties.push([countrieInfo['name'], countrieInfo['id']]);
                     }, this);
                     self.state.counties = arrCounties;
-                    self.setState({ error: '', loading: false, buttonLoading:false});
+                    self.setState({ error: '', loading: false, buttonLoading: false });
                     console.log(response.data);
                 }
                 if (response.data.success === 0) {
@@ -322,20 +350,20 @@ class EditProfile extends Component {
 
     renderCountries() {
         if (this.state.loading || this.state.loading == undefined) {
-            return (
-                <Spinner size='small' />);
+            return <Spinner size='small' />;
         }
         return (
             <View style={styles.pickerContainerStyle}>
+
                 <Picker
                     style={styles.pickerStyle}
                     selectedValue={this.state.country}
                     onValueChange={(loc) => this.setState({ country: loc })}>
                     {
                         this.state.countries.map(function (o, i) {
+
                             return <Picker.Item value={o[1]} label={o[0]} key={i} />
-                        })
-                    }</Picker>
+                        })}</Picker>
             </View>
         );
     }
@@ -357,30 +385,10 @@ class EditProfile extends Component {
             </View>
         );
     }
-    initialiseWithExistingData() {
-        if (this.props.profileToModify.type == 0) {
-            this.setState({
-                companyName: this.props.profileToModify.companyName,
-                companyAddress: this.props.profileToModify.address,
-                companyCity: this.props.profileToModify.city,
-                cuiCode: this.props.profileToModify.fiscalCode,
-                jCode: this.props.profileToModify.regComCode,
-                userID: this.props.profileToModify.id
-            });
-        }
-        else {
-            this.setState({
-                firstName: this.props.profileToModify.firstName,
-                street: this.props.profileToModify.address,
-                city: this.props.profileToModify.city,
-                CNP: this.props.profileToModify.personalID,
-                lastName: this.props.profileToModify.lastName,
-                userID: this.props.profileToModify.id
-            });
-        }
-    }
+
     showForm() {
-        if (this.props.profileToModify.type == 0) {
+
+        if (this.state.profileType == 0) {
             return (
                 <View>
                     <CardSection >
@@ -411,8 +419,8 @@ class EditProfile extends Component {
                     <CardSection >
                         <Input
                             label="Adresă"
-                            value={this.state.companyAddress}
-                            onChangeText={companyAddress => this.setState({ companyAddress })}
+                            value={this.state.address}
+                            onChangeText={address => this.setState({ address })}
                         />
                     </CardSection>
                     <CardSection >
@@ -424,7 +432,7 @@ class EditProfile extends Component {
                     </CardSection>
                     <CardSection >
                         <Input
-                            label="R. Comert"
+                            label="R. Comerț"
                             value={this.state.jCode}
                             onChangeText={jCode => this.setState({ jCode })}
                         />
@@ -481,16 +489,17 @@ class EditProfile extends Component {
                             onChangeText={street => this.setState({ street })}
                         />
                     </CardSection>
-                    <CardSection >
+                    {/*<CardSection >
                         <Input
                             label="CNP"
-                            value={String(this.state.CNP)}
+                            value={this.state.CNP}
                             onChangeText={CNP => this.setState({ CNP })}
                         />
-                    </CardSection>
+                    </CardSection>*/}
 
 
                     {this.renderButton()}
+
                 </View>
             );
         }
@@ -517,7 +526,18 @@ class EditProfile extends Component {
                     <ScrollView >
 
                         <Card >
-
+                            <CardSection>
+                                <Text style={styles.textStyle}> Tip Profil </Text>
+                                <View style={styles.pickerContainerStyle}>
+                                    <Picker
+                                        style={styles.pickerStyle}
+                                        selectedValue={this.state.profileType}
+                                        onValueChange={(type) => this.setState({ profileType: type })}>
+                                        <Picker.Item label="Persoană Fizică" value="1" />
+                                        <Picker.Item label="Persoană Juridică" value="0" />
+                                    </Picker>
+                                </View>
+                            </CardSection>
                             {this.showForm()}
                         </Card>
                     </ScrollView >
@@ -548,14 +568,11 @@ const styles = {
         marginLeft: -7,
 
 
-
     },
     pickerContainerStyle: {
         borderBottomColor: '#808080',
         borderBottomWidth: 1,
         marginLeft: 5,
-
-
         flex: 2
     },
     buttonStyle: {
@@ -585,7 +602,7 @@ const styles = {
         flex: 1,
         paddingTop: 10,
         fontSize: 18,
-        marginBottom: 15,
+        marginBottom: 8,
         marginLeft: 15,
         color: 'black',
 
@@ -602,6 +619,6 @@ const styles = {
     }
 };
 
-export default EditProfile;
+export default AddProfile;
 
 

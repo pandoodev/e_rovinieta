@@ -96,7 +96,7 @@ getChasisNo()
 
 	getValabilities() {
 		var self = this;
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'valabilities',
 				device: 'android'
@@ -112,7 +112,7 @@ getChasisNo()
 						valabilities.push(valability);
 					}, this);
 
-					axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+					axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -191,7 +191,7 @@ getChasisNo()
 
 	getPrices() {
 		var self = this;
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'prices',
 				device: 'android'
@@ -215,7 +215,7 @@ getChasisNo()
 
 	getCountries() {
 		var self = this;
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'countries',
 				device: 'android'
@@ -299,7 +299,7 @@ getChasisNo()
 		console.log("this.props.responseData")
 		var self = this;
 		console.log(this.props.responseData)
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
@@ -401,7 +401,7 @@ getChasisNo()
 		var self = this;
 		var aux = rovignetteInfo;
 
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify(
 				rovignetteInfo[0]),
 			{
@@ -510,7 +510,7 @@ getChasisNo()
 
 		var self = this;
 		console.log("--getCategories--");
-		axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'categories',
 				device: 'android',				
@@ -636,8 +636,6 @@ const styles = {
 	pickerStyle: {
 		color: 'black',
 		marginLeft: -7,
-
-
 	},
 	pickerContainerStyle: {
 		borderBottomColor: '#808080',
@@ -672,11 +670,9 @@ const styles = {
 		flex: 1,
 		paddingTop: 10,
 		fontSize: 18,
-		marginBottom: 15,
+		marginBottom: 8,
 		marginLeft: 15,
 		color: 'black',
-
-
 	},
 	errorTextStyle: {
 		flex: 1,
