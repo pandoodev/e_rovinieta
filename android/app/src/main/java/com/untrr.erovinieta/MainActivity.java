@@ -1,4 +1,4 @@
-package com.albums;
+package com.untrr.erovinieta;
 
 import com.facebook.react.ReactActivity;
 
