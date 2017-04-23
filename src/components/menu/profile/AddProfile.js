@@ -92,7 +92,7 @@ class AddProfile extends Component {
         console.log("this.props.responseData")
         var self = this;
         console.log(this.props.responseData)
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile',
                 device: 'android',
@@ -147,7 +147,7 @@ class AddProfile extends Component {
         console.log("-createProfile--")
         var self = this;
         console.log(self.state.firstName + self.state.lastName + self.state.street + self.state.city + 'Country' + self.state.country + 'County' + self.state.county + 'CnP' + self.state.CNP);
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile_new',
                 device: 'android',
@@ -210,7 +210,7 @@ class AddProfile extends Component {
         console.log("-createProfile--")
         var self = this;
         console.log(self.state.companyName + self.state.address + self.state.companyCity + self.state.jCode + 'sss' + self.state.country + self.state.county + 'ss' + self.state.cuiCode);
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'profile_new',
                 device: 'android',
@@ -299,7 +299,7 @@ class AddProfile extends Component {
     getCountries() {
         var self = this;
         this.setState({ loading: true });
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'countries',
                 device: 'android'
@@ -326,7 +326,7 @@ class AddProfile extends Component {
         var self = this;
         this.setState({ loading: true });
 
-        axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+        axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
             querystring.stringify({
                 tag: 'counties',
                 device: 'android'

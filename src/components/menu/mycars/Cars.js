@@ -69,7 +69,7 @@ class Cars extends Component {
   getCars() {
     var self = this;
     console.log("--getCars--");
-    axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+    axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
       querystring.stringify({
         tag: 'vehicles',
         device: 'android',
@@ -93,7 +93,7 @@ class Cars extends Component {
   getCountries() {
     var self = this;
     console.log("--getCountries--");
-    axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+    axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
       querystring.stringify({
         tag: 'countries',
         device: 'android',
@@ -118,7 +118,7 @@ class Cars extends Component {
   getCategories() {
     var self = this;
     console.log("--getCategories--");
-    axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+    axios.post('http://api.e-rovinieta.ro/mobile/1.0/get',
       querystring.stringify({
         tag: 'categories',
         device: 'android',
