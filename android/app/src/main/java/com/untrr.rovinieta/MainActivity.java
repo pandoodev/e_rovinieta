@@ -1,4 +1,4 @@
-package com.untrr.erovinieta;
+package com.untrr.rovinieta;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "untrr.erovinieta";
+        return "untrr.rovinieta";
     }
 }
