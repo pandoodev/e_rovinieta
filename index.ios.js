@@ -3,4 +3,4 @@ const { AppRegistry, } = React;
 import App from './src/App';
 
 
-AppRegistry.registerComponent('albums', () => App);
+AppRegistry.registerComponent('untrr.erovinieta', () => App);
