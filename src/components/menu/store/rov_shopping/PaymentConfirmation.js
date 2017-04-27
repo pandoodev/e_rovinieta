@@ -28,10 +28,6 @@ class PaymentConfirmation extends Component {
     };
   }
 
-  componentWillMount() {
-
-  }
-
   // Start side-menu functions
   toggle() {
     this.setState({
