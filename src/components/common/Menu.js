@@ -136,6 +136,20 @@ module.exports = class Menu extends Component {
                 Setări cont
                   </Text>
             </View>
+          </View>  
+
+           <View style={styles.rowItem}>
+            <Image
+              style={styles.smallIcon}
+              source={require('../../../assets/menu/contact.png')} />
+            <View>
+              <Text
+                onPress={() => { this.props.onItemSelected('accountsettings'); Actions.contact_us({ responseData: this.props.responseData }) }}
+                style={styles.item}>
+               Contact
+                  </Text>
+            </View>
+
           </View>
           <View style={styles.rowItem}>
             <Image
