@@ -594,7 +594,7 @@ getChasisNo()
 
 									<DatePicker
 										style={{ width: 200 }}
-										date={this.state.date}
+										date={this.state.startDate}
 										mode="date"
 										format="DD-MM-YYYY"
 										minDate={this.getCurerntDate()}
