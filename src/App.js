@@ -12,6 +12,7 @@ import Dashboard from './components/menu/store/Dashboard';
 import Profile from './components/menu/profile/Profile';
 import Cars from './components/menu/mycars/Cars';
 import AccountSettings from './components/menu/accountsettings/AccountSettings';
+import Contact from './components/menu/contact/Contact';
 
 
 const scenes = Actions.create(
@@ -28,6 +29,7 @@ const scenes = Actions.create(
 			<Scene key="edit_profile" component={EditProfile} />
 			<Scene key="cars" component={Cars} />
 			<Scene key="account_settings" component={AccountSettings} />
+			<Scene key="contact_us" component={Contact} />
 			
 			<Scene key="buy" component={AddToCart} />
 			<Scene key="shop" component={RovignetteShopMain} />		

@@ -11,7 +11,7 @@ inCartRovignetteKey = null;
 
 class Cart extends Component {
 
-	state = { selected: '', cart: false, history: false, itemsInCart: '' , loadingForRedirect:false};
+	state = { selected: '', cart: false, history: false, itemsInCart: '', loadingForRedirect: false };
 
 
 	//Display pop-up message to the user
@@ -60,7 +60,8 @@ class Cart extends Component {
 		this.state = {
 			itemsInCart: null,
 			loading: true,
-			loadingForRedirect:false
+			loadingForRedirect: false,
+			redirecting: false
 		};
 
 		inCartRovignetteKey = this.props.responseData.user.token;
@@ -115,22 +116,21 @@ class Cart extends Component {
 		this._removeStorage(inCartRovignetteKey);
 		this._addToStorage(inCartRovignetteKey, JSON.stringify(currentItemsInCart));
 		this.props.deleteFromCart();
-		
+
 
 	}
 	delelteButton() {
 		this.deleteItems();
-		
+
 	}
 
-	removeFromCartAfterBuy()
-	{
+	removeFromCartAfterBuy() {
 		this.setState({ itemsInCart: '' });
-		var currentItemsInCart='';
+		var currentItemsInCart = '';
 		this._removeStorage(inCartRovignetteKey);
 		this._addToStorage(inCartRovignetteKey, JSON.stringify(currentItemsInCart));
 		this.props.deleteFromCart();
-		
+
 	}
 
 	//Removes stored cart items from AsyncStorage
@@ -143,16 +143,18 @@ class Cart extends Component {
 
 	//Called when buy items from cart button is pressed
 	buyItemsButton() {
-		this.setState({loadingForRedirect:true});
-		this.setState({itemsInCart:''});
+
+		this.setState({ loadingForRedirect: true });
+		this.setState({ itemsInCart: '' });
 		this.removeFromCartAfterBuy();
 		this.prepareData(this.state.itemsInCart);
+		this.setState({ redirecting: true });
+
 		//console.log("Items in cart state variable");
 
 		//console.log(this.state.itemsInCart);
 
 	}
-
 
 	prepareData(obj) {
 		var preparedRovignettes = [];
@@ -167,7 +169,7 @@ class Cart extends Component {
 
 		for (var i = 0; i < this.state.itemsInCart.length; i++) {
 
-			preparedRovignettes[i]=
+			preparedRovignettes[i] =
 				{
 					'categoryID': obj[i]['categoryID'],
 					'priceID': obj[i]['priceID'],
@@ -183,27 +185,24 @@ class Cart extends Component {
 			userInformation[2] = obj[0]['device'];
 			userInformation[3] = obj[0]['profileID'];
 		}
-		
+
 		this.generateInvoice(preparedRovignettes, userInformation);
 
 	}
 
-	stringifyPreparedRovignettes(tag,token,device,profileID,preparedRovignettes)
-	{
+	stringifyPreparedRovignettes(tag, token, device, profileID, preparedRovignettes) {
 
 		result = "";
 
-		result += "tag=" + tag + 
-		"&token="+token + 
-		"&device="+device + 
-		"&profileID="+profileID;
-	
-		for(index in preparedRovignettes)
-		{
+		result += "tag=" + tag +
+			"&token=" + token +
+			"&device=" + device +
+			"&profileID=" + profileID;
+
+		for (index in preparedRovignettes) {
 			var currentRovignette = preparedRovignettes[index];
-			for(rovignetteElement in currentRovignette)
-			{
-				result += "&cart%5B" + index + "%5D%5B"+rovignetteElement+"%5D=" + currentRovignette[rovignetteElement];
+			for (rovignetteElement in currentRovignette) {
+				result += "&cart%5B" + index + "%5D%5B" + rovignetteElement + "%5D=" + currentRovignette[rovignetteElement];
 			}
 		}
 
@@ -216,58 +215,73 @@ class Cart extends Component {
 	generateInvoice(preparedRovignettes, userInformation) {
 		url = 'https://www.e-rovinieta.ro/ro/apps/payment';
 
-			//this.deleteItems();
+		//this.deleteItems();
 
 		//STUBBED PARAMETERS TO TEST THE API CALL
 		//parameters = "tag=emission&token=xGeYMO3sGXXOyJAgVwbwB7dLaif7pOIY&device=android&profileID=39955&cart%5B1%5D%5BcategoryID%5D=1&cart%5B1%5D%5BpriceID%5D=1&cart%5B1%5D%5BstartDate%5D=03-04-2017&cart%5B1%5D%5BvehicleNo%5D=GJ31ATM&cart%5B1%5D%5BchasisNo%5D=gwwfwqdfqw&cart%5B1%5D%5BvehicleCountry%5D=1";
-		var self=this;
+		var self = this;
 		stringifyResult = this.stringifyPreparedRovignettes(
-		userInformation[0],
-		userInformation[1],
-		userInformation[2],
-		userInformation[3],
-		preparedRovignettes);
+			userInformation[0],
+			userInformation[1],
+			userInformation[2],
+			userInformation[3],
+			preparedRovignettes);
 
 
-		
+
 		console.log("payment URL: ");
 		console.log(url + stringifyResult);
 		console.log("payment URL: ");
 
 		axios.post(
 			url,
-			stringifyResult,		
+			stringifyResult,
 			{
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}
 			}
 		).then(function (response) {
-			
+
 			self.deleteItems();
 
 
 			linkToAccess = "https://www.e-rovinieta.ro/ro/transaction/" + userInformation[3];
-			linkToAccess += "?a=" + Math.random();			
+			linkToAccess += "?a=" + Math.random();
 			console.log("profileID url");
 			console.log(linkToAccess);
 			console.log("profileID url");
-
-			
 			Actions.payment({
-				linkToAccess:linkToAccess, 
+				linkToAccess: linkToAccess,
 				responseData: self.props.responseData
-			});	
-			
+			});
+			self.setState({ redirecting: false });
+
+
+
 
 		}).catch(function (error) {
 			console.log(error);
 		});
 	}
 
+
 	showItemsToUser() {
 		var self = this;
 		//Displaying empty cart if no items in storage
+
+		if (this.state.redirecting) {
+
+			return (
+				<View style={styles.emptyCartContainerStyle}>
+					<View style={styles.emptyCartTextStyle} >
+						<Text >Se redirectează către procesatorul de plăți...</Text>
+
+					</View>
+				</View>
+			);
+		}
+
 		if (this.state.itemsInCart.length == 0)
 			return (
 				<View style={styles.emptyCartContainerStyle}>
@@ -277,10 +291,11 @@ class Cart extends Component {
 					</View>
 				</View>
 			);
+
 		//Displaying items in cart stored in AsyncStorage
 		return (
 
-			
+
 			<View style={styles.pageContainerStyle}>
 				<ScrollView >
 
@@ -319,28 +334,28 @@ class Cart extends Component {
 						</View>
 						<View style={styles.buttonStyle}>
 							{this.renderButton()}
-						
+
 						</View>
 					</View>
 				</ScrollView >
 
-		
+
 			</View>
-		
-		
+
+
 
 		);
 
 	}
 
-		renderButton() {
+	renderButton() {
 		if (this.state.loadingForRedirect) {
 			return <Spinner size='small' />;
 		}
 
 		return (
-				<Button onPress={this.buyItemsButton.bind(this)}>
-								Plasează Comanda
+			<Button onPress={this.buyItemsButton.bind(this)}>
+				Plasează Comanda
 		  </Button>
 		);
 
@@ -364,11 +379,11 @@ const styles = {
 		height: window.height * 0.7,
 	},
 	elementStyle: {
-	   flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginLeft: 10,
-    marginRight: 10,
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginLeft: 10,
+		marginRight: 10,
 	},
 	containerStyle: {
 		flex: 1,
@@ -409,28 +424,28 @@ const styles = {
 		width: 5,
 	},
 	textStyle: {
-		  flex: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'black',
-    height: 30,
-    paddingTop: 6,
-    borderColor: '#bbb',
-    borderWidth: 1,
+		flex: 5,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 	},
 	nrCrtStyle: {
-	flex: 1,
+		flex: 1,
 
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'black',
-    height: 30,
-    paddingTop: 6,
-    borderColor: '#bbb',
-    borderWidth: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
+		borderColor: '#bbb',
+		borderWidth: 1,
 
 	},
 	emptyCartContainerStyle: {
@@ -456,53 +471,53 @@ const styles = {
 		shadowOpacity: 0.1,
 		shadowRadius: 2,
 	},
-	  autonrHeaderStyle: {
-    flex: 5,
-    paddingTop: 3,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
-  },
-  textHeaderStyle: {
-    flex: 5,
-    paddingTop: 3,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
+	autonrHeaderStyle: {
+		flex: 5,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
+	},
+	textHeaderStyle: {
+		flex: 5,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
 
 
-  },
-  nrCrtHeaderStyle: {
-    flex: 1.6,
-    paddingTop: 3,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'white',
-    height: 30,
-    fontSize: 16,
+	},
+	nrCrtHeaderStyle: {
+		flex: 1.6,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
 
-  },autonrStyle: {
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-    color: 'black',
-    height: 30,
-    paddingTop: 6,
+	}, autonrStyle: {
+		flex: 3,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 30,
+		paddingTop: 6,
 
-    borderColor: '#bbb',
-    borderWidth: 1,
-  },	iconContainerStyle: {
+		borderColor: '#bbb',
+		borderWidth: 1,
+	}, iconContainerStyle: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
