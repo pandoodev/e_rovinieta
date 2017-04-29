@@ -75,6 +75,16 @@ class Dashboard extends Component {
               <Text style={styles.welcomeText}> Cumpără rovinietă</Text>
 
             </TouchableOpacity>
+            
+
+            <TouchableOpacity
+              onPress={() => { Actions.bridge_shop({ responseData: this.props.responseData, location: 'pod_fetesti' }); }}
+              style={styles.buttonFetestiStyle}>
+
+              <Text style={styles.welcomeText}> Taxă pod Fetești</Text>
+
+            </TouchableOpacity>
+
             <Text style={styles.smallText}> Serviciu oferit UNTRR - distribuitor autorizat de CNAIR pentru emitere de roviniete electronice</Text>
             <Text
               style={styles.linkText}
@@ -161,6 +171,15 @@ const styles = {
     borderRadius: 5,
     marginLeft: 5,
     marginRight: 5
+
+  },
+  buttonFetestiStyle: {
+    alignSelf: 'stretch',
+    backgroundColor: '#ed2124',
+    borderRadius: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop:10
 
   },
   imgStyle: {
