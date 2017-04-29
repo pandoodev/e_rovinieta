@@ -59,7 +59,9 @@ class PaymentConfirmation extends Component {
 
   _onNavigationStateChange(webViewState) {
 
-    if(webViewState.url.indexOf("e-rovinieta") >= 0)
+    if(webViewState.url.indexOf("/apps/success") >= 0 ||
+    webViewState.url.indexOf("/apps/pending") >= 0 ||
+    webViewState.url.indexOf("/apps/failed") >= 0)
     {
       console.log("Redirecting...");  
       Actions.shop({

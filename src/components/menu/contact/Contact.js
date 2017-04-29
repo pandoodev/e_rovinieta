@@ -66,21 +66,22 @@ class Contact extends Component {
                     <View style={styles.containerStyle}>
                         <View style={styles.buttonStyle} >
 
-                             <Text style={styles.textTitleStyle} >
-                               UNTRR Bucuresti{'\n'}
-                                </Text>
+                             
 
                             <Text style={styles.textStyle} >
-                               
+                                <Text style={styles.textTitleStyle} >
+                               UNTRR Bucuresti{'\n'}
+                                </Text>
                                 Str. Ienăchiţă Văcărescu Nr. 60{'\n'}
                                 Bucureşti, Sector 4, 040157{'\n'}
                                 Email: office@untrr.ro{'\n'}
                             </Text>
 
-                            <Text style={styles.textTitleStyle} >
+                            
+                            <Text style={styles.textStyle} >
+                                <Text style={styles.textTitleStyle} >
                                 Emitere roviniete{'\n'}
                                 </Text>
-                            <Text style={styles.textStyle} >
                                 Dna. Florina Sburlan{'\n'}
                                 Telefon: 021-337.47.42{'\n'}
                                 Fax: 021-337.47.41{'\n'}
