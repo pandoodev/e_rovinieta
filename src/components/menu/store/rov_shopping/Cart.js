@@ -143,11 +143,13 @@ class Cart extends Component {
 
 	//Called when buy items from cart button is pressed
 	buyItemsButton() {
+
 		this.setState({ loadingForRedirect: true });
 		this.setState({ itemsInCart: '' });
 		this.removeFromCartAfterBuy();
 		this.prepareData(this.state.itemsInCart);
 		this.setState({ redirecting: true });
+
 		//console.log("Items in cart state variable");
 
 		//console.log(this.state.itemsInCart);

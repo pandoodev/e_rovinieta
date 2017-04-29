@@ -35,10 +35,11 @@ class AddtoCart extends Component {
 		countries: [], isOpen: false,
 		buttonLoading: false,
 		selectedItem: 'Dashboard',
+		countryObject: null
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()  }
+		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()}
 		inCartRovignetteKey = this.props.responseData.user.token;
 
 	}
@@ -226,10 +227,19 @@ getChasisNo()
 			}).then(function (response) {
 				if (response.data.success) {
 					var arrCountries = [];
-					response.data.countries.forEach(function (countrieInfo) {
-						arrCountries.push(countrieInfo['name']);
-					}, this);
-					self.state.countries = arrCountries;
+
+					// response.data.countries.forEach(function (countrieInfo) {
+					// 	arrCountries.push(countrieInfo['name']);
+					// }, this);
+
+					self.state.countries = response.data.countries;
+
+					if(self.props.countryObject != undefined)
+					{
+						self.setState({country:self.props.countryObject});
+					}			
+
+
 					self.setState({ error: '', loading: false });
 				}
 				if (response.data.success === 0) {
@@ -261,6 +271,7 @@ getChasisNo()
 		//console.log(this.props.responseData);
 	}
 	renderCountries() {
+				
 		if (this.state.loading || this.state.loading == undefined) {
 			return <Spinner size='small' />;
 		}
@@ -273,7 +284,8 @@ getChasisNo()
 					onValueChange={(loc) => this.setState({ country: loc })}>
 					{this.state.countries.map(function (o, i) {
 
-						return <Picker.Item value={i} label={o} key={i} />
+						return <Picker.Item value={o.id} label={o.name} key={i} />
+
 					})}</Picker>
 			</View>
 		);
@@ -334,12 +346,19 @@ getChasisNo()
 	addToCartButton() {
 		this.setState({ buttonLoading: true });
 
+		console.log("this.props");
+		console.log(this.props);
+		console.log("this.props");
+		console.log("this.state");
+		console.log(this.state);
+		console.log("this.state");
+		
 		if (this.checkIfNotEmpty() == 1) {
 			this.validateRovignette(
 				this.props.responseData.user.token,
 				this.state.profileID,
 				this.props.categoryID,
-				this.state.nrDays,
+				this.state.priceID,
 				this.state.startDate,
 				this.state.vehicleNo,
 				this.state.chasisNo,
@@ -575,7 +594,7 @@ getChasisNo()
 
 									<DatePicker
 										style={{ width: 200 }}
-										date={this.state.date}
+										date={this.state.startDate}
 										mode="date"
 										format="DD-MM-YYYY"
 										minDate={this.getCurerntDate()}

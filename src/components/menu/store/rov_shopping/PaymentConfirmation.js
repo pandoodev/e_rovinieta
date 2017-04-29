@@ -11,14 +11,11 @@ import MenuButton from '../../../common/MenuButton';
 //menu
 
 import { Actions } from 'react-native-router-flux';
-
-
 import { WebView } from 'react-native';
 
 class PaymentConfirmation extends Component {
 
   state = { noRedirects: 0, uri: "" };
-
 
   //initiate state items with constructor
   constructor(props) {
@@ -62,9 +59,7 @@ class PaymentConfirmation extends Component {
 
   _onNavigationStateChange(webViewState) {
 
-    if(webViewState.url.indexOf("/apps/success") >= 0 || 
-    webViewState.url.indexOf("/apps/failed") >= 0 || 
-    webViewState.url.indexOf("/apps/pending") >= 0)
+    if(webViewState.url.indexOf("e-rovinieta") >= 0)
     {
       console.log("Redirecting...");  
       Actions.shop({
@@ -72,7 +67,6 @@ class PaymentConfirmation extends Component {
         responseData: this.props.responseData
       });
     }
-
   }
 
 
@@ -85,9 +79,6 @@ class PaymentConfirmation extends Component {
         onNavigationStateChange={this._onNavigationStateChange.bind(this)}
       />
     );
-
-
-
   }
 };
 

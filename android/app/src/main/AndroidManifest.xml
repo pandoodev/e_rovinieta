@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.untrr.erovinieta"
-    android:versionCode="1"
-    android:versionName="1.0">
+    package="com.untrr.vinieta"
+    android:versionCode="2"
+    android:versionName="1.0.1">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -9,9 +9,9 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <permission
-        android:name="com.untrr.erovinieta.permission.C2D_MESSAGE"
+        android:name="com.untrr.vinieta.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.untrr.erovinieta.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.untrr.vinieta.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
@@ -46,7 +46,7 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.untrr.erovinieta" />
+                <category android:name="com.untrr.vinieta" />
             </intent-filter>
         </receiver>
 

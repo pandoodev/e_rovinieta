@@ -1,4 +1,4 @@
-package com.untrr.erovinieta;
+package com.untrr.vinieta;
 
 import android.app.Application;
 import android.util.Log;
