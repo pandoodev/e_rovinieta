@@ -67,11 +67,11 @@ class BridgeShopMain extends Component {
 
 		switch (this.state.selected) {
 			case 'categories':
-				return (<CarCategories responseData={this.props.responseData} />);
+				return (<BridgeCarCategories responseData={this.props.responseData} />);
 			case 'cart':
-				return (<Cart responseData={this.props.responseData} changeParentState={this.changeStateFromCart.bind(this)} deleteFromCart={this.deleteFromCart.bind(this)} />);
+				return (<BridgeCart responseData={this.props.responseData} changeParentState={this.changeStateFromCart.bind(this)} deleteFromCart={this.deleteFromCart.bind(this)} />);
 			case 'history':
-				return (<History responseData={this.props.responseData} />);
+				return (<BridgeHistory responseData={this.props.responseData} />);
 		}
 	}
 	componentWillMount() {
@@ -156,7 +156,7 @@ class BridgeShopMain extends Component {
 					backgroundColor: '#FFFFFF',
 				}}>
 					{/*Content start */}
-					<Header headerText={'Roviniete'} />
+					<Header headerText={'Taxa pod Fetesti'} />
 					<View>
 						<View style={styles.containerStyle}>
 							<View style={styles.headerStyle}>
