@@ -160,7 +160,7 @@ getChasisNo()
 
 	}
 
-	renderValabilitiesAndPrices() {
+	renderNumberOfPasses() {
 
 		if (this.state.loadingPrices || this.state.loadingPrices == undefined) {
 			return <Spinner size='small' />;
@@ -589,31 +589,11 @@ getChasisNo()
 								/>
 							</CardSection>
 							<CardSection >
-								<Text style={styles.textStyle}> De la </Text>
-								<View style={styles.pickerContainerStyle}>
-
-									<DatePicker
-										style={{ width: 200 }}
-										date={this.state.startDate}
-										mode="date"
-										format="DD-MM-YYYY"
-										minDate={this.getCurerntDate()}
-										confirmBtnText="Confirm"
-										cancelBtnText="Cancel"
-										customStyles={{
-											dateIcon: {
-												position: 'absolute',
-												left: 0,
-												top: 4,
-												marginLeft: 0
-											},
-											dateInput: {
-												marginLeft: 36
-											}
-										}}
-										onDateChange={(date) => { this.setState({ startDate: date }) }}
-									/>
-								</View>
+								<Input
+									label="Motiv cat"
+									value={this.state.chasisNo}
+									onChangeText={chasisNo => this.setState({ chasisNo })}
+								/>
 							</CardSection>
 
 							<CardSection>
@@ -622,8 +602,8 @@ getChasisNo()
 
 							</CardSection>
 							<CardSection>
-								<Text style={styles.textStyle}> Valabilitate </Text>
-								{this.renderValabilitiesAndPrices()}
+								<Text style={styles.textStyle}> Treceri </Text>
+								{this.renderNumberOfPasses()}
 
 							</CardSection>
 
