@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking, ScrollView } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking, ScrollView, Alert, StyleSheet  } from 'react-native';
+
 import axios from 'axios';
 import querystring from 'query-string';
 import { Spinner } from '../../common';
@@ -10,7 +11,7 @@ import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
 import { Actions } from 'react-native-router-flux';
 
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import DialogBox from 'react-native-dialogbox';
 
 
 
@@ -36,10 +37,14 @@ class Cars extends Component {
   }
   // !!!End side-menu functions!!!
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
 
   state = {
     selected: '', cart: false, history: false, loading: true, vehicles: [], isOpen: false,
-    selectedItem: 'Dashboard',
+    selectedItem: 'Dashboard', modalVisible: false,isDisabled :false
+
   };
   constructor(props) {
     super(props)
@@ -156,9 +161,12 @@ class Cars extends Component {
   }
 
 
+    handleOnPress = () => {
+        // alert 
+        this.dialogbox.alert(1);
+    }
 
 
-  
   render() {
     //menu
     const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
@@ -177,6 +185,46 @@ class Cars extends Component {
         }}>
           {/*Content start */}
           <Header headerText={'Mașinile mele'} />
+
+
+
+          {/*<View style={styles.container}>
+            <Button
+              title="aloha"
+              text="Show Dialog"
+              onPress={() => {
+                this.popupDialog.show();
+              }}
+            />
+            <PopupDialog
+              ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            >
+              <View>
+                <RadioForm
+                  radio_props={[
+                    { label: 'param1', value: 0 },
+                    { label: 'param2', value: 1 }
+                  ]}
+                  initial={0}
+                  onPress={(value) => { this.setState({ value: value }) }}
+                />
+              </View>
+            </PopupDialog>
+          </View>*/}
+
+
+          {/*<Button title="myButton" onPress={() => this.refs.modal3.open()} style={styles.btn}>Position centered + backdrop + disable</Button>
+
+          <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
+            <Text style={styles.text}>Modal centered</Text>
+            <Button title="myButton2" onPress={() => this.setState({ isDisabled: !this.state.isDisabled })} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
+          </Modal>*/}
+
+          {/*<Text style={styles.btn} onPress={this.handleOnPress}>click me !</Text>*/}
+
+      
+
+
           <ScrollView >
 
             <View>
@@ -185,13 +233,57 @@ class Cars extends Component {
 
           </ScrollView >
 
-           <View>
-        <RadioForm
-          radio_props={{label:'param1',value: 0}}
-          initial={0}
-          onPress={(value) => {this.setState({value:value})}}
-        />
-      </View>
+
+
+
+
+
+
+          {/*<View style={{ marginTop: 22 }}>*/}
+
+
+          {/*
+            <Modal
+              style={{ height:200 }}
+              animationType={"slide"}
+              transparent={false}
+              visible={this.state.modalVisible}
+              onRequestClose={() => { alert("Modal has been closed.") }}
+            >
+
+
+    
+
+              <View style={{ marginTop: 22 }}>
+                <View>
+
+                  <TouchableHighlight onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible)
+                  }}>
+                    <Text>Hide Modal</Text>
+                  </TouchableHighlight>
+
+                </View>
+              </View>
+            </Modal>*/}
+
+
+
+
+          {/*<TouchableHighlight onPress={() => {
+              this.setModalVisible(true)
+            }}>
+              <Text>Show Modal</Text>
+            </TouchableHighlight>*/}
+
+          {/*</View>*/}
+
+
+
+
+          <View>
+
+          </View>
 
 
           {/*!!!Content end!!! */}
@@ -250,11 +342,33 @@ class Cars extends Component {
                 <View style={styles.rightItemContainerStyle}>
 
                   <TouchableOpacity
+                    style={styles.wrapper}
                     onPress={() => {
-                      Actions.buy({
-                        responseData: self.props.responseData, category: self.getCategoryById(o.category),
-                        categoryID: o.category, chasisNo: o.chasisNo, plateNo: o.plateNo, countryObject: o.country
-                      })
+
+                      {Alert.alert(
+                        'Info',
+                        'Alegeti una din opțiunile de achiziționare pentru mașina selectată',
+                        [
+                          { text: 'Anulează', onPress: () => console.log('Anulează') },
+                          {
+                            text: 'Rovinietă',
+                            onPress: () => {
+                              Actions.buy({
+                                responseData: self.props.responseData, category: self.getCategoryById(o.category),
+                                categoryID: o.category, chasisNo: o.chasisNo, plateNo: o.plateNo, countryObject: o.country
+                              })
+                            }
+                          },
+                          {
+                            text: 'Taxă pod', onPress: () => {
+                              Actions.bridge_buy({
+                                responseData: self.props.responseData, category: self.getCategoryById(o.category),
+                                categoryID: o.category, chasisNo: o.chasisNo, plateNo: o.plateNo, countryObject: o.country
+                              });
+                            }
+                          },
+                        ]
+                      )}
                     }}
                     key={4}
                     style={{
@@ -282,7 +396,16 @@ class Cars extends Component {
   }
 };
 const window = Dimensions.get('window');
+
 const styles = {
+  modal3: {
+    height: 300,
+    width: 300
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   entryContainerStyle: {
     flex: 1,
     flexDirection: 'row',

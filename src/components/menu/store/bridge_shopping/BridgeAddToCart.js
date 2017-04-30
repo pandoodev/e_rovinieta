@@ -591,7 +591,7 @@ getChasisNo()
 							<CardSection >
 								<Input
 									label="Motiv cat"
-									value={this.state.chasisNo}
+									value=""
 									onChangeText={chasisNo => this.setState({ chasisNo })}
 								/>
 							</CardSection>
