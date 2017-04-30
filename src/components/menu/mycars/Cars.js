@@ -10,6 +10,9 @@ import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
 import { Actions } from 'react-native-router-flux';
 
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+
+
 
 //!menu!!
 class Cars extends Component {
@@ -151,10 +154,16 @@ class Cars extends Component {
     this.getCars();
     this.getCategories();
   }
+
+
+
+
+  
   render() {
     //menu
     const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} />;
     //!!menu!!
+
     return (
       // Side menu start
       <SideMenu
@@ -176,12 +185,24 @@ class Cars extends Component {
 
           </ScrollView >
 
+           <View>
+        <RadioForm
+          radio_props={{label:'param1',value: 0}}
+          initial={0}
+          onPress={(value) => {this.setState({value:value})}}
+        />
+      </View>
+
 
           {/*!!!Content end!!! */}
         </View>
         <MenuButton onPress={() => this.toggle()} />
       </SideMenu>
       // !!!Side menu end!!!
+
+
+
+
     );
   }
   renderCars() {
