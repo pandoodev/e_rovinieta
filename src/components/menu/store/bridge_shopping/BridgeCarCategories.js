@@ -20,7 +20,7 @@ class BridgeCarCategories extends Component {
 	getCategories() {
 		var self = this;
 		console.log("--getCategories--");
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'categories',
 				device: 'android',
@@ -29,8 +29,9 @@ class BridgeCarCategories extends Component {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}
 			}).then(function (response) {
+					console.log(response.data)
+				
 				if (response.data.success) {
-
 					self.setState({ categories: response.data });
 					self.setState({isContentLoaded:true});					
 
@@ -64,7 +65,7 @@ class BridgeCarCategories extends Component {
 				<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
+								Actions.bridge_buy({
 									responseData: this.props.responseData, 
 									category: this.state.categories.categories[0].name,
 									categoryID: this.state.categories.categories[0].id, 
@@ -74,72 +75,35 @@ class BridgeCarCategories extends Component {
 							style={styles.buttonStyle}>
 							<View>
 								<Image
-									source={require('../../../../../assets/a.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/bridge_shopping/category_A.png')} style={styles.imgStyle} />
 							</View>
 							<Text style={styles.textStyle} > { this.state.categories.categories[0].name }</Text>
 						</TouchableOpacity>
 
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[4].name,
-									categoryID: this.state.categories.categories[4].id, 
-									categoryDescription: this.state.categories.categories[4].description
-								})
-							}}
-
-							style={styles.buttonStyle}>
-							<View>
-								<Image
-									source={require('../../../../../assets/e.png')} style={styles.imgStyle} />
-							</View>
-							<Text style={styles.textStyle}>{ this.state.categories.categories[4].name } </Text>
-						</TouchableOpacity>
-
-					</View>
-
-					<View style={styles.containerStyle}>
-						<TouchableOpacity
-							onPress={() => {
-								Actions.buy({
+								Actions.bridge_buy({
 									responseData: this.props.responseData, 
 									category: this.state.categories.categories[1].name,
 									categoryID: this.state.categories.categories[1].id, 
 									categoryDescription: this.state.categories.categories[1].description
 								})
 							}}
+
 							style={styles.buttonStyle}>
 							<View>
 								<Image
-									source={require('../../../../../assets/b.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/bridge_shopping/category_B.png')} style={styles.imgStyle} />
 							</View>
-							<Text style={styles.textStyle} > {this.state.categories.categories[1].name} </Text>
+							<Text style={styles.textStyle}>{ this.state.categories.categories[1].name } </Text>
 						</TouchableOpacity>
-
-						<TouchableOpacity
-							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[5].name,
-									categoryID: this.state.categories.categories[5].id, 
-									categoryDescription: this.state.categories.categories[5].description
-								})
-							}}
-							style={styles.buttonStyle}>
-							<View>
-								<Image
-									source={require('../../../../../assets/f.png')} style={styles.imgStyle} />
-							</View>
-							<Text style={styles.textStyle}> { this.state.categories.categories[5].name } </Text>
-						</TouchableOpacity>
-
 
 					</View>
+
 					<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
+								Actions.bridge_buy({
 									responseData: this.props.responseData, 
 									category: this.state.categories.categories[2].name,
 									categoryID: this.state.categories.categories[2].id, 
@@ -149,34 +113,14 @@ class BridgeCarCategories extends Component {
 							style={styles.buttonStyle}>
 							<View>
 								<Image
-									source={require('../../../../../assets/c.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/bridge_shopping/category_C.png')} style={styles.imgStyle} />
 							</View>
-							<Text style={styles.textStyle} >{ this.state.categories.categories[2].name } </Text>
+							<Text style={styles.textStyle} > {this.state.categories.categories[2].name} </Text>
 						</TouchableOpacity>
 
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[6].name,
-									categoryID: this.state.categories.categories[6].id, 
-									categoryDescription: this.state.categories.categories[6].description
-								})
-							}}
-							style={styles.buttonStyle}>
-							<View>
-								<Image
-									source={require('../../../../../assets/g.png')} style={styles.imgStyle} />
-							</View>
-							<Text style={styles.textStyle}> { this.state.categories.categories[6].name } </Text>
-						</TouchableOpacity>
-
-
-					</View>
-					<View style={styles.containerStyle}>
-						<TouchableOpacity
-							onPress={() => {
-								Actions.buy({
+								Actions.bridge_buy({
 									responseData: this.props.responseData, 
 									category: this.state.categories.categories[3].name,
 									categoryID: this.state.categories.categories[3].id, 
@@ -186,32 +130,14 @@ class BridgeCarCategories extends Component {
 							style={styles.buttonStyle}>
 							<View>
 								<Image
-									source={require('../../../../../assets/d.png')} style={styles.imgStyle} />
+									source={require('../../../../../assets/bridge_shopping/category_D.png')} style={styles.imgStyle} />
 							</View>
-							<Text style={styles.textStyle} >{ this.state.categories.categories[3].name }</Text>
-						</TouchableOpacity>
-
-						<TouchableOpacity
-							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[7].name,
-									categoryID: this.state.categories.categories[7].id, 
-									categoryDescription: this.state.categories.categories[7].description
-								})
-							}}
-							style={styles.buttonStyle}>
-							<View>
-								<Image
-									source={require('../../../../../assets/h.png')} style={styles.imgStyle} />
-							</View>
-							<Text style={styles.textStyle}> { this.state.categories.categories[7].name } </Text>
+							<Text style={styles.textStyle}> { this.state.categories.categories[3].name } </Text>
 						</TouchableOpacity>
 
 
 					</View>
-
-			
+					
 			
 				</ScrollView >
 
