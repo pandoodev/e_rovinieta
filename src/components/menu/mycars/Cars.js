@@ -11,8 +11,6 @@ import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
 import { Actions } from 'react-native-router-flux';
 
-import DialogBox from 'react-native-dialogbox';
-
 
 
 //!menu!!
