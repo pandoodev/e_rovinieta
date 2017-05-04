@@ -97,10 +97,11 @@ getChasisNo()
 
 	getValabilities() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'valabilities',
-				device: 'android'
+				device: 'android',
+				category: self.props.categoryID
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -108,12 +109,16 @@ getChasisNo()
 			}).then(function (response) {
 				if (response.data.success) {
 
+					console.log("valabilities");
+					console.log(response.data);
+					console.log("valabilities");
+
 					var valabilities = [];
 					response.data.valabilities.forEach(function (valability) {
 						valabilities.push(valability);
 					}, this);
 
-					axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+					axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -124,6 +129,11 @@ getChasisNo()
 						}).then(function (response) {
 							if (response.data.success) {
 
+								console.log("prices");
+								console.log(response.data);
+								console.log("prices");
+
+
 								var valabilitiesWithPrices = [];
 
 								for (x in valabilities) {
@@ -131,7 +141,7 @@ getChasisNo()
 									for (idx in response.data.prices) {
 										var element = response.data.prices[idx];
 
-										if (element.valability_id == valab.id &&
+										if (element.id == valab.id_tarife_detalii &&
 											element.vehicle_id == self.props.categoryID) {
 											valabilityElement = new Object();
 											valabilityElement.priceID = element.id;
@@ -165,9 +175,7 @@ getChasisNo()
 		if (this.state.loadingPrices || this.state.loadingPrices == undefined) {
 			return <Spinner size='small' />;
 		}
-
 		else {
-
 
 			return (
 				<View style={styles.pickerContainerStyle}>
@@ -407,11 +415,10 @@ getChasisNo()
 				'token': this.props.responseData.user.token,
 				'tag': 'initiate',
 				'device': 'android',
-				'token': argToken,
+				//'token': argToken,
 				'profileID': argProfileID,
 				'categoryID': argCategoryID,
 				'priceID': argPriceID,
-				'startDate': argStartDate,
 				'vehicleNo': argVehicleNo,
 				'chasisNo': argChasisNo,
 				'vehicleCountry': argVehicleCountry
@@ -420,7 +427,11 @@ getChasisNo()
 		var self = this;
 		var aux = rovignetteInfo;
 
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		console.log("rovignetteInfo");
+		console.log(rovignetteInfo[0]);
+		console.log("rovignetteInfo");
+
+		axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify(
 				rovignetteInfo[0]),
 			{
@@ -588,13 +599,13 @@ getChasisNo()
 									onChangeText={chasisNo => this.setState({ chasisNo })}
 								/>
 							</CardSection>
-							<CardSection >
+							{/*<CardSection >
 								<Input
 									label="Motiv cat"
 									value=""
 									onChangeText={chasisNo => this.setState({ chasisNo })}
 								/>
-							</CardSection>
+							</CardSection>*/}
 
 							<CardSection>
 								<Text style={styles.textStyle} > Țara </Text>
