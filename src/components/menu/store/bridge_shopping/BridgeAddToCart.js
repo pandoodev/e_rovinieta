@@ -200,7 +200,7 @@ getChasisNo()
 
 	getPrices() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'prices',
 				device: 'android'
@@ -224,7 +224,7 @@ getChasisNo()
 
 	getCountries() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'countries',
 				device: 'android'
@@ -319,7 +319,7 @@ getChasisNo()
 		console.log("this.props.responseData")
 		var self = this;
 		console.log(this.props.responseData)
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
@@ -540,7 +540,7 @@ getChasisNo()
 
 		var self = this;
 		console.log("--getCategories--");
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'categories',
 				device: 'android',				
