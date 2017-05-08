@@ -13,9 +13,6 @@ import MenuButton from '../../../common/MenuButton';
 //menu
 
 
-
-
-
 inCartRovignetteKey = null;
 class BridgeShopMain extends Component {
 
