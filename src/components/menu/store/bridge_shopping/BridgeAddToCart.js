@@ -371,12 +371,7 @@ getChasisNo()
 	addToCartButton() {
 		this.setState({ buttonLoading: true });
 
-		console.log("this.props");
-		console.log(this.props);
-		console.log("this.props");
-		console.log("this.state");
-		console.log(this.state);
-		console.log("this.state");
+	
 		
 		if (this.checkIfNotEmpty() == 1) {
 			this.validateRovignette(
@@ -514,30 +509,28 @@ getChasisNo()
 		var self = this;
 
 
-		var bridgeItem = new Object();
-		bridgeItem.newItem = newItem;
-
-
 		try {
+			
 			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+
 			if (itemsInCart !== null) {
 				itemsInCart.then(function (value) {
 					if (value != null || value != undefined) {
 						var itemsInCartJson = JSON.parse(value);
 
-						if (itemsInCartJson.newItem.length >= 9) {
-							console.log(itemsInCartJson.newItem.length + "can't add more than 8 items to cart");
+						if (0) {
+							console.log(itemsInCartJson.length + "can't add more than 8 items to cart");
 							self.message("Atenție", "Nu pot fi adăugate mai mult de 8 roviniete în coș!")
 							self.setState({ loading: false });
 						}
 						else {
-							itemsInCartJson.push(bridge.newItem[0]);
+							itemsInCartJson.push(newItem[0]);
 							self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
 							self.setState({ loading: false });
 						}
 					}
 					else {
-						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(bridgeItem.newItem))
+						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(newItem))
 						self.setState({ loading: false });
 
 					}
