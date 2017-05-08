@@ -25,8 +25,7 @@ const styles = {
 		marginTop: 80,
 		marginLeft: 10,
 		marginRight: 10,
-	}
-	,
+	},
 	buttonStyle:{
 		flex: 1,
 		justifyContent: 'center',

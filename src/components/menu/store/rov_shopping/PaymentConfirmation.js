@@ -59,6 +59,10 @@ class PaymentConfirmation extends Component {
 
   _onNavigationStateChange(webViewState) {
 
+    console.log("webViewState");
+    console.log(webViewState);
+    console.log("webViewState");
+
     if(webViewState.url.indexOf("/apps/success") >= 0 ||
     webViewState.url.indexOf("/apps/pending") >= 0 ||
     webViewState.url.indexOf("/apps/failed") >= 0)
