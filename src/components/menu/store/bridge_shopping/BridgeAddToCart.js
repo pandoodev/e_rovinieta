@@ -402,9 +402,7 @@ getChasisNo()
 		// 	return "Vă rugăm să introduceți numărul șasiului vehiculului !";
 		// }
 
-
 		return 1;
-
 	}
 
 	validateRovignette(argToken, argProfileID, argCategoryID, argPriceID,
@@ -499,6 +497,12 @@ getChasisNo()
 	// END Storage Methods
 	appendIfNotEmpty(STORAGE_KEY_ARG, newItem) {
 		var self = this;
+
+
+		var bridgeItem = new Object();
+		bridgeItem.newItem = newItem;
+
+
 		try {
 			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
 			if (itemsInCart !== null) {
@@ -506,22 +510,19 @@ getChasisNo()
 					if (value != null || value != undefined) {
 						var itemsInCartJson = JSON.parse(value);
 
-						if (itemsInCartJson.length >= 9) {
-							console.log(itemsInCartJson.length + "can't add more than 8 items to cart");
+						if (itemsInCartJson.newItem.length >= 9) {
+							console.log(itemsInCartJson.newItem.length + "can't add more than 8 items to cart");
 							self.message("Atenție", "Nu pot fi adăugate mai mult de 8 roviniete în coș!")
 							self.setState({ loading: false });
 						}
 						else {
-							itemsInCartJson.push(newItem[0]);
+							itemsInCartJson.push(bridge.newItem[0]);
 							self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
 							self.setState({ loading: false });
-
 						}
-
-
 					}
 					else {
-						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(newItem))
+						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(bridgeItem.newItem))
 						self.setState({ loading: false });
 
 					}
