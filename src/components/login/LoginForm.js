@@ -119,7 +119,6 @@ class LoginForm extends Component {
 					self._addToStorage(STORAGE_KEY, JSON.stringify(response.data));
 					self.setState({ loggedIn: true });
 					self.onLoginSuccess(response);
-
 				}
 				if (response.data.success === 0) {
 					self.onLoginFail(response);

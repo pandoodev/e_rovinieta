@@ -13,9 +13,6 @@ import MenuButton from '../../../common/MenuButton';
 //menu
 
 
-
-
-
 inCartRovignetteKeyBridge = null;
 class BridgeShopMain extends Component {
 	state = { selected: 'categories', componentToDisplay: '', itemsInCart: {} };

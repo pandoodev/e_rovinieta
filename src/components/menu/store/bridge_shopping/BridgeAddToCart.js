@@ -704,4 +704,3 @@ const styles = {
 };
 
 export default BridgeAddToCart;
-

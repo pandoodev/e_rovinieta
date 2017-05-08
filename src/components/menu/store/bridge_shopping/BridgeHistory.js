@@ -23,12 +23,11 @@ class BridgeHistory extends Component {
 	}
 	getOrderHistory() {
 		console.log("--getOrderHistory--")
+
 		var self = this;
 
-
-
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
-			querystring.stringify({
+		axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+			querystring.stringify({	
 				tag: 'orders',
 				device: 'android',
 				token: this.props.responseData.user.token
@@ -40,10 +39,13 @@ class BridgeHistory extends Component {
 
 				if (response.data.success) {
 
+					console.log("History for Pod Fetesti");
+					console.log(response.data);
+					console.log("History for Pod Fetesti");
+					
 					response.data.orders.sort(function (a, b) {
-						var keyA = Moment(a.startDate),
-							keyB = Moment(b.startDate);
-						// Compare the 2 dates
+						var keyA = a.orderID;
+							keyB = b.orderID;						
 						if (keyA < keyB) return 1;
 						if (keyA > keyB) return -1;
 						return 0;
@@ -119,7 +121,7 @@ class BridgeHistory extends Component {
 						<View style={styles.containerStyle}>
 
 							<Text style={styles.textHeaderStyle}>Comanda</Text>
-							<Text style={styles.textHeaderStyle}>Rovinieta</Text>
+							<Text style={styles.textHeaderStyle}>Taxa</Text>
 						</View>
 
 						{this.state.history.map(function (o, i) {
@@ -136,7 +138,7 @@ class BridgeHistory extends Component {
 									<View style={styles.rightItemContainerStyle}>
 										<Text style={styles.vehicleNoStyle} key={4}>{o.vehicleNo}</Text>
 										<Text style={styles.textStyle} key={5}>{o.endDate}</Text>
-										<Text style={styles.textStyle} key={6}>{o.startDate}</Text>
+										{/*<Text style={styles.textStyle} key={6}>{o.startDate}</Text>*/}
 
 									</View>
 
