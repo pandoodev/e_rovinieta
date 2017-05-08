@@ -17,8 +17,6 @@ import MenuButton from '../../../common/MenuButton';
 
 
 
-inCartRovignetteKey = null;
-
 class BridgeAddToCart extends Component {
 	state = {
 		userType: '',
@@ -40,7 +38,8 @@ class BridgeAddToCart extends Component {
 	constructor(props) {
 		super(props)
 		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()}
-		inCartRovignetteKey = this.props.responseData.user.token;
+		inCartRovignetteKeyBridge = this.props.responseData.user.token+"bridge";
+		
 
 	}
 getVehicleNo()
@@ -110,20 +109,11 @@ getChasisNo()
 				}
 			}).then(function (response) {
 				if (response.data.success) {
-
-					console.log("valabilities");
-					console.log(response.data);
-					console.log("valabilities");
-
 					var valabilities = [];
 					response.data.valabilities.forEach(function (valability) {
 						valabilities.push(valability);
 					}, this);
-
-
 					axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
-
-
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -132,16 +122,9 @@ getChasisNo()
 								"Content-Type": "application/x-www-form-urlencoded"
 							}
 						}).then(function (response) {
-												console.log("valabilities");
-							
-							console.log(response.data);
-												console.log("valabilities");
-							
 							if (response.data.success) {
 
-								console.log("prices");
-								console.log(response.data);
-								console.log("prices");
+							
 
 
 								var valabilitiesWithPrices = [];
@@ -328,7 +311,7 @@ getChasisNo()
 	}
 
 	redirectToCart() {
-		Actions.shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
+		Actions.bridge_shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
 	}
 	getProfileID() {
 		console.log("this.props.responseData")
@@ -453,7 +436,10 @@ getChasisNo()
 			self.setState({ buttonLoading: false });
 
 			if (response.data.success) {
-				self.appendIfNotEmpty(inCartRovignetteKey, rovignetteInfo);
+				console.log("append if not empty inCartRovignetteKey");
+				console.log(inCartRovignetteKeyBridge);
+				console.log("append if not empty inCartRovignetteKey");
+				self.appendIfNotEmpty(inCartRovignetteKeyBridge, rovignetteInfo);
 				return 1;
 			}
 
@@ -511,7 +497,7 @@ getChasisNo()
 
 		try {
 			
-			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKeyBridge);
 
 			if (itemsInCart !== null) {
 				itemsInCart.then(function (value) {

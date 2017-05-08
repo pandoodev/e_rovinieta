@@ -44,9 +44,8 @@ class BridgeHistory extends Component {
 					console.log("History for Pod Fetesti");
 					
 					response.data.orders.sort(function (a, b) {
-						var keyA = Moment(a.startDate),
-							keyB = Moment(b.startDate);
-						// Compare the 2 dates
+						var keyA = a.orderID;
+							keyB = b.orderID;						
 						if (keyA < keyB) return 1;
 						if (keyA > keyB) return -1;
 						return 0;

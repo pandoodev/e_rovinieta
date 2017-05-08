@@ -13,35 +13,29 @@ import MenuButton from '../../../common/MenuButton';
 //menu
 
 
-inCartRovignetteKey = null;
+inCartRovignetteKeyBridge = null;
 class BridgeShopMain extends Component {
-
 	state = { selected: 'categories', componentToDisplay: '', itemsInCart: {} };
 
 	//Getting data from AsyncStorage into state variable
 	addCartItemsToState() {
-		console.log("inCartRovignetteKey");
-		console.log(inCartRovignetteKey);
-		console.log("inCartRovignetteKey");
-
 		var self = this;
 		try {
-			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKeyBridge);
 			if (itemsInCart !== null) {
 				itemsInCart.then(function (value) {
 					if (value != null || value != undefined) {
 
-						console.log("Value for inCartRovignetteKey");
-						console.log(value);
-						console.log("Value for inCartRovignetteKey");
-
 						var itemsInCartJson = JSON.parse(value);
 						self.setState({ itemsInCart: itemsInCartJson });
 						self.setState({ loading: false });
+
 					}
 					else {
+
 						self.setState({ itemsInCart: '' });
 						self.setState({ loading: false });
+
 					}
 				});
 			}
@@ -56,7 +50,6 @@ class BridgeShopMain extends Component {
 		if (this.state.itemsInCart.length > 0) {
 			return ('(' + this.state.itemsInCart.length + ')');
 		}
-
 	}
 
 	itemsInCartMenuFormated() {
@@ -81,7 +74,7 @@ class BridgeShopMain extends Component {
 		}
 	}
 	componentWillMount() {
-		inCartRovignetteKey = this.props.responseData.user.token;
+		inCartRovignetteKeyBridge = this.props.responseData.user.token+"bridge";
 		if (this.props.componentToDisplay != undefined) {
 			this.setState({ selected: this.props.componentToDisplay });
 		}
