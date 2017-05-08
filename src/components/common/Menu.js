@@ -22,6 +22,7 @@ module.exports = class Menu extends Component {
   //Getting data from AsyncStorage into state variable
   componentWillMount() {
     inCartRovignetteKey = this.props.responseData.user.token;
+    inCartRovignetteKeyBridge=this.props.responseData.user.token+"bridge";
     this.addCartItemsToState();
   }
 
@@ -31,6 +32,7 @@ module.exports = class Menu extends Component {
     var self = this;
     try {
       var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
+      var bridgeItemsInCart = AsyncStorage.getItem(inCartRovignetteKeyBridge);
       if (itemsInCart !== null) {
         itemsInCart.then(function (value) {
           if (value != null || value != undefined) {
@@ -40,6 +42,20 @@ module.exports = class Menu extends Component {
           }
           else {
             self.setState({ itemsInCart: '' });
+            self.setState({ loading: false });
+          }
+        });
+      }
+
+       if (bridgeItemsInCart !== null) {
+        bridgeItemsInCart.then(function (value) {
+          if (value != null || value != undefined) {
+            var itemsInCartJson = JSON.parse(value);
+            self.setState({ bridgeItemsInCart: itemsInCartJson });
+            self.setState({ loading: false });
+          }
+          else {
+            self.setState({ bridgeItemsInCart: '' });
             self.setState({ loading: false });
           }
         });
@@ -57,6 +73,14 @@ module.exports = class Menu extends Component {
     }
     if (this.state.itemsInCart.length > 0) {
       return ('(' + this.state.itemsInCart.length + ' in coș)');
+    }
+  }
+   bridgeItemsInCart() {
+    if (this.props.bridgePassesInCart != undefined) {
+      return this.props.bridgePassesInCart
+    }
+    if (this.state.bridgeItemsInCart!=undefined && this.state.bridgeItemsInCart.length> 0) {
+      return ('(' + this.state.bridgeItemsInCart.length + ' in coș)');
     }
   }
   render() {
@@ -106,7 +130,7 @@ module.exports = class Menu extends Component {
               <Text
                 onPress={() => { this.props.onItemSelected('bridge_shop'); Actions.bridge_shop({ responseData: this.props.responseData, location: 'pod_fetesti' }) }}
                 style={styles.item}>
-                Fetesti {this.itemsInCart()}
+                Fetesti {this.bridgeItemsInCart()}
               </Text>
             </View>
 

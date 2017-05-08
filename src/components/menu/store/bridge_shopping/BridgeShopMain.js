@@ -144,7 +144,7 @@ class BridgeShopMain extends Component {
 	render() {
 
 		//menu
-		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} rovignettesInCart={this.itemsInCartMenuFormated()} />;
+		const menu = <Menu onItemSelected={this.onMenuItemSelected} currentItem={this.state.selectedItem} responseData={this.props.responseData} bridgePassesInCart={this.itemsInCartMenuFormated()} />;
 		//!!menu!!
 
 		return (

@@ -311,7 +311,7 @@ getChasisNo()
 	}
 
 	redirectToCart() {
-		Actions.shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
+		Actions.bridge_shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
 	}
 	getProfileID() {
 		console.log("this.props.responseData")
