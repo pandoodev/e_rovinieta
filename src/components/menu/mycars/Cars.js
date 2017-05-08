@@ -4,16 +4,17 @@ import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking, Scrol
 import axios from 'axios';
 import querystring from 'query-string';
 import { Spinner } from '../../common';
+
+
 //menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../common/Menu');
 import MenuButton from '../../common/MenuButton';
 import Header from '../../common/Header';
 import { Actions } from 'react-native-router-flux';
-
-
-
 //!menu!!
+
+
 class Cars extends Component {
 
   // Start side-menu functions
