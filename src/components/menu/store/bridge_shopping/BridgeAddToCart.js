@@ -97,10 +97,13 @@ getChasisNo()
 
 	getValabilities() {
 		var self = this;
+
 		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
 			querystring.stringify({
 				tag: 'valabilities',
-				device: 'android'
+				device: 'android',
+				category: self.props.categoryID
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -108,12 +111,19 @@ getChasisNo()
 			}).then(function (response) {
 				if (response.data.success) {
 
+					console.log("valabilities");
+					console.log(response.data);
+					console.log("valabilities");
+
 					var valabilities = [];
 					response.data.valabilities.forEach(function (valability) {
 						valabilities.push(valability);
 					}, this);
 
+
 					axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
+
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -129,6 +139,11 @@ getChasisNo()
 							
 							if (response.data.success) {
 
+								console.log("prices");
+								console.log(response.data);
+								console.log("prices");
+
+
 								var valabilitiesWithPrices = [];
 
 								for (x in valabilities) {
@@ -136,7 +151,7 @@ getChasisNo()
 									for (idx in response.data.prices) {
 										var element = response.data.prices[idx];
 
-										if (element.valability_id == valab.id &&
+										if (element.id == valab.id_tarife_detalii &&
 											element.vehicle_id == self.props.categoryID) {
 												console.log("if");
 											valabilityElement = new Object();
@@ -171,9 +186,7 @@ getChasisNo()
 		if (this.state.loadingPrices || this.state.loadingPrices == undefined) {
 			return <Spinner size='small' />;
 		}
-
 		else {
-
 
 			return (
 				<View style={styles.pickerContainerStyle}>
@@ -198,7 +211,9 @@ getChasisNo()
 
 	getPrices() {
 		var self = this;
+
 		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
 			querystring.stringify({
 				tag: 'prices',
 				device: 'android'
@@ -222,7 +237,9 @@ getChasisNo()
 
 	getCountries() {
 		var self = this;
+
 		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
 			querystring.stringify({
 				tag: 'countries',
 				device: 'android'
@@ -317,7 +334,9 @@ getChasisNo()
 		console.log("this.props.responseData")
 		var self = this;
 		console.log(this.props.responseData)
+
 		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
@@ -400,9 +419,7 @@ getChasisNo()
 		// 	return "Vă rugăm să introduceți numărul șasiului vehiculului !";
 		// }
 
-
 		return 1;
-
 	}
 
 	validateRovignette(argToken, argProfileID, argCategoryID, argPriceID,
@@ -413,11 +430,10 @@ getChasisNo()
 				'token': this.props.responseData.user.token,
 				'tag': 'initiate',
 				'device': 'android',
-				'token': argToken,
+				//'token': argToken,
 				'profileID': argProfileID,
 				'categoryID': argCategoryID,
 				'priceID': argPriceID,
-				'startDate': argStartDate,
 				'vehicleNo': argVehicleNo,
 				'chasisNo': argChasisNo,
 				'vehicleCountry': argVehicleCountry
@@ -426,7 +442,9 @@ getChasisNo()
 		var self = this;
 		var aux = rovignetteInfo;
 
+
 		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
 			querystring.stringify(
 				rovignetteInfo[0]),
 			{
@@ -494,6 +512,12 @@ getChasisNo()
 	// END Storage Methods
 	appendIfNotEmpty(STORAGE_KEY_ARG, newItem) {
 		var self = this;
+
+
+		var bridgeItem = new Object();
+		bridgeItem.newItem = newItem;
+
+
 		try {
 			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKey);
 			if (itemsInCart !== null) {
@@ -501,22 +525,19 @@ getChasisNo()
 					if (value != null || value != undefined) {
 						var itemsInCartJson = JSON.parse(value);
 
-						if (itemsInCartJson.length >= 9) {
-							console.log(itemsInCartJson.length + "can't add more than 8 items to cart");
+						if (itemsInCartJson.newItem.length >= 9) {
+							console.log(itemsInCartJson.newItem.length + "can't add more than 8 items to cart");
 							self.message("Atenție", "Nu pot fi adăugate mai mult de 8 roviniete în coș!")
 							self.setState({ loading: false });
 						}
 						else {
-							itemsInCartJson.push(newItem[0]);
+							itemsInCartJson.push(bridge.newItem[0]);
 							self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(itemsInCartJson))
 							self.setState({ loading: false });
-
 						}
-
-
 					}
 					else {
-						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(newItem))
+						self._addToStorage(STORAGE_KEY_ARG, JSON.stringify(bridgeItem.newItem))
 						self.setState({ loading: false });
 
 					}
@@ -535,7 +556,9 @@ getChasisNo()
 
 		var self = this;
 		console.log("--getCategories--");
+
 		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+
 			querystring.stringify({
 				tag: 'categories',
 				device: 'android',				
@@ -594,13 +617,13 @@ getChasisNo()
 									onChangeText={chasisNo => this.setState({ chasisNo })}
 								/>
 							</CardSection>
-							<CardSection >
+							{/*<CardSection >
 								<Input
 									label="Motiv cat"
 									value=""
 									onChangeText={chasisNo => this.setState({ chasisNo })}
 								/>
-							</CardSection>
+							</CardSection>*/}
 
 							<CardSection>
 								<Text style={styles.textStyle} > Țara </Text>

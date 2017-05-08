@@ -23,7 +23,9 @@ class BridgeShopMain extends Component {
 
 	//Getting data from AsyncStorage into state variable
 	addCartItemsToState() {
+		console.log("inCartRovignetteKey");
 		console.log(inCartRovignetteKey);
+		console.log("inCartRovignetteKey");
 
 		var self = this;
 		try {
@@ -31,6 +33,11 @@ class BridgeShopMain extends Component {
 			if (itemsInCart !== null) {
 				itemsInCart.then(function (value) {
 					if (value != null || value != undefined) {
+
+						console.log("Value for inCartRovignetteKey");
+						console.log(value);
+						console.log("Value for inCartRovignetteKey");
+
 						var itemsInCartJson = JSON.parse(value);
 						self.setState({ itemsInCart: itemsInCartJson });
 						self.setState({ loading: false });
@@ -69,7 +76,9 @@ class BridgeShopMain extends Component {
 			case 'categories':
 				return (<BridgeCarCategories responseData={this.props.responseData} />);
 			case 'cart':
-				return (<BridgeCart responseData={this.props.responseData} changeParentState={this.changeStateFromCart.bind(this)} deleteFromCart={this.deleteFromCart.bind(this)} />);
+				return (<BridgeCart responseData={this.props.responseData} 
+				changeParentState={this.changeStateFromCart.bind(this)} 
+				deleteFromCart={this.deleteFromCart.bind(this)} />);
 			case 'history':
 				return (<BridgeHistory responseData={this.props.responseData} />);
 		}

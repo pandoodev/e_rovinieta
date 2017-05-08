@@ -6,7 +6,6 @@ import querystring from 'query-string';
 import { Actions } from 'react-native-router-flux';
 import { WebView } from 'react-native';
 
-
 inCartRovignetteKey = null;
 
 class BridgeCart extends Component {
@@ -173,7 +172,7 @@ class BridgeCart extends Component {
 				{
 					'categoryID': obj[i]['categoryID'],
 					'priceID': obj[i]['priceID'],
-					'startDate': obj[i]['startDate'],
+					//'startDate': obj[i]['startDate'],
 					'vehicleNo': obj[i]['vehicleNo'],
 					'chasisNo': obj[i]['chasisNo'],
 					'vehicleCountry': obj[i]['vehicleCountry']
@@ -210,10 +209,10 @@ class BridgeCart extends Component {
 		result += "&a=" + Math.random();
 
 		return result;
-	}
+	}	
 
 	generateInvoice(preparedRovignettes, userInformation) {
-		url = 'https://www.e-rovinieta.ro/ro/apps/payment';
+		url = 'http://peaj.ctrlf5.ro/ro/apps/payment/';
 
 		//this.deleteItems();
 
@@ -245,8 +244,7 @@ class BridgeCart extends Component {
 
 			self.deleteItems();
 
-
-			linkToAccess = "https://www.e-rovinieta.ro/ro/transaction/" + userInformation[3];
+			linkToAccess = "http://peaj.ctrlf5.ro/ro/transaction/" + userInformation[3];
 			linkToAccess += "?a=" + Math.random();
 			console.log("profileID url");
 			console.log(linkToAccess);
