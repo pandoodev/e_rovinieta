@@ -51,6 +51,7 @@ class BridgeCart extends Component {
 
 	componentWillMount() {
 		this.addCartItemsToState();
+
 	}
 
 	//initiate state items with constructor
@@ -71,6 +72,7 @@ class BridgeCart extends Component {
 		var self = this;
 		try {
 			var itemsInCart = AsyncStorage.getItem(inCartRovignetteKeyBridge);
+			console.log(itemsInCart);
 			if (itemsInCart !== null) {
 				itemsInCart.then(function (value) {
 					if (value != null || value != undefined) {
@@ -300,7 +302,7 @@ class BridgeCart extends Component {
 					<View style={styles.containerStyle}>
 						<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
 						<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
-						<Text style={styles.textHeaderStyle}>  Incepe la</Text>
+						<Text style={styles.textHeaderStyle}>  Nr. caroserie</Text>
 						<Text style={styles.textHeaderStyle}></Text>
 
 					</View>
@@ -311,7 +313,7 @@ class BridgeCart extends Component {
 							<View key={i} style={styles.elementStyle}>
 								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
 								<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
-								<Text style={styles.textStyle} key={2}>{o.startDate}</Text>
+								<Text style={styles.textStyle} key={2}>{o.chasisNo}</Text>
 								<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
 									<Image
 										style={styles.deleteItemButtonStyle}
@@ -326,7 +328,7 @@ class BridgeCart extends Component {
 						<View style={styles.buttonStyle}>
 
 							<Button onPress={this.props.changeParentState}>
-								Adaugă rovinieta
+								Adaugă în coș
 	  </Button>
 
 						</View>
