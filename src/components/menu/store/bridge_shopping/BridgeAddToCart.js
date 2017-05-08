@@ -97,7 +97,7 @@ getChasisNo()
 
 	getValabilities() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'valabilities',
 				device: 'android'
@@ -113,7 +113,7 @@ getChasisNo()
 						valabilities.push(valability);
 					}, this);
 
-					axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+					axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -122,6 +122,11 @@ getChasisNo()
 								"Content-Type": "application/x-www-form-urlencoded"
 							}
 						}).then(function (response) {
+												console.log("valabilities");
+							
+							console.log(response.data);
+												console.log("valabilities");
+							
 							if (response.data.success) {
 
 								var valabilitiesWithPrices = [];
@@ -133,6 +138,7 @@ getChasisNo()
 
 										if (element.valability_id == valab.id &&
 											element.vehicle_id == self.props.categoryID) {
+												console.log("if");
 											valabilityElement = new Object();
 											valabilityElement.priceID = element.id;
 											valabilityElement.description = valab.description + " - " + element.value + " " + element.currency;
@@ -192,7 +198,7 @@ getChasisNo()
 
 	getPrices() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'prices',
 				device: 'android'
@@ -216,7 +222,7 @@ getChasisNo()
 
 	getCountries() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'countries',
 				device: 'android'
@@ -311,7 +317,7 @@ getChasisNo()
 		console.log("this.props.responseData")
 		var self = this;
 		console.log(this.props.responseData)
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
@@ -420,7 +426,7 @@ getChasisNo()
 		var self = this;
 		var aux = rovignetteInfo;
 
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify(
 				rovignetteInfo[0]),
 			{
@@ -529,7 +535,7 @@ getChasisNo()
 
 		var self = this;
 		console.log("--getCategories--");
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'categories',
 				device: 'android',				
