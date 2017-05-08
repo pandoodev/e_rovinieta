@@ -97,10 +97,11 @@ getChasisNo()
 
 	getValabilities() {
 		var self = this;
-		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'valabilities',
-				device: 'android'
+				device: 'android',
+				category: self.props.categoryID
 			}), {
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
@@ -108,12 +109,18 @@ getChasisNo()
 			}).then(function (response) {
 				if (response.data.success) {
 
+					console.log("valabilities response");
+					console.log(response.data);
+					console.log("valabilities response");
+
 					var valabilities = [];
 					response.data.valabilities.forEach(function (valability) {
 						valabilities.push(valability);
 					}, this);
 
-					axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+
+
+					axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -126,19 +133,30 @@ getChasisNo()
 
 								var valabilitiesWithPrices = [];
 
+								console.log("get prices");
+								console.log(response.data);
+								console.log("get prices");
+
 								for (x in valabilities) {
 									valab = valabilities[x];
 									for (idx in response.data.prices) {
 										var element = response.data.prices[idx];
 
+
+
 										if (element.valability_id == valab.id &&
 											element.vehicle_id == self.props.categoryID) {
 											valabilityElement = new Object();
 											valabilityElement.priceID = element.id;
+
 											valabilityElement.description = valab.description + " - " + element.value + " " + element.currency;
 											valabilitiesWithPrices.push(valabilityElement);
 											break;
 										}
+
+
+
+
 									}
 								}
 
