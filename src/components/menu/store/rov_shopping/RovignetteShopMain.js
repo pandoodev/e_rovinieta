@@ -12,10 +12,6 @@ const Menu = require('../../../common/Menu');
 import MenuButton from '../../../common/MenuButton';
 //menu
 
-
-
-
-
 inCartRovignetteKey = null;
 class RovignetteShopMain extends Component {
 
@@ -57,7 +53,7 @@ class RovignetteShopMain extends Component {
 
 	itemsInCartMenuFormated() {
 		if (this.state.itemsInCart.length > 0) {
-			return ('(' + this.state.itemsInCart.length + ' în coș)');
+			return ('(' + this.state.itemsInCart.length + ')');
 		}
 		else{
 			return '';

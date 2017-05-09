@@ -563,7 +563,7 @@ getChasisNo()
 			<SideMenu
 				menu={menu}
 				isOpen={this.state.isOpen}
-				onChange={(isOpen) => this.updateMenuState(isOpen)}>
+				on 	hange={(isOpen) => this.updateMenuState(isOpen)}>
 				<View style={{
 					flex: 1,
 					backgroundColor: '#FFFFFF',

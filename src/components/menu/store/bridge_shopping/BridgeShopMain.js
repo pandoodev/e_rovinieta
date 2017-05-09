@@ -43,7 +43,7 @@ class BridgeShopMain extends Component {
 			console.log(error);
 
 			self.setState({ loading: false });
-		}
+		}glyphicons-27-road
 
 	}
 	itemsInCart() {
@@ -54,7 +54,7 @@ class BridgeShopMain extends Component {
 
 	itemsInCartMenuFormated() {
 		if (this.state.itemsInCart.length > 0) {
-			return ('(' + this.state.itemsInCart.length + ' în coș)');
+			return ('(' + this.state.itemsInCart.length + ')');
 		}
 		else{
 			return '';
