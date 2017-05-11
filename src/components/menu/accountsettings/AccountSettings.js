@@ -8,6 +8,9 @@ import Header from '../../common/Header';
 
 import { Spinner } from '../../common';
 
+
+
+
 //!menu!!
 
 class AccountSettings extends Component {
@@ -70,8 +73,14 @@ class AccountSettings extends Component {
                 style={{ color: '#337ab7', paddingBottom: 10 }}
                 onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
               >Modifică datele contului</Text>
-            </View>
+      
+			
+					
+			
+			      </View>
 			</View>
+
+
 	
 
 
