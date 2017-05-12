@@ -16,7 +16,6 @@ class History extends Component {
 			loading: true,
 			history: ''
 		};
-
 	}
 	componentDidMount() {
 		this.getOrderHistory();
@@ -25,9 +24,7 @@ class History extends Component {
 		console.log("--getOrderHistory--")
 		var self = this;
 
-
-
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'orders',
 				device: 'android',
@@ -135,8 +132,8 @@ class History extends Component {
 
 									<View style={styles.rightItemContainerStyle}>
 										<Text style={styles.vehicleNoStyle} key={4}>{o.vehicleNo}</Text>
-										<Text style={styles.textStyle} key={5}>{o.endDate}</Text>
-										<Text style={styles.textStyle} key={6}>{o.startDate}</Text>
+										<Text style={styles.textStyle} key={5}>{o.startDate}</Text>
+										<Text style={styles.textStyle} key={6}>{o.endDate}</Text>
 
 									</View>
 

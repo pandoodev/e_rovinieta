@@ -17,7 +17,7 @@ class Categories extends Component {
 	}
 	getCountries() {
 		var self = this;
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'countries',
 				device: 'android'
@@ -84,7 +84,7 @@ class Categories extends Component {
 
 	getProfileID() {
 		var self = this;
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'profile',
 				device: 'android',
@@ -116,7 +116,7 @@ getOrderHistory()
 {
 		console.log("--getProfileID--");
 		var self = this;
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'orders',
 				device: 'android',
@@ -181,7 +181,7 @@ getOrderHistory()
 		// console.log(argVehicleCountry+"argVehicleCountry");
 
 
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'initiate',
 				device: 'android',

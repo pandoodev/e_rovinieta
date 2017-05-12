@@ -26,7 +26,7 @@ class History extends Component {
 		var self = this;
 
 
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'orders',
 				device: 'android',

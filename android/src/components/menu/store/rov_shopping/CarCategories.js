@@ -19,7 +19,7 @@ class MyCars extends Component {
 	getCategories() {
 		var self = this;
 		console.log("--getCategories--");
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'categories',
 				device: 'android',

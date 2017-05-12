@@ -101,8 +101,8 @@ class LoginForm extends Component {
 		var self = this;
 		this.setState({ error: '', loading: true });
 		
-		axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
-		//axios.post('http://api-erov.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
+		//axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
 			querystring.stringify({
 				tag: 'login',
 				device: 'android',

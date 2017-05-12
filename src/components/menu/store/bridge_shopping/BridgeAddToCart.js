@@ -97,7 +97,7 @@ getChasisNo()
 	getValabilities() {
 		var self = this;
 
-		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 
 			querystring.stringify({
 				tag: 'valabilities',
@@ -113,7 +113,7 @@ getChasisNo()
 					response.data.valabilities.forEach(function (valability) {
 						valabilities.push(valability);
 					}, this);
-					axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+					axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 						querystring.stringify({
 							tag: 'prices',
 							device: 'android'
@@ -195,7 +195,7 @@ getChasisNo()
 	getPrices() {
 		var self = this;
 
-		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 
 			querystring.stringify({
 				tag: 'prices',
@@ -221,7 +221,7 @@ getChasisNo()
 	getCountries() {
 		var self = this;
 
-		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 
 			querystring.stringify({
 				tag: 'countries',
@@ -318,7 +318,7 @@ getChasisNo()
 		var self = this;
 		console.log(this.props.responseData)
 
-		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 
 			querystring.stringify({
 				tag: 'profile',
@@ -421,7 +421,7 @@ getChasisNo()
 		var aux = rovignetteInfo;
 
 
-		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 
 			querystring.stringify(
 				rovignetteInfo[0]),
@@ -536,7 +536,7 @@ getChasisNo()
 		var self = this;
 		console.log("--getCategories--");
 
-		axios.post(' http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 
 			querystring.stringify({
 				tag: 'categories',
