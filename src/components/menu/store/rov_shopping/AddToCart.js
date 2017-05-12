@@ -35,11 +35,12 @@ class AddtoCart extends Component {
 		countries: [], isOpen: false,
 		buttonLoading: false,
 		selectedItem: 'Dashboard',
-		countryObject: null
+		countryObject: null,
+		validityDays: '7 days'
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()}
+		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo(), validityDays:'7 zile'}
 		inCartRovignetteKey = this.props.responseData.user.token;
 
 	}
@@ -145,6 +146,7 @@ getChasisNo()
 								self.state.pricesAndValabilities = valabilitiesWithPrices;
 								self.setState({ priceID: valabilitiesWithPrices[0].priceID });
 								self.setState({ error: '', loadingPrices: false, buttonLoading: false });
+								self.setState({validityDays: valabilitiesWithPrices[0].description});
 
 							}
 							if (response.data.success === 0) {
@@ -345,6 +347,7 @@ getChasisNo()
 
 	addToCartButton() {
 		this.setState({ buttonLoading: true });
+		this.setState({validityDays:'x zile'});
 
 		console.log("this.props");
 		console.log(this.props);
@@ -362,7 +365,8 @@ getChasisNo()
 				this.state.startDate,
 				this.state.vehicleNo,
 				this.state.chasisNo,
-				this.state.country);
+				this.state.country,
+				this.state.validityDays);
 		}
 		else {
 			this.setState({ buttonLoading: false });
@@ -400,7 +404,7 @@ getChasisNo()
 	}
 
 	validateRovignette(argToken, argProfileID, argCategoryID, argPriceID,
-		argStartDate, argVehicleNo, argChasisNo, argVehicleCountry) {
+		argStartDate, argVehicleNo, argChasisNo, argVehicleCountry, validityDays) {
 
 		let rovignetteInfo = [
 			{
@@ -414,7 +418,8 @@ getChasisNo()
 				'startDate': argStartDate,
 				'vehicleNo': argVehicleNo,
 				'chasisNo': argChasisNo,
-				'vehicleCountry': argVehicleCountry
+				'vehicleCountry': argVehicleCountry,
+				'validityDays': validityDays,
 			}
 		];
 		var self = this;

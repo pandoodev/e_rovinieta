@@ -308,6 +308,7 @@ class Cart extends Component {
 					</View>
 
 					{this.state.itemsInCart.map(function (o, i) {
+						console.log(o);
 						return (
 
 						<View key={i} style={styles.elementStyle}>
@@ -321,7 +322,7 @@ class Cart extends Component {
 								<Text style={styles.textStyle} key={2}>
 									{'De la '}{o.startDate}
 									{'\n'}
-									{o.startDate}		
+									{o.validityDays}		
 								</Text>
 								<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
 									<Image
