@@ -26,7 +26,7 @@ class BridgeHistory extends Component {
 
 		var self = this;
 
-		axios.post('http://api-peaj.ctrlf5.ro/mobile/1.0/get',
+		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',
 			querystring.stringify({	
 				tag: 'orders',
 				device: 'android',
