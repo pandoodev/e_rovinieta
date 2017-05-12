@@ -74,9 +74,6 @@ class AccountSettings extends Component {
                 onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/masini')}
               >Modifică datele contului</Text>
       
-			
-					
-			
 			      </View>
 			</View>
 

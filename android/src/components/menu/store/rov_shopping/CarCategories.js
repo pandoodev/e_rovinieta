@@ -3,7 +3,6 @@ import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } f
 import { Actions } from 'react-native-router-flux';
 import { Spinner} from '../../../common';
 
-
 import axios from 'axios';
 import querystring from 'query-string';
 

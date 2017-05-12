@@ -43,7 +43,7 @@ class BridgeShopMain extends Component {
 			console.log(error);
 
 			self.setState({ loading: false });
-		}glyphicons-27-road
+		}
 
 	}
 	itemsInCart() {
