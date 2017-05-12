@@ -301,19 +301,28 @@ class Cart extends Component {
 
 					<View style={styles.containerStyle}>
 						<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
-						<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
-						<Text style={styles.textHeaderStyle}>  Incepe la</Text>
-						<Text style={styles.textHeaderStyle}></Text>
+						<Text style={styles.autonrHeaderStyle}> Auto</Text>
+						<Text style={styles.textHeaderStyle}>   Rovinieta</Text>
+						<Text style={styles.textIconHeaderStyle}></Text>
 
 					</View>
 
 					{this.state.itemsInCart.map(function (o, i) {
 						return (
 
-							<View key={i} style={styles.elementStyle}>
+						<View key={i} style={styles.elementStyle}>
 								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-								<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
-								<Text style={styles.textStyle} key={2}>{o.startDate}</Text>
+								<Text style={styles.autonrStyle} key={1}>
+									{o.vehicleNo} 
+									{'\n'}
+									{o.chasisNo}
+									
+								</Text>
+								<Text style={styles.textStyle} key={2}>
+									{'De la '}{o.startDate}
+									{'\n'}
+									{o.startDate}		
+								</Text>
 								<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
 									<Image
 										style={styles.deleteItemButtonStyle}
@@ -429,22 +438,36 @@ const styles = {
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',
-		height: 30,
+		height: 50,
 		paddingTop: 6,
 		borderColor: '#bbb',
 		borderWidth: 1,
 
 	},
 	nrCrtStyle: {
-		flex: 1,
+		flex: 1.6,
 
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',
-		height: 30,
+		height: 50,
 		paddingTop: 6,
 		borderColor: '#bbb',
+		borderWidth: 1,
+
+	},
+	nrCrtHeaderStyle: {
+		flex: 1.6,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
+		borderColor: '#222222',
 		borderWidth: 1,
 
 	},
@@ -472,7 +495,7 @@ const styles = {
 		shadowRadius: 2,
 	},
 	autonrHeaderStyle: {
-		flex: 5,
+		flex: 3,
 		paddingTop: 3,
 		backgroundColor: '#222222',
 		justifyContent: 'center',
@@ -482,6 +505,31 @@ const styles = {
 		height: 30,
 		fontSize: 16,
 	},
+	 autonrStyle: {
+		flex: 3,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'black',
+		height: 50,
+		paddingTop: 6,
+
+		borderColor: '#bbb',
+		borderWidth: 1,
+	},
+
+	// 	textStyle: {
+	// 	flex: 5,
+	// 	justifyContent: 'center',
+	// 	alignItems: 'center',
+	// 	paddingLeft: 5,
+	// 	color: 'black',
+	// 	height: 50,
+	// 	paddingTop: 6,
+	// 	borderColor: '#bbb',
+	// 	borderWidth: 1,
+
+	// },
 	textHeaderStyle: {
 		flex: 5,
 		paddingTop: 3,
@@ -492,11 +540,14 @@ const styles = {
 		color: 'white',
 		height: 30,
 		fontSize: 16,
-
+		
+		
+		borderColor: '#222222',
+		borderWidth: 1,
 
 	},
-	nrCrtHeaderStyle: {
-		flex: 1.6,
+	textIconHeaderStyle: {
+		flex: 2,
 		paddingTop: 3,
 		backgroundColor: '#222222',
 		justifyContent: 'center',
@@ -506,23 +557,14 @@ const styles = {
 		height: 30,
 		fontSize: 16,
 
-	}, autonrStyle: {
-		flex: 3,
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingLeft: 5,
-		color: 'black',
-		height: 30,
-		paddingTop: 6,
+	},
 
-		borderColor: '#bbb',
-		borderWidth: 1,
-	}, iconContainerStyle: {
+	 iconContainerStyle: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
-		height: 30,
+		height: 50,
 		borderColor: '#bbb',
 		borderWidth: 1,
 
