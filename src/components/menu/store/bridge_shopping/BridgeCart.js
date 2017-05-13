@@ -214,7 +214,7 @@ class BridgeCart extends Component {
 	}	
 
 	generateInvoice(preparedRovignettes, userInformation) {
-		url = 'http://peaj.ctrlf5.ro/ro/apps/payment/';
+		url = 'https://www.taxa-pod-fetesti.ro/ro/apps/payment/';
 
 		//this.deleteItems();
 
@@ -246,7 +246,7 @@ class BridgeCart extends Component {
 
 			self.deleteItems();
 
-			linkToAccess = "http://peaj.ctrlf5.ro/ro/transaction/" + userInformation[3];
+			linkToAccess = "https://www.taxa-pod-fetesti.ro/ro/transaction/" + userInformation[3];
 			linkToAccess += "?a=" + Math.random();
 			console.log("profileID url");
 			console.log(linkToAccess);

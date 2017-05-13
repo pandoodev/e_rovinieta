@@ -16,7 +16,6 @@ class BridgeHistory extends Component {
 			loading: true,
 			history: ''
 		};
-
 	}
 	componentDidMount() {
 		this.getOrderHistory();

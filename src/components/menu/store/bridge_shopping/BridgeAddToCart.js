@@ -581,7 +581,7 @@ getChasisNo()
 					<ScrollView >
 					
 						<Card >
-							<Text style={styles.pageTitleStyle}> {this.props.categoryDescription}</Text>
+							<Text style={styles.pageTitleStyle}> {this.props.categoryDescription} {'\n'}{'\n'}</Text>
 							<CardSection >
 								<Input
 									label="Număr auto"
