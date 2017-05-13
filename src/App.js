@@ -13,6 +13,7 @@ import Cars from './components/menu/mycars/Cars';
 import AccountSettings from './components/menu/accountsettings/AccountSettings';
 import Contact from './components/menu/contact/Contact';
 import BridgeShopMain from './components/menu/store/bridge_shopping/BridgeShopMain';
+import BridgePaymentConfirmation from './components/menu/store/bridge_shopping/BridgePaymentConfirmation';
 
 
 const scenes = Actions.create(
@@ -35,6 +36,7 @@ const scenes = Actions.create(
 			<Scene key="bridge_buy" component={BridgeAddToCart} />
 			<Scene key="shop" component={RovignetteShopMain} />		
 			<Scene key="payment" component={PaymentConfirmation} />		
+			<Scene key="bridge_payment" component={BridgePaymentConfirmation} />		
 			<Scene key="bridge_shop" component={BridgeShopMain} />		
 			
 		</Scene>

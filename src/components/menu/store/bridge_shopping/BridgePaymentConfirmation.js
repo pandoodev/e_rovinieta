@@ -13,7 +13,7 @@ import MenuButton from '../../../common/MenuButton';
 import { Actions } from 'react-native-router-flux';
 import { WebView } from 'react-native';
 
-class PaymentConfirmation extends Component {
+class BridgePaymentConfirmation extends Component {
 
   state = { noRedirects: 0, uri: "" };
 
@@ -75,4 +75,4 @@ class PaymentConfirmation extends Component {
 };
 
 
-export default PaymentConfirmation;
+export default BridgePaymentConfirmation;
