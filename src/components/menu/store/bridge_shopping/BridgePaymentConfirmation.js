@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import CarCategories from './CarCategories';
+import CarCategories from './BridgeCarCategories';
 import Header from '../../../common/Header';
-import Cart from './Cart';
-import History from './History';
+import Cart from './BridgeCart';
+import History from './BridgeHistory';
 //menu
 const SideMenu = require('react-native-side-menu');
 const Menu = require('../../../common/Menu');
