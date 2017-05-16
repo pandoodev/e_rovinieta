@@ -33,14 +33,17 @@ class BridgeAddToCart extends Component {
 		countries: [], isOpen: false,
 		buttonLoading: false,
 		selectedItem: 'Dashboard',
-		countryObject: null
+		countryObject: null,
+		nrPasses: '1 treceri'
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo()}
+		this.state = { date: this.getCurerntDate(), buttonLoading: true, 
+			vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo(),
+			nrPasses:'1 treceri'
+		}
 		inCartRovignetteKeyBridge = this.props.responseData.user.token+"bridge";
 		
-
 	}
 getVehicleNo()
 {
@@ -149,6 +152,7 @@ getChasisNo()
 								self.state.pricesAndValabilities = valabilitiesWithPrices;
 								self.setState({ priceID: valabilitiesWithPrices[0].priceID });
 								self.setState({ error: '', loadingPrices: false, buttonLoading: false });
+								self.setState({nrPasses: valabilitiesWithPrices[0].description});
 
 							}
 							if (response.data.success === 0) {
@@ -351,10 +355,26 @@ getChasisNo()
 			});
 	}
 
+	getValabilityDaysForCurrentPriceID(priceID)
+	{
+		for(var x in this.state.pricesAndValabilities)
+		{
+			var current = this.state.pricesAndValabilities[x];
+			if(priceID === current.priceID)
+			{
+				return current.description;
+			}
+		}
+
+		return "";
+	}
+
+
 	addToCartButton() {
 		this.setState({ buttonLoading: true });
 
-	
+		this.state.nrPasses = this.getValabilityDaysForCurrentPriceID(this.state.priceID);
+
 		
 		if (this.checkIfNotEmpty() == 1) {
 			this.validateRovignette(
@@ -365,7 +385,9 @@ getChasisNo()
 				this.state.startDate,
 				this.state.vehicleNo,
 				this.state.chasisNo,
-				this.state.country);
+				this.state.country,
+				this.state.nrPasses);
+
 		}
 		else {
 			this.setState({ buttonLoading: false });
@@ -401,7 +423,10 @@ getChasisNo()
 	}
 
 	validateRovignette(argToken, argProfileID, argCategoryID, argPriceID,
-		argStartDate, argVehicleNo, argChasisNo, argVehicleCountry) {
+		argStartDate, argVehicleNo, argChasisNo, argVehicleCountry, nrPasses) {
+
+
+
 
 		let rovignetteInfo = [
 			{
@@ -414,11 +439,16 @@ getChasisNo()
 				'priceID': argPriceID,
 				'vehicleNo': argVehicleNo,
 				'chasisNo': argChasisNo,
-				'vehicleCountry': argVehicleCountry
+				'vehicleCountry': argVehicleCountry,
+				'nrPasses': nrPasses
 			}
 		];
 		var self = this;
 		var aux = rovignetteInfo;
+
+		console.log("rovignetteInfo");
+		console.log(rovignetteInfo);
+		console.log("rovignetteInfo");
 
 
 		axios.post('https://api.taxa-pod-fetesti.ro/mobile/1.0/get',

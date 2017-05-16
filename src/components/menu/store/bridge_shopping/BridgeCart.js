@@ -162,7 +162,6 @@ class BridgeCart extends Component {
 		var userInformation = [];
 		var self = this;
 
-
 		console.log("Unprepared rovignetes")
 		console.log(obj);
 		console.log("Unprepared rovignetes")
@@ -188,7 +187,6 @@ class BridgeCart extends Component {
 		}
 
 		this.generateInvoice(preparedRovignettes, userInformation);
-
 	}
 
 	stringifyPreparedRovignettes(tag, token, device, profileID, preparedRovignettes) {
@@ -300,10 +298,10 @@ class BridgeCart extends Component {
 				<ScrollView >
 
 					<View style={styles.containerStyle}>
-						<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
-						<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>
+						{/*<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
+						<Text style={styles.autonrHeaderStyle}>Nr. auto</Text>*/}
 						<Text style={styles.textHeaderStyle}>  Nr. caroserie</Text>
-						<Text style={styles.textHeaderStyle}></Text>
+						<Text style={styles.textIconHeaderStyle}></Text>
 
 					</View>
 
@@ -311,9 +309,16 @@ class BridgeCart extends Component {
 						return (
 
 							<View key={i} style={styles.elementStyle}>
-								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-								<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>
-								<Text style={styles.textStyle} key={2}>{o.chasisNo}</Text>
+								{/*<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
+								<Text style={styles.autonrStyle} key={1}>{o.vehicleNo}</Text>*/}
+								<Text style={styles.textStyle} key={2}>
+									{o.vehicleNo} 
+									{'\n'}
+									{o.chasisNo}								
+									{'\n'}																	
+									{o.nrPasses}																										
+									
+								</Text>
 								<TouchableOpacity style={styles.iconContainerStyle} onPress={() => { self.deleteElementFromCart(i) }} key={3}>
 									<Image
 										style={styles.deleteItemButtonStyle}
@@ -398,8 +403,7 @@ const styles = {
 		alignItems: 'center',
 		justifyContent: 'center',
 
-	}
-	,
+	},
 	buttonStyle: {
 		flex: 1,
 
@@ -429,15 +433,13 @@ const styles = {
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',
-		height: 30,
+		height: 70,
 		paddingTop: 6,
 		borderColor: '#bbb',
 		borderWidth: 1,
-
 	},
 	nrCrtStyle: {
 		flex: 1,
-
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
@@ -522,10 +524,22 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
-		height: 30,
+		height: 70,
 		borderColor: '#bbb',
 		borderWidth: 1,
 
+
+	},
+		textIconHeaderStyle: {
+		flex: 2,
+		paddingTop: 3,
+		backgroundColor: '#222222',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingLeft: 5,
+		color: 'white',
+		height: 30,
+		fontSize: 16,
 
 	},
 };

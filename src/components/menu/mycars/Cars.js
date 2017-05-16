@@ -71,7 +71,25 @@ class Cars extends Component {
       }
     }
     console.log("end getCategoryById ")
-  }
+  }    
+
+  getCategoryDescriptionById(categoyId) {
+    console.log("start getCategoryById ")
+
+    for (var key in this.state.categories) {
+
+      if (this.state.categories[key].id == categoyId) {
+        var category = this.state.categories[key].description;
+        return (category);
+      }
+    }
+
+    console.log("**************");
+    console.log(category);
+    console.log("**************");
+    console.log("end getCategoryById ")
+  }  
+
   getCars() {
     var self = this;
     console.log("--getCars--");
@@ -86,6 +104,11 @@ class Cars extends Component {
         }
       }).then(function (response) {
         if (response.data.success) {
+
+          response.data.vehicles.categoryDescription = 
+            self.getCategoryDescriptionById(response.data.vehicles.category);
+
+
           self.setState({ vehicles: response.data.vehicles });
           console.table(self.state.vehicles);
 
@@ -297,12 +320,18 @@ class Cars extends Component {
     );
   }
   renderCars() {
+
+    
+
     if (this.state.loading || this.state.loading == undefined) {
       return (<View style={{ marginTop: 50 }} >
         <Spinner size='small' />
       </View>);
     }
     var self = this;
+    
+
+
     if (this.state.vehicles == undefined || this.state.vehicles.length == 0)
       return (
         <View>
@@ -329,13 +358,16 @@ class Cars extends Component {
           </View>
           {this.state.vehicles.map(function (o, i) {
 
+            console.log("vehicle: ");
+            console.log(o);
+            console.log("vehicle: ");
+
             return (
               <View key={i + 1} style={styles.entryContainerStyle}>
-
                 <View key={i + 2} style={styles.leftItemContainerStyle}>
                   <Text style={[styles.vehicleNoStyle]} key={0}>{o.plateNo}</Text>
                   <Text style={[styles.textStyle]} key={1}>{o.chasisNo}</Text>
-                  <Text style={[styles.textStyle]} key={2}>Categoria {self.getCategoryById(o.category)}</Text>
+                  <Text style={[styles.textStyle]} key={2}>{self.getCategoryById(o.category)}</Text>
                   <Text style={[styles.textStyle]} key={3}>{self.getCountryById(o.country)}</Text>
                 </View>
                 <View style={styles.rightItemContainerStyle}>
@@ -354,6 +386,7 @@ class Cars extends Component {
                             onPress: () => {
                               Actions.buy({
                                 responseData: self.props.responseData, category: self.getCategoryById(o.category),
+                                categoryDescription: self.getCategoryDescriptionById(o.category),
                                 categoryID: o.category, chasisNo: o.chasisNo, plateNo: o.plateNo, countryObject: o.country
                               })
                             }
@@ -362,6 +395,7 @@ class Cars extends Component {
                             text: 'Taxă pod', onPress: () => {
                               Actions.bridge_buy({
                                 responseData: self.props.responseData, category: self.getCategoryById(o.category),
+                                categoryDescription: self.getCategoryDescriptionById(o.category),
                                 categoryID: o.category, chasisNo: o.chasisNo, plateNo: o.plateNo, countryObject: o.country
                               });
                             }

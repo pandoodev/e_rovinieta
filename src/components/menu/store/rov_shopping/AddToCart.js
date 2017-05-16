@@ -40,9 +40,9 @@ class AddtoCart extends Component {
 	};
 	constructor(props) {
 		super(props)
-		this.state = { date: this.getCurerntDate(), buttonLoading: true, vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo(), validityDays:'7 zile'}
+		this.state = { date: this.getCurerntDate(), buttonLoading: true, 
+			vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo(), validityDays:'7 zile'}
 		inCartRovignetteKey = this.props.responseData.user.token;
-
 	}
 getVehicleNo()
 {
@@ -259,6 +259,12 @@ getChasisNo()
 	}
 
 	componentWillMount() {
+
+		console.log("Addtocartprops");
+		console.log(this.props);
+		console.log("Addtocartprops");
+
+
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "1", error: "" });
 		this.getCountries();
 		this.getProfileID();
@@ -345,9 +351,22 @@ getChasisNo()
 			});
 	}
 
+	getValabilityDaysForCurrentPriceID(priceID)
+	{
+		for(var x in this.state.pricesAndValabilities)
+		{
+			var current = this.state.pricesAndValabilities[x];
+			if(priceID === current.priceID)
+			{
+				return current.description;
+			}
+		}
+
+		return "";
+	}
+
 	addToCartButton() {
 		this.setState({ buttonLoading: true });
-		this.setState({validityDays:'x zile'});
 
 		console.log("this.props");
 		console.log(this.props);
@@ -355,6 +374,9 @@ getChasisNo()
 		console.log("this.state");
 		console.log(this.state);
 		console.log("this.state");
+
+
+		this.state.validityDays = this.getValabilityDaysForCurrentPriceID(this.state.priceID);
 		
 		if (this.checkIfNotEmpty() == 1) {
 			this.validateRovignette(

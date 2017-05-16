@@ -300,9 +300,9 @@ class Cart extends Component {
 				<ScrollView >
 
 					<View style={styles.containerStyle}>
-						<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>
-						<Text style={styles.autonrHeaderStyle}> Auto</Text>
-						<Text style={styles.textHeaderStyle}>   Rovinieta</Text>
+						{/*<Text style={styles.nrCrtHeaderStyle}>Nr.</Text>*/}
+						{/*<Text style={styles.autonrHeaderStyle}> Auto</Text>*/}
+						<Text style={styles.textHeaderStyle}>Rovinieta</Text>
 						<Text style={styles.textIconHeaderStyle}></Text>
 
 					</View>
@@ -312,14 +312,15 @@ class Cart extends Component {
 						return (
 
 						<View key={i} style={styles.elementStyle}>
-								<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>
-								<Text style={styles.autonrStyle} key={1}>
+								{/*<Text style={styles.nrCrtStyle} key={0}> {i + 1}.</Text>*/}
+								{/*<Text style={styles.autonrStyle} key={1}>
+																
+								</Text>*/}
+								<Text style={styles.textStyle} key={2}>
 									{o.vehicleNo} 
 									{'\n'}
-									{o.chasisNo}
-									
-								</Text>
-								<Text style={styles.textStyle} key={2}>
+									{o.chasisNo}								
+									{'\n'}
 									{'De la '}{o.startDate}
 									{'\n'}
 									{o.validityDays}		
@@ -339,7 +340,7 @@ class Cart extends Component {
 
 							<Button onPress={this.props.changeParentState}>
 								Adaugă rovinieta
-	  </Button>
+	  						</Button>
 
 						</View>
 						<View style={styles.buttonStyle}>
@@ -439,7 +440,7 @@ const styles = {
 		alignItems: 'center',
 		paddingLeft: 5,
 		color: 'black',
-		height: 50,
+		height: 90,
 		paddingTop: 6,
 		borderColor: '#bbb',
 		borderWidth: 1,
@@ -565,7 +566,7 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingLeft: 5,
-		height: 50,
+		height: 90,
 		borderColor: '#bbb',
 		borderWidth: 1,
 
