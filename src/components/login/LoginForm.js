@@ -9,9 +9,29 @@ import Header from '../common/Header';
 import PushController from "./PushController";
 var PushNotification = require('react-native-push-notification');
 
+
+exports.framework = 'React';
+exports.title = 'Geolocation';
+exports.description = 'Examples of using the Geolocation API.';
+
+exports.examples = [
+  {
+    title: 'navigator.geolocation',
+    render: function(): React.Element<any> {
+      return <GeolocationExample />;
+    },
+  }
+];
+
 class LoginForm extends Component {
 
-	state = { username: '', password: '', error: '', loading: false, loggedIn: false, appState: null };
+
+	//GEOLOCATION 
+	watchID: ?number = null;
+
+
+
+	state = { username: '', password: '', error: '', loading: false, loggedIn: false, appState: null, initialPosition: 'unknown', lastPosition: 'unknown' };
 
 	// START Storage Methods
 	_removeStorage = async (STORAGE_KEY_ARG) => {
@@ -65,6 +85,19 @@ class LoginForm extends Component {
 
 	componentDidMount() {
 
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				var initialPosition = JSON.stringify(position);
+				this.setState({ initialPosition });
+			},
+			(error) => alert(JSON.stringify(error)),
+			{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+		);
+		this.watchID = navigator.geolocation.watchPosition((position) => {
+			var lastPosition = JSON.stringify(position);
+			this.setState({ lastPosition });
+		});
+
 		if (this.state.appState != null) {
 		}
 		else {
@@ -74,7 +107,10 @@ class LoginForm extends Component {
 	}
 
 	componentWillUnmount() {
+		
+		navigator.geolocation.clearWatch(this.watchID);
 		AppState.removeEventListener('change', this.handleAppStateChange);
+
 	}
 
 	handleAppStateChange = (nextAppState) => {
@@ -268,6 +304,17 @@ class LoginForm extends Component {
 							onPress={() => Linking.openURL('https://www.e-rovinieta.ro/ro/contnou')}
 						>
 							Crează cont</Text>
+
+							{/*<Text>
+								Initial position: 
+								{this.state.initialPosition}
+							</Text>							
+							
+							<Text>
+								Last position: 
+         						{this.state.lastPosition}
+							</Text>*/}
+
 					</View>
 
 					<View style={styles.insideStyle} >
