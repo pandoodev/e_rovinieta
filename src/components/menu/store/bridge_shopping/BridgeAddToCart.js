@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
+import { View, Text, Picker, Alert, AsyncStorage, ScrollView, NetInfo} from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
@@ -265,14 +265,36 @@ getChasisNo()
 
 		return date;
 	}
-
+  componentDidMount() {
+        NetInfo.isConnected.addEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+        NetInfo.isConnected.fetch().done(
+            (isConnected) => { this.setState({ isConnected }); }
+        );
+    }
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+    if(!isConnected)
+    {
+      Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+    }
+  }
 	componentWillMount() {
 		this.setState({ startDate: this.getCurerntDate(), country: "1", nrDays: "1", error: "" });
 		this.getCountries();
 		this.getProfileID();
 		this.getValabilities();
 
-
+ NetInfo.isConnected.removeEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
 		//this.getCategories();
 
 		//this.getPrices();
@@ -280,8 +302,22 @@ getChasisNo()
 
 		//console.log(this.props.responseData);
 	}
-	renderCountries() {
-				
+	
+	renderButton() {
+		if (this.state.buttonLoading) {
+			return <Spinner size='small' />;
+		}
+
+		return (
+			//	<Button onPress = {this.onButtonPress.bind(this)}> 
+			<Button onPress={this.addToCartButton.bind(this)}>
+				Adaugă în coș
+		</Button>
+		);
+
+	}
+
+renderCountries() {
 		if (this.state.loading || this.state.loading == undefined) {
 			return <Spinner size='small' />;
 		}
@@ -300,20 +336,6 @@ getChasisNo()
 			</View>
 		);
 	}
-	renderButton() {
-		if (this.state.buttonLoading) {
-			return <Spinner size='small' />;
-		}
-
-		return (
-			//	<Button onPress = {this.onButtonPress.bind(this)}> 
-			<Button onPress={this.addToCartButton.bind(this)}>
-				Adaugă în coș
-		</Button>
-		);
-
-	}
-
 	redirectToCart() {
 		Actions.bridge_shop({ responseData: this.props.responseData, componentToDisplay: 'cart' })
 	}
@@ -371,8 +393,16 @@ getChasisNo()
 
 
 	addToCartButton() {
+
+        if (!this.state.isConnected) {
+            Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+        }
+        else {
 		this.setState({ buttonLoading: true });
 
+		console.log("this.state");
 		this.state.nrPasses = this.getValabilityDaysForCurrentPriceID(this.state.priceID);
 
 		
@@ -400,7 +430,7 @@ getChasisNo()
 				{ cancelable: false }
 			)
 		}
-	}
+	}}
 
 
 	checkIfNotEmpty() {

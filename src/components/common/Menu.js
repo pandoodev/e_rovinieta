@@ -1,5 +1,5 @@
 const React = require('react');
-const { Dimensions, StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, AsyncStorage } = require('react-native');
+const { Dimensions, StyleSheet, ScrollView, View, Alert, Image, Text, TouchableOpacity, AsyncStorage, NetInfo } = require('react-native');
 const { Component } = React;
 import { Actions } from 'react-native-router-flux';
 
@@ -18,14 +18,38 @@ module.exports = class Menu extends Component {
     }
   };
 
-  state = { itemsInCart: {}, loading: false };
+  state = { itemsInCart: {}, loading: false, isConnected: false };
   //Getting data from AsyncStorage into state variable
   componentWillMount() {
+    
     inCartRovignetteKey = this.props.responseData.user.token;
     inCartRovignetteKeyBridge=this.props.responseData.user.token+"bridge";
     this.addCartItemsToState();
   }
-
+  
+  componentDidMount() {
+		NetInfo.isConnected.addEventListener(
+    'change',
+    this._handleConnectivityChange
+		);
+		NetInfo.isConnected.fetch().done(
+    (isConnected) => { this.setState({ isConnected: isConnected }); }
+		);
+  }
+  
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+  }
+  
+  componentWillUnmount() {
+		NetInfo.isConnected.removeEventListener(
+    'change',
+    this._handleConnectivityChange
+		);
+  }
+  
   addCartItemsToState() {
     console.log(inCartRovignetteKey);
 
@@ -114,8 +138,24 @@ module.exports = class Menu extends Component {
               source={require('../../../assets/menu/icon-road1.png')} />
             <View>
               <Text
-                onPress={() => { this.props.onItemSelected('dashboard'); Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }) }}
-                style={styles.item}>
+                onPress={() => { 
+      
+      if (!this.state.isConnected) {
+        Alert.alert(
+				'Internet',
+				'Vă rugăm conectați telefonul la internet.');
+      }
+      else {
+        //..
+        this.props.onItemSelected('dashboard'); Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }) 
+        
+      }
+      
+      
+      
+      
+    }}
+    style={styles.item}>
                 Roviniete {this.itemsInCart()}
               </Text>
             </View>
@@ -128,8 +168,19 @@ module.exports = class Menu extends Component {
               source={require('../../../assets/menu/icon-road1.png')} />
             <View>
               <Text
-                onPress={() => { this.props.onItemSelected('bridge_shop'); Actions.bridge_shop({ responseData: this.props.responseData, location: 'pod_fetesti' }) }}
-                style={styles.item}>
+                onPress={() => { 
+    
+          if (!this.state.isConnected) {
+        Alert.alert(
+				'Internet',
+				'Vă rugăm conectați telefonul la internet.');
+      }
+      else {
+        this.props.onItemSelected('bridge_shop'); Actions.bridge_shop({ responseData: this.props.responseData, location: 'pod_fetesti' }) 
+      }
+    
+    }}
+    style={styles.item}>
                 Taxă pod Fetești {this.bridgeItemsInCart()}
               </Text>
             </View>
@@ -142,8 +193,17 @@ module.exports = class Menu extends Component {
             <View>
 
               <Text
-                onPress={() => { this.props.onItemSelected('profiles'); Actions.profiles({ responseData: this.props.responseData }) }}
-                style={styles.item}>
+                onPress={() => { 
+            if (!this.state.isConnected) {
+        Alert.alert(
+				'Internet',
+				'Vă rugăm conectați telefonul la internet.');
+      }
+      else {
+              this.props.onItemSelected('profiles'); Actions.profiles({ responseData: this.props.responseData }) }}
+
+      }
+    style={styles.item}>
                 Profilurile mele
               </Text>
             </View>
@@ -155,8 +215,17 @@ module.exports = class Menu extends Component {
             <View>
 
               <Text
-                onPress={() => { this.props.onItemSelected('cars'); Actions.cars({ responseData: this.props.responseData }) }}
-                style={styles.item}>
+                onPress={() => { 
+            if (!this.state.isConnected) {
+        Alert.alert(
+				'Internet',
+				'Vă rugăm conectați telefonul la internet.');
+      }
+      else {
+      
+      this.props.onItemSelected('cars'); Actions.cars({ responseData: this.props.responseData }) }
+      }}
+    style={styles.item}>
                 Mașinile mele
                 </Text>
             </View>
@@ -168,8 +237,17 @@ module.exports = class Menu extends Component {
               source={require('../../../assets/menu/accountsettings.png')} />
             <View>
               <Text
-                onPress={() => { this.props.onItemSelected('accountsettings'); Actions.account_settings({ responseData: this.props.responseData }) }}
-                style={styles.item}>
+                onPress={() => { 
+      
+            if (!this.state.isConnected) {
+        Alert.alert(
+				'Internet',
+				'Vă rugăm conectați telefonul la internet.');
+      }
+      else {
+      
+      this.props.onItemSelected('accountsettings'); Actions.account_settings({ responseData: this.props.responseData }) }}}
+    style={styles.item}>
                 Setări cont
                   </Text>
             </View>

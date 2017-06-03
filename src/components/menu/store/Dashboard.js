@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
   Dimensions,
   Linking,
+  Alert,
+  NetInfo
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -19,10 +21,40 @@ class Dashboard extends Component {
   state = {
     isOpen: false,
     selectedItem: 'Dashboard',
+    isConnected: null
   };
 
   componentWillMount() {
+  }
 
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'change',
+      this._handleConnectivityChange
+    );
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { this.setState({ isConnected }); }
+    );
+  }
+
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+
+    if(!isConnected)
+    {
+      Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+    }
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'change',
+      this._handleConnectivityChange
+    );
   }
 
   // Start side-menu functions
@@ -69,7 +101,20 @@ class Dashboard extends Component {
 
 
             <TouchableOpacity
-              onPress={() => { Actions.shop({ responseData: this.props.responseData, location: 'rovignette' }); }}
+              onPress={() => {
+
+                if (!this.state.isConnected) {
+                  Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+                }
+                else {
+                  //..
+                  Actions.shop({ responseData: this.props.responseData, location: 'rovignette' });
+
+                }
+
+              }}
               style={styles.buttonStyle}>
 
               <Text style={styles.welcomeText}> Rovinietă</Text>
@@ -78,7 +123,19 @@ class Dashboard extends Component {
             
 
             <TouchableOpacity
-              onPress={() => { Actions.bridge_shop({ responseData: this.props.responseData, location: 'pod_fetesti' }); }}
+              onPress={() => { 
+                
+                  if (!this.state.isConnected) {
+                  Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+                }
+                else {
+                  //..
+                  Actions.bridge_shop({ responseData: this.props.responseData, location: 'pod_fetesti' });
+                }
+                
+                 }}
               style={styles.buttonFetestiStyle}>
 
               <Text style={styles.welcomeText}> Taxă pod Fetești</Text>

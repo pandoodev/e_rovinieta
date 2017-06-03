@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput, Linking } from 'react-native';
+import { View, Text, Navigaor, Image, Alert, AppState, AsyncStorage, TextInput, Linking, NetInfo } from 'react-native';
 import { LoginButton, Card, CardSection, Input, Spinner } from '../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -31,7 +31,7 @@ class LoginForm extends Component {
 
 
 
-	state = { username: '', password: '', error: '', loading: false, loggedIn: false, appState: null, initialPosition: 'unknown', lastPosition: 'unknown' };
+	state = { username: '', password: '', error: '', loading: false, loggedIn: false, appState: null, initialPosition: 'unknown', lastPosition: 'unknown', isConnected: null };
 
 	// START Storage Methods
 	_removeStorage = async (STORAGE_KEY_ARG) => {
@@ -90,24 +90,45 @@ class LoginForm extends Component {
 				var initialPosition = JSON.stringify(position);
 				this.setState({ initialPosition });
 			},
-			(error) => alert(JSON.stringify(error)),
+			(error) => alert("Vă rugăm să activați serviciul de localizare."),
 			{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
 		);
 		this.watchID = navigator.geolocation.watchPosition((position) => {
 			var lastPosition = JSON.stringify(position);
 			this.setState({ lastPosition });
 		});
-
+		NetInfo.isConnected.addEventListener(
+			'change',
+			this._handleConnectivityChange
+		);
+		
 		if (this.state.appState != null) {
 		}
 		else {
 			AppState.addEventListener('change', this.handleAppStateChange);
 			//	this.notification();
 		}
+		NetInfo.isConnected.fetch().done(
+			(isConnected) => { this.setState({ isConnected }); }
+		);
 	}
+	_handleConnectivityChange = (isConnected) => {
+		this.setState({
+		isConnected: isConnected,
+		});
 
+		if(!isConnected)
+		{
+		Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+		}
+	}
 	componentWillUnmount() {
-		
+		NetInfo.isConnected.removeEventListener(
+			'change',
+			this._handleConnectivityChange
+		);
 		navigator.geolocation.clearWatch(this.watchID);
 		AppState.removeEventListener('change', this.handleAppStateChange);
 
@@ -135,6 +156,12 @@ class LoginForm extends Component {
 
 		let hashedPass = md5.hex_md5(password);
 		var self = this;
+		if (!this.state.isConnected) {
+			Alert.alert(
+				'Internet',
+					'Vă rugăm conectați telefonul la internet.');
+		}
+		else {
 		this.setState({ error: '', loading: true });
 		
 		axios.post('https://api.e-rovinieta.ro/mobile/1.0/get',
@@ -160,6 +187,7 @@ class LoginForm extends Component {
 					self.onLoginFail(response);
 				}
 			});
+		}
 	}
 
 	renderButton() {

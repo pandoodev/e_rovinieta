@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
+import { View, Text, Picker, Alert, AsyncStorage, ScrollView, NetInfo } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
@@ -44,6 +44,32 @@ class AddtoCart extends Component {
 			vehicleNo:this.getVehicleNo(),chasisNo:this.getChasisNo(), validityDays:'7 zile'}
 		inCartRovignetteKey = this.props.responseData.user.token;
 	}
+	    componentDidMount() {
+        NetInfo.isConnected.addEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+        NetInfo.isConnected.fetch().done(
+            (isConnected) => { this.setState({ isConnected }); }
+        );
+    }
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+    if(!isConnected)
+    {
+      Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+    }
+  }
+   componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+    }
 getVehicleNo()
 {
 	console.log("getVehicleNo")
@@ -366,6 +392,13 @@ getChasisNo()
 	}
 
 	addToCartButton() {
+
+		  if (!this.state.isConnected) {
+            Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+        }
+        else {
 		this.setState({ buttonLoading: true });
 
 		console.log("this.props");
@@ -400,6 +433,7 @@ getChasisNo()
 				],
 				{ cancelable: false }
 			)
+		}
 		}
 	}
 

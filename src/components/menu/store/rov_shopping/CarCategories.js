@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, ScrollView, Dimensions, NetInfo, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Spinner} from '../../../common';
 
@@ -40,7 +40,32 @@ class MyCars extends Component {
 				}
 			});
 	}
-
+	   componentDidMount() {
+        NetInfo.isConnected.addEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+        NetInfo.isConnected.fetch().done(
+            (isConnected) => { this.setState({ isConnected }); }
+        );
+    }
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+    if(!isConnected)
+    {
+      Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+    }
+  }
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+    }
 	renderCategories()
 	{
 
@@ -64,14 +89,21 @@ class MyCars extends Component {
 				<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[0].name,
-									categoryID: this.state.categories.categories[0].id, 
-									categoryDescription: this.state.categories.categories[0].description
-								})
-							}}
-							style={styles.buttonStyle}>
+			if (!this.state.isConnected) {
+				Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+			}
+			else {
+				Actions.buy({
+					responseData: this.props.responseData, 
+					category: this.state.categories.categories[0].name,
+					categoryID: this.state.categories.categories[0].id, 
+					categoryDescription: this.state.categories.categories[0].description
+				})
+			}
+		}}
+		style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/a.png')} style={styles.imgStyle} />
@@ -81,15 +113,22 @@ class MyCars extends Component {
 
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[4].name,
-									categoryID: this.state.categories.categories[4].id, 
-									categoryDescription: this.state.categories.categories[4].description
-								})
-							}}
-
-							style={styles.buttonStyle}>
+			if (!this.state.isConnected) {
+				Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+			}
+			else {
+				Actions.buy({
+					responseData: this.props.responseData, 
+					category: this.state.categories.categories[4].name,
+					categoryID: this.state.categories.categories[4].id, 
+					categoryDescription: this.state.categories.categories[4].description
+				})
+			}
+		}}
+		
+		style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/e.png')} style={styles.imgStyle} />
@@ -102,14 +141,20 @@ class MyCars extends Component {
 					<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[1].name,
-									categoryID: this.state.categories.categories[1].id, 
-									categoryDescription: this.state.categories.categories[1].description
-								})
-							}}
-							style={styles.buttonStyle}>
+			if (!this.state.isConnected) {
+				Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+			}
+			else {
+				Actions.buy({
+					responseData: this.props.responseData, 
+					category: this.state.categories.categories[1].name,
+					categoryID: this.state.categories.categories[1].id, 
+					categoryDescription: this.state.categories.categories[1].description
+				})}
+			}}
+			style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/b.png')} style={styles.imgStyle} />
@@ -119,14 +164,20 @@ class MyCars extends Component {
 
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[5].name,
-									categoryID: this.state.categories.categories[5].id, 
-									categoryDescription: this.state.categories.categories[5].description
-								})
-							}}
-							style={styles.buttonStyle}>
+				if (!this.state.isConnected) {
+					Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+				}
+				else {
+					Actions.buy({
+						responseData: this.props.responseData, 
+						category: this.state.categories.categories[5].name,
+						categoryID: this.state.categories.categories[5].id, 
+						categoryDescription: this.state.categories.categories[5].description
+					})}
+				}}
+				style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/f.png')} style={styles.imgStyle} />
@@ -139,14 +190,20 @@ class MyCars extends Component {
 					<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[2].name,
-									categoryID: this.state.categories.categories[2].id, 
-									categoryDescription: this.state.categories.categories[2].description
-								})
-							}}
-							style={styles.buttonStyle}>
+					if (!this.state.isConnected) {
+						Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+					}
+					else {
+						Actions.buy({
+							responseData: this.props.responseData, 
+							category: this.state.categories.categories[2].name,
+							categoryID: this.state.categories.categories[2].id, 
+							categoryDescription: this.state.categories.categories[2].description
+						})}
+					}}
+					style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/c.png')} style={styles.imgStyle} />
@@ -156,14 +213,20 @@ class MyCars extends Component {
 
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[6].name,
-									categoryID: this.state.categories.categories[6].id, 
-									categoryDescription: this.state.categories.categories[6].description
-								})
-							}}
-							style={styles.buttonStyle}>
+						if (!this.state.isConnected) {
+							Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+						}
+						else {
+							Actions.buy({
+								responseData: this.props.responseData, 
+								category: this.state.categories.categories[6].name,
+								categoryID: this.state.categories.categories[6].id, 
+								categoryDescription: this.state.categories.categories[6].description
+							})}
+						}}
+						style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/g.png')} style={styles.imgStyle} />
@@ -176,12 +239,18 @@ class MyCars extends Component {
 					<View style={styles.containerStyle}>
 						<TouchableOpacity
 							onPress={() => {
+							if (!this.state.isConnected) {
+								Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+							}
+							else {
 								Actions.buy({
 									responseData: this.props.responseData, 
 									category: this.state.categories.categories[3].name,
 									categoryID: this.state.categories.categories[3].id, 
 									categoryDescription: this.state.categories.categories[3].description
-								})
+								})}
 							}}
 							style={styles.buttonStyle}>
 							<View>
@@ -193,14 +262,20 @@ class MyCars extends Component {
 
 						<TouchableOpacity
 							onPress={() => {
-								Actions.buy({
-									responseData: this.props.responseData, 
-									category: this.state.categories.categories[7].name,
-									categoryID: this.state.categories.categories[7].id, 
-									categoryDescription: this.state.categories.categories[7].description
-								})
-							}}
-							style={styles.buttonStyle}>
+								if (!this.state.isConnected) {
+									Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+								}
+								else {
+									Actions.buy({
+										responseData: this.props.responseData, 
+										category: this.state.categories.categories[7].name,
+										categoryID: this.state.categories.categories[7].id, 
+										categoryDescription: this.state.categories.categories[7].description
+									})}
+								}}
+								style={styles.buttonStyle}>
 							<View>
 								<Image
 									source={require('../../../../../assets/h.png')} style={styles.imgStyle} />

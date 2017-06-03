@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking, ScrollView, Alert, StyleSheet  } from 'react-native';
+import { View, Button, Image, Text, TouchableOpacity, Dimensions, Linking, ScrollView, Alert, StyleSheet,NetInfo  } from 'react-native';
 
 import axios from 'axios';
 import querystring from 'query-string';
@@ -27,7 +27,33 @@ class Cars extends Component {
   updateMenuState(isOpen) {
     this.setState({ isOpen, });
   }
-
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+    'change',
+    this._handleConnectivityChange
+    );
+    NetInfo.isConnected.fetch().done(
+    (isConnected) => { this.setState({ isConnected }); }
+    );
+  }
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+    if(!isConnected)
+    {
+      Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+    }
+  }
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+    'change',
+    this._handleConnectivityChange
+    );
+  }
+  
   onMenuItemSelected = (item) => {
     this.setState({
       isOpen: false,
@@ -47,7 +73,7 @@ class Cars extends Component {
   };
   constructor(props) {
     super(props)
-    this.state = { vehicles: [], loading: true, countries: [], categories: [] }
+    this.state = { vehicles: [], loading: true, countries: [], categories: [] ,isConnected:true}
   }
 
   getCountryById(countryId) {
@@ -375,6 +401,12 @@ class Cars extends Component {
                   <TouchableOpacity
                     style={styles.wrapper}
                     onPress={() => {
+                      if (!self.state.isConnected) {
+        Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+      }
+      else {
 
                       {Alert.alert(
                         'Info',
@@ -402,7 +434,7 @@ class Cars extends Component {
                           },
                         ]
                       )}
-                    }}
+                    }}}
                     key={4}
                     style={{
                       flex: 1, height: 50, width: 50,

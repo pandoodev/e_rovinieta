@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert, ScrollView, Dimensions } from 'react-native';
+import { View, Image, Text, TouchableOpacity, AsyncStorage, Linking, Alert, ScrollView, Dimensions, NetInfo } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -47,7 +47,32 @@ class BridgeCart extends Component {
 	// END Storage Methods
 
 
-
+componentDidMount() {
+        NetInfo.isConnected.addEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+        NetInfo.isConnected.fetch().done(
+            (isConnected) => { this.setState({ isConnected }); }
+        );
+    }
+  _handleConnectivityChange = (isConnected) => {
+    this.setState({
+      isConnected: isConnected,
+    });
+    if(!isConnected)
+    {
+      Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+    }
+  }
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+    }
 
 	componentWillMount() {
 		this.addCartItemsToState();
@@ -144,7 +169,12 @@ class BridgeCart extends Component {
 
 	//Called when buy items from cart button is pressed
 	buyItemsButton() {
-
+if (!this.state.isConnected) {
+            Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+        }
+        else {
 		this.setState({ loadingForRedirect: true });
 		this.setState({ itemsInCart: '' });
 		this.removeFromCartAfterBuy();
@@ -154,7 +184,7 @@ class BridgeCart extends Component {
 		//console.log("Items in cart state variable");
 
 		//console.log(this.state.itemsInCart);
-
+		}
 	}
 
 	prepareData(obj) {
@@ -262,7 +292,16 @@ class BridgeCart extends Component {
 			console.log(error);
 		});
 	}
-
+addItemsInCart(){
+	if (!this.state.isConnected) {
+            Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
+        }
+        else {
+	this.props.changeParentState();
+		}
+}
 
 	showItemsToUser() {
 		var self = this;
@@ -332,7 +371,7 @@ class BridgeCart extends Component {
 					<View style={styles.buttonContainerStyle}>
 						<View style={styles.buttonStyle}>
 
-							<Button onPress={this.props.changeParentState}>
+							<Button onPress={this.addItemsInCart.bind(this)}>
 								Adaugă în coș
 	  </Button>
 

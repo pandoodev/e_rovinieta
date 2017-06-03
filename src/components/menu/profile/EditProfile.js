@@ -2,7 +2,7 @@
 
 
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
+import { View, Text, Picker, Alert, AsyncStorage, ScrollView, NetInfo } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../common';
 import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
@@ -70,7 +70,32 @@ class EditProfile extends Component {
         this.getCounties();
         this.initialiseWithExistingData();
         console.log('tst');
+         NetInfo.isConnected.addEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+        NetInfo.isConnected.fetch().done(
+            (isConnected) => { this.setState({ isConnected }); }
+        );
     }
+    _handleConnectivityChange = (isConnected) => {
+        this.setState({
+        isConnected: isConnected,
+        });
+        if(!isConnected)
+        {
+        Alert.alert(
+                        'Internet',
+                        'Vă rugăm să conectați telefonul la internet.');
+        }
+    }
+     componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener(
+            'change',
+            this._handleConnectivityChange
+        );
+    }
+
 
     renderButton() {
         console.log('rendering button')
@@ -124,18 +149,25 @@ class EditProfile extends Component {
 
 
     submitChangesButton() {
-        this.setState({ buttonLoading: true });
-        if (this.props.profileToModify.type == 1) {
-
-            console.log("fizic")
-            console.log(this.props.profileToModify)
-
-            this.editPhysProfile();
+         if (!this.state.isConnected) {
+            Alert.alert(
+					'Internet',
+					'Vă rugăm să conectați telefonul la internet.');
         }
         else {
-            console.log("juridic")
-            console.log(this.props.profileToModify)
-            this.editJurProfile();
+            this.setState({ buttonLoading: true });
+            if (this.props.profileToModify.type == 1) {
+
+                console.log("fizic")
+                console.log(this.props.profileToModify)
+
+                this.editPhysProfile();
+            }
+            else {
+                console.log("juridic")
+                console.log(this.props.profileToModify)
+                this.editJurProfile();
+            }
         }
 
 
