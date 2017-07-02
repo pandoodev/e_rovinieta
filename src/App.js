@@ -32,12 +32,13 @@ const scenes = Actions.create(
 			<Scene key="account_settings" component={AccountSettings} />
 			<Scene key="contact_us" component={Contact} />
 			
-			<Scene key="buy" component={AddToCart} />
-			<Scene key="bridge_buy" component={BridgeAddToCart} />
+			<Scene key="buy" component={AddToCart} />			
 			<Scene key="shop" component={RovignetteShopMain} />		
 			<Scene key="payment" component={PaymentConfirmation} />		
-			<Scene key="bridge_payment" component={BridgePaymentConfirmation} />		
+
+			<Scene key="bridge_buy" component={BridgeAddToCart} />
 			<Scene key="bridge_shop" component={BridgeShopMain} />		
+			<Scene key="bridge_payment" component={BridgePaymentConfirmation} />		
 			
 		</Scene>
 		

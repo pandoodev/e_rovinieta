@@ -42,13 +42,13 @@ class BridgeHistory extends Component {
 					console.log(response.data);
 					console.log("History for Pod Fetesti");
 					
-					response.data.orders.sort(function (a, b) {
-						var keyA = a.orderID;
-							keyB = b.orderID;						
-						if (keyA < keyB) return 1;
-						if (keyA > keyB) return -1;
-						return 0;
-					});
+					// response.data.orders.sort(function (a, b) {
+					// 	var keyA = a.orderID;
+					// 		keyB = b.orderID;						
+					// 	if (keyA < keyB) return 1;
+					// 	if (keyA > keyB) return -1;
+					// 	return 0;
+					// });
 
 					self.setState({ history: response.data.orders });
 					self.setState({ loading: false });

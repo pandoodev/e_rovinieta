@@ -279,7 +279,7 @@ if (!this.state.isConnected) {
 			console.log("profileID url");
 			console.log(linkToAccess);
 			console.log("profileID url");
-			Actions.payment({
+			Actions.bridge_payment({
 				linkToAccess: linkToAccess,
 				responseData: self.props.responseData
 			});

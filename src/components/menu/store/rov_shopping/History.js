@@ -37,14 +37,14 @@ class History extends Component {
 
 				if (response.data.success) {
 
-					response.data.orders.sort(function (a, b) {
-						var keyA = Moment(a.startDate),
-							keyB = Moment(b.startDate);
-						// Compare the 2 dates
-						if (keyA < keyB) return 1;
-						if (keyA > keyB) return -1;
-						return 0;
-					});
+					// response.data.orders.sort(function (a, b) {
+					// 	var keyA = Moment(a.startDate),
+					// 		keyB = Moment(b.startDate);
+					// 	// Compare the 2 dates
+					// 	if (keyA < keyB) return 1;
+					// 	if (keyA > keyB) return -1;
+					// 	return 0;
+					// });
 
 					self.setState({ history: response.data.orders });
 					self.setState({ loading: false });
