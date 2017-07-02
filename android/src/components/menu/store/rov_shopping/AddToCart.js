@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../../common';
-import DatePicker from 'react-native-datepicker'
+//import DatePicker from 'react-native-datepicker'
+
 var dateFormat = require('dateformat');
 import Header from '../../../common/Header';
 import axios from 'axios';
@@ -572,7 +573,7 @@ getChasisNo()
 							<CardSection >
 								<Text style={styles.textStyle}> De la </Text>
 								<View style={styles.pickerContainerStyle}>
-
+{/*
 									<DatePicker
 										style={{ width: 200 }}
 										date={this.state.date}
@@ -593,7 +594,7 @@ getChasisNo()
 											}
 										}}
 										onDateChange={(date) => { this.setState({ startDate: date }) }}
-									/>
+									/>*/}
 								</View>
 							</CardSection>
 

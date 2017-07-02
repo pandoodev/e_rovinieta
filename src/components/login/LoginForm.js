@@ -84,19 +84,7 @@ class LoginForm extends Component {
 	}
 
 	componentDidMount() {
-
-		navigator.geolocation.getCurrentPosition(
-			(position) => {
-				var initialPosition = JSON.stringify(position);
-				this.setState({ initialPosition });
-			},
-			(error) => alert("Vă rugăm să activați serviciul de localizare."),
-			{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-		);
-		this.watchID = navigator.geolocation.watchPosition((position) => {
-			var lastPosition = JSON.stringify(position);
-			this.setState({ lastPosition });
-		});
+		
 		NetInfo.isConnected.addEventListener(
 			'change',
 			this._handleConnectivityChange

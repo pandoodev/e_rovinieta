@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Picker, Alert, AsyncStorage, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../../common';
-import DatePicker from 'react-native-datepicker'
+//import DatePicker from 'react-native-datepicker'
 var dateFormat = require('dateformat');
 import Header from '../../common/Header';
 import axios from 'axios';
